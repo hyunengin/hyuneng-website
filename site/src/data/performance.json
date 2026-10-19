@@ -1,0 +1,37 @@
+{
+  "safety-diagnosis": {
+    "columns": ["발주처", "용역명", "수행연도"],
+    "keys": ["client", "title", "year"],
+    "rows": [
+      { "client": "○○시 ○○구청", "title": "○○동 공공청사 정밀안전점검 용역", "year": "2026", "sample": true },
+      { "client": "○○아파트 입주자대표회의", "title": "○○아파트 정밀안전진단", "year": "2026", "sample": true },
+      { "client": "㈜○○건설", "title": "○○ 신축공사 인접건축물 사전 안전점검", "year": "2025", "sample": true }
+    ]
+  },
+  "court-appraisal": {
+    "columns": ["법원명", "사건번호", "사건개요", "촉탁연도"],
+    "keys": ["court", "caseNo", "summary", "year"],
+    "rows": [
+      { "court": "서울중앙지방법원", "caseNo": "2026가합○○○○", "summary": "공동주택 하자보수비 감정", "year": "2026", "sample": true },
+      { "court": "수원지방법원", "caseNo": "2025가단○○○○", "summary": "공사대금 · 기성고 감정", "year": "2025", "sample": true },
+      { "court": "인천지방법원", "caseNo": "2025가합○○○○", "summary": "인접지 굴착공사 피해 감정", "year": "2025", "sample": true }
+    ]
+  },
+  "cost-calculation": {
+    "columns": ["발주처", "용역명", "수행연도"],
+    "keys": ["client", "title", "year"],
+    "rows": [
+      { "client": "○○군", "title": "○○ 시설물 유지관리 용역 원가계산", "year": "2026", "sample": true },
+      { "client": "○○공단", "title": "○○ 정밀안전진단 용역 예정가격 산정", "year": "2025", "sample": true }
+    ]
+  },
+  "structural-review": {
+    "columns": ["발주처", "용역명", "수행연도"],
+    "keys": ["client", "title", "year"],
+    "rows": [
+      { "client": "㈜○○종합건설", "title": "○○ 근린생활시설 해체공사 해체계획서 작성", "year": "2026", "sample": true },
+      { "client": "○○건축사사무소", "title": "○○ 증축공사 구조안전성 검토", "year": "2025", "sample": true },
+      { "client": "㈜○○건설", "title": "○○ 현장 흙막이 가시설 구조검토", "year": "2025", "sample": true }
+    ]
+  }
+}

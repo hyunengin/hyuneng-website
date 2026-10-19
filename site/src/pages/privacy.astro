@@ -1,0 +1,135 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import company from '../data/company.json';
+
+const usesFormService = Boolean(company.formspreeId);
+---
+
+<BaseLayout title="개인정보처리방침" description={`${company.name} 개인정보처리방침`}>
+  <section class="page-hero">
+    <div class="container">
+      <p class="page-hero-en">PRIVACY POLICY</p>
+      <h1 class="page-hero-title">개인정보처리방침</h1>
+      <ol class="crumbs" aria-label="현재 위치">
+        <li><a href="/">HOME</a></li>
+        <li><span class="sep">›</span><a href="/privacy" aria-current="page">개인정보처리방침</a></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="container policy">
+    <p class="policy-intro">
+      {company.name}(이하 "회사")은 「개인정보 보호법」에 따라 정보주체의 개인정보를 보호하고 이와 관련한 고충을
+      신속하고 원활하게 처리할 수 있도록 다음과 같이 개인정보처리방침을 수립·공개합니다.
+    </p>
+
+    <h2>제1조 (개인정보의 처리 목적)</h2>
+    <p>회사는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 「개인정보 보호법」 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행합니다.</p>
+    <ul>
+      <li>견적문의 및 업무 상담: 문의 내용 확인, 견적 안내, 상담 진행 및 결과 통보</li>
+    </ul>
+
+    <h2>제2조 (처리하는 개인정보의 항목)</h2>
+    <ul>
+      <li>필수 항목: 성명, 연락처, 문의내용</li>
+      <li>선택 항목: 이메일</li>
+      <li>자동 수집 항목: 없음 (회사 홈페이지는 회원가입, 쿠키를 이용한 방문자 추적을 하지 않습니다)</li>
+    </ul>
+
+    <h2>제3조 (개인정보의 처리 및 보유 기간)</h2>
+    <p>회사는 정보주체로부터 개인정보를 수집할 때 동의받은 보유·이용 기간 내에서 개인정보를 처리·보유합니다.</p>
+    <ul>
+      <li>견적문의 및 상담: 문의 처리 완료 후 1년. 다만 계약이 체결된 경우 관련 법령에 따른 보존 기간까지 보유합니다.</li>
+    </ul>
+
+    <h2>제4조 (개인정보의 제3자 제공)</h2>
+    <p>회사는 정보주체의 개인정보를 제1조에서 명시한 범위 내에서만 처리하며, 정보주체의 동의, 법률의 특별한 규정 등 「개인정보 보호법」 제17조 및 제18조에 해당하는 경우에만 개인정보를 제3자에게 제공합니다.</p>
+
+    <h2>제5조 (개인정보 처리의 위탁 및 국외 이전)</h2>
+    {
+      usesFormService ? (
+        <>
+          <p>회사는 원활한 문의 접수를 위해 다음과 같이 개인정보 처리업무를 위탁하고 있으며, 해당 서비스의 서버가 국외에 있어 개인정보가 국외로 이전됩니다.</p>
+          <ul>
+            <li>수탁자: Formspree, Inc. (미국)</li>
+            <li>위탁 업무: 홈페이지 온라인 문의 폼의 전송 및 접수 처리</li>
+            <li>이전되는 항목: 성명, 연락처, 이메일, 문의내용</li>
+            <li>이전 시기 및 방법: 문의 폼 제출 시 네트워크를 통해 전송</li>
+            <li>보유 기간: 회사의 보유 기간과 동일하며, 처리 완료 후 지체 없이 삭제</li>
+          </ul>
+          <p>회사는 위탁계약 체결 시 「개인정보 보호법」 제26조에 따라 개인정보가 안전하게 관리될 수 있도록 필요한 사항을 규정하고 수탁자를 감독합니다.</p>
+        </>
+      ) : (
+        <p>회사는 개인정보 처리업무를 외부에 위탁하지 않으며, 온라인 문의는 정보주체의 이메일을 통해 회사 이메일로 직접 전달됩니다.</p>
+      )
+    }
+
+    <h2>제6조 (정보주체와 법정대리인의 권리·의무 및 행사 방법)</h2>
+    <p>정보주체는 회사에 대해 언제든지 개인정보 열람·정정·삭제·처리정지 요구 등의 권리를 행사할 수 있습니다. 권리 행사는 서면, 전화, 이메일 등을 통하여 하실 수 있으며, 회사는 이에 대해 지체 없이 조치하겠습니다.</p>
+
+    <h2>제7조 (개인정보의 파기)</h2>
+    <p>회사는 개인정보 보유 기간의 경과, 처리 목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 해당 개인정보를 파기합니다. 전자적 파일 형태의 정보는 복구할 수 없는 방법으로 삭제하며, 종이 문서는 분쇄하거나 소각합니다.</p>
+
+    <h2>제8조 (개인정보의 안전성 확보 조치)</h2>
+    <ul>
+      <li>개인정보 취급 직원의 최소화 및 교육</li>
+      <li>접근 권한의 관리 및 접근 통제</li>
+      <li>홈페이지 통신 구간 암호화(HTTPS) 적용</li>
+      <li>문서 보안을 위한 잠금장치 사용</li>
+    </ul>
+
+    <h2>제9조 (개인정보 보호책임자)</h2>
+    <p>회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만 처리 및 피해 구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.</p>
+    <ul>
+      <li>개인정보 보호책임자: {company.privacyOfficer.name} ({company.privacyOfficer.position})</li>
+      <li>연락처: {company.tel} / {company.email}</li>
+    </ul>
+
+    <h2>제10조 (권익침해 구제 방법)</h2>
+    <p>정보주체는 개인정보 침해에 대한 피해 구제, 상담 등을 아래 기관에 문의하실 수 있습니다.</p>
+    <ul>
+      <li>개인정보분쟁조정위원회: (국번없이) 1833-6972 / www.kopico.go.kr</li>
+      <li>개인정보침해신고센터: (국번없이) 118 / privacy.kisa.or.kr</li>
+      <li>대검찰청 사이버수사과: (국번없이) 1301 / www.spo.go.kr</li>
+      <li>경찰청 사이버수사국: (국번없이) 182 / ecrm.police.go.kr</li>
+    </ul>
+
+    <h2>제11조 (개인정보처리방침의 변경)</h2>
+    <p>이 개인정보처리방침은 {company.privacyEffectiveDate}부터 적용됩니다. 내용의 추가, 삭제 및 수정이 있을 경우 변경 사항의 시행 7일 전부터 홈페이지를 통해 고지합니다.</p>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy {
+    max-width: 860px;
+    padding-top: 64px;
+    padding-bottom: 112px;
+    color: var(--ink-2);
+    font-size: 16px;
+  }
+  .policy-intro {
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .policy h2 {
+    font-size: 19px;
+    color: var(--navy);
+    margin: 40px 0 12px;
+  }
+  .policy p + p {
+    margin-top: 10px;
+  }
+  .policy ul {
+    margin: 12px 0 0;
+    padding-left: 1.3em;
+    display: grid;
+    gap: 6px;
+  }
+  @media (max-width: 768px) {
+    .policy {
+      padding-top: 40px;
+      padding-bottom: 72px;
+    }
+  }
+</style>

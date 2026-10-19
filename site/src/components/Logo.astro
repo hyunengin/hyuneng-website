@@ -1,0 +1,73 @@
+---
+/**
+ * 로고. 기획안 PPT에 있던 심볼을 SVG로 다시 그린 임시 버전입니다.
+ * 원본 로고 파일(AI/SVG)을 받으면 public/images/logo.svg 로 넣고 이 컴포넌트를 교체하세요.
+ */
+import company from '../data/company.json';
+
+interface Props {
+  variant?: 'dark' | 'light';
+  size?: number;
+  showText?: boolean;
+}
+const { variant = 'dark', size = 36, showText = true } = Astro.props;
+const navy = variant === 'dark' ? '#0C356E' : '#FFFFFF';
+const blue = variant === 'dark' ? '#3676B7' : '#9CC3EF';
+---
+
+<span class:list={['logo', `logo-${variant}`]}>
+  <svg
+    class="logo-mark"
+    width={size}
+    height={size}
+    viewBox="0 0 100 100"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <polygon points="10,10 36,10 10,42" fill={blue}></polygon>
+    <polygon points="10,90 36,90 10,58" fill={blue}></polygon>
+    <polygon
+      points="50,10 24,50 50,90 50,58 72,58 72,90 90,90 90,10 72,10 72,42 50,42"
+      fill={navy}></polygon>
+  </svg>
+  {
+    showText && (
+      <span class="logo-text">
+        <span class="logo-ko">{company.nameShort}</span>
+        <span class="logo-en">{company.nameEn}</span>
+      </span>
+    )
+  }
+</span>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1;
+  }
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .logo-ko {
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+  }
+  .logo-en {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+  }
+  .logo-light .logo-ko {
+    color: #fff;
+  }
+  .logo-light .logo-en {
+    color: rgba(255, 255, 255, 0.65);
+  }
+</style>

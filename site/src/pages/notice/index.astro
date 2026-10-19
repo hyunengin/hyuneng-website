@@ -1,0 +1,108 @@
+---
+import SubLayout from '../../layouts/SubLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { getCollection } from 'astro:content';
+
+const notices = (await getCollection('notices')).sort((a, b) => {
+  if (a.data.pinned !== b.data.pinned) return a.data.pinned ? -1 : 1;
+  return b.data.date.getTime() - a.data.date.getTime();
+});
+const fmt = (d: Date) =>
+  `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+---
+
+<SubLayout title="공지사항" section="notice" description="회사 소식과 안내 사항을 알려드립니다.">
+  <ul class="notice-board">
+    {
+      notices.length === 0 ? (
+        <li class="notice-board-empty">등록된 공지사항이 없습니다.</li>
+      ) : (
+        notices.map((n, i) => (
+          <li>
+            <a href={`/notice/${n.id}`}>
+              <span class="nb-no">{n.data.pinned ? <Icon name="bell" size={16} /> : notices.length - i}</span>
+              <span class="nb-main">
+                <span class="nb-title">{n.data.title}</span>
+                {n.data.summary && <span class="nb-summary">{n.data.summary}</span>}
+              </span>
+              <time datetime={n.data.date.toISOString()}>{fmt(n.data.date)}</time>
+            </a>
+          </li>
+        ))
+      )
+    }
+  </ul>
+</SubLayout>
+
+<style>
+  .notice-board {
+    list-style: none;
+    padding: 0;
+    border-top: 2px solid var(--navy);
+  }
+  .notice-board li {
+    border-bottom: 1px solid var(--line);
+  }
+  .notice-board a {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) 110px;
+    gap: 16px;
+    align-items: center;
+    padding: 20px 12px;
+    transition: background 0.15s;
+  }
+  .notice-board a:hover {
+    background: var(--bg-2);
+  }
+  .nb-no {
+    color: var(--muted);
+    font-size: 14px;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .nb-no svg {
+    color: var(--blue);
+  }
+  .nb-main {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+  }
+  .nb-title {
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+  }
+  .nb-summary {
+    font-size: 14px;
+    color: var(--muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .notice-board time {
+    color: var(--muted);
+    font-size: 14px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  .notice-board-empty {
+    padding: 48px 20px;
+    text-align: center;
+    color: var(--muted);
+  }
+  @media (max-width: 768px) {
+    .notice-board a {
+      grid-template-columns: 36px minmax(0, 1fr);
+      padding: 16px 4px;
+    }
+    .notice-board time {
+      grid-column: 2;
+      text-align: left;
+      font-size: 13px;
+    }
+  }
+</style>

@@ -1,0 +1,131 @@
+---
+/**
+ * 온라인 견적문의 폼.
+ * - company.json 의 formspreeId 가 있으면 Formspree로 전송(이메일 수신 + 대시보드 확인)
+ * - 없으면 방문자의 메일 프로그램을 열어 회사 메일로 보내는 방식으로 동작
+ */
+import company from '../data/company.json';
+import { businessAreas } from '../data/nav';
+
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+const endpoint = company.formspreeId ? `https://formspree.io/f/${company.formspreeId}` : '';
+const uid = compact ? 'c' : 'f';
+---
+
+<form
+  class:list={['inquiry-form', 'form-grid', { compact }]}
+  data-inquiry
+  data-endpoint={endpoint}
+  data-mailto={company.email}
+  method="POST"
+  action={endpoint || undefined}
+  novalidate
+>
+  <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  <input type="hidden" name="_subject" value="[홈페이지 견적문의] 새 문의가 접수되었습니다" />
+
+  <div class="field">
+    <label for={`name-${uid}`}>신청자 성명<span class="req" aria-hidden="true">*</span></label>
+    <input id={`name-${uid}`} name="name" type="text" required autocomplete="name" placeholder="홍길동" />
+  </div>
+  <div class="field">
+    <label for={`phone-${uid}`}>연락처<span class="req" aria-hidden="true">*</span></label>
+    <input id={`phone-${uid}`} name="phone" type="tel" required autocomplete="tel" placeholder="010-0000-0000" />
+  </div>
+  <div class="field">
+    <label for={`email-${uid}`}>이메일</label>
+    <input id={`email-${uid}`} name="email" type="email" autocomplete="email" placeholder="example@email.com" />
+  </div>
+  <div class="field">
+    <label for={`category-${uid}`}>견적분야<span class="req" aria-hidden="true">*</span></label>
+    <select id={`category-${uid}`} name="category" required>
+      <option value="">선택해 주세요</option>
+      {businessAreas.map((b) => <option value={b.label}>{b.label}</option>)}
+      <option value="기타">기타</option>
+    </select>
+  </div>
+  <div class="field full">
+    <label for={`message-${uid}`}>견적내용<span class="req" aria-hidden="true">*</span></label>
+    <textarea
+      id={`message-${uid}`}
+      name="message"
+      required
+      rows={compact ? 4 : 7}
+      placeholder="대상 건물·현장의 위치, 규모, 요청 업무, 희망 일정 등을 적어 주시면 더 정확한 안내가 가능합니다."></textarea>
+  </div>
+
+  <label class="agree">
+    <input type="checkbox" name="agree" value="동의" required />
+    <span>
+      개인정보 수집·이용에 동의합니다. 수집 항목은 성명, 연락처, 이메일, 문의내용이며 견적 상담 목적으로만 사용하고 처리 완료 후 1년간 보관합니다.
+      <a href="/privacy" target="_blank" rel="noopener">자세히 보기</a>
+    </span>
+  </label>
+
+  <div class="form-actions">
+    <button class="btn btn-primary" type="submit">견적문의 보내기</button>
+    <p class="form-status" role="status" aria-live="polite"></p>
+  </div>
+</form>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>('[data-inquiry]');
+  forms.forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const status = form.querySelector<HTMLElement>('.form-status')!;
+      const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      status.className = 'form-status';
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const data = new FormData(form);
+      const get = (k: string) => String(data.get(k) ?? '').trim();
+      const endpoint = form.dataset.endpoint;
+
+      // 폼 서비스가 아직 연결되지 않은 경우: 메일 프로그램으로 전송
+      if (!endpoint) {
+        const subject = `[견적문의] ${get('category')} - ${get('name')}`;
+        const body = [
+          `신청자 성명: ${get('name')}`,
+          `연락처: ${get('phone')}`,
+          `이메일: ${get('email') || '-'}`,
+          `견적분야: ${get('category')}`,
+          '',
+          '견적내용:',
+          get('message'),
+          '',
+          '개인정보 수집·이용 동의: 동의함',
+        ].join('\n');
+        window.location.href = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        status.textContent = '메일 프로그램이 열립니다. 내용을 확인한 뒤 보내기 버튼을 눌러 주세요.';
+        return;
+      }
+
+      button.disabled = true;
+      status.textContent = '전송 중입니다…';
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: data,
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        status.textContent = '문의가 접수되었습니다. 확인 후 연락드리겠습니다.';
+        status.classList.add('ok');
+      } catch {
+        status.textContent = '전송에 실패했습니다. 전화 또는 이메일로 문의해 주세요.';
+        status.classList.add('err');
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+</script>

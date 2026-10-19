@@ -1,0 +1,463 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSlider from '../components/HeroSlider.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Icon from '../components/Icon.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+import { getCollection } from 'astro:content';
+import company from '../data/company.json';
+import business from '../data/business.json';
+import performance from '../data/performance.json';
+
+const notices = (await getCollection('notices'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
+
+const fmt = (d: Date) =>
+  `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+
+type PerfKey = keyof typeof performance;
+const perfCount = (slug: string) => {
+  const p = performance[slug as PerfKey];
+  if (!p) return 0;
+  return p.rows.filter((r: { sample?: boolean }) => !r.sample).length;
+};
+---
+
+<BaseLayout>
+  <HeroSlider />
+
+  <!-- 사업분야 -->
+  <section class="section" id="business">
+    <div class="container">
+      <SectionHead
+        eyebrow="BUSINESS"
+        title="사업분야"
+        desc="건설 분야의 기술적 판단과 법률적 쟁점을 함께 다루는 네 가지 전문 영역입니다."
+      />
+      <div class="grid grid-4 biz-grid">
+        {
+          business.map((b) => (
+            <a class="card biz-card" href={`/business/${b.slug}`}>
+              <span class="icon-circle">
+                <Icon name={b.icon} size={26} />
+              </span>
+              <span class="biz-en">{b.en}</span>
+              <h3>{b.title}</h3>
+              <p>{b.short}</p>
+              <span class="link-arrow">
+                자세히 보기 <Icon name="arrow" size={16} />
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 신뢰 요소 -->
+  <section class="section-tight section-alt">
+    <div class="container trust">
+      <div class="trust-item">
+        <Icon name="award" size={30} />
+        <div>
+          <b>안전진단전문기관 등록</b>
+          <span>건축 분야 · 서울-489호</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <Icon name="doc" size={30} />
+        <div>
+          <b>기술사사무소 · 원가계산용역기관</b>
+          <span>엔지니어링사업자 신고 · 특허 보유</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <Icon name="check" size={30} />
+        <div>
+          <b>ISO 9001 · ISO 14001</b>
+          <span>품질 · 환경경영시스템 인증</span>
+        </div>
+      </div>
+      <div class="trust-item">
+        <Icon name="shield" size={30} />
+        <div>
+          <b>벤처기업 · 기업부설연구소</b>
+          <span>혁신성장유형 벤처기업 인증</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 주요실적 -->
+  <section class="section section-dark perf">
+    <div class="container">
+      <div class="perf-head">
+        <SectionHead
+          eyebrow="PERFORMANCE"
+          title="주요실적"
+          desc="분야별 수행 실적을 확인하실 수 있습니다."
+        />
+        <a class="btn btn-outline-light" href="/performance/safety-diagnosis">
+          사업실적 전체 보기 <Icon name="arrow" size={18} />
+        </a>
+      </div>
+      <div class="grid grid-4">
+        {
+          business.map((b) => {
+            const n = perfCount(b.slug);
+            return (
+              <a class="perf-card" href={`/performance/${b.slug}`}>
+                <span class="perf-en">{b.en}</span>
+                <h3>{b.title}</h3>
+                <span class="perf-count">{n > 0 ? `${n}건` : '실적 등록 중'}</span>
+                <span class="link-arrow">
+                  바로가기 <Icon name="arrow" size={16} />
+                </span>
+              </a>
+            );
+          })
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- 고객센터 + 견적문의 -->
+  <section class="section" id="contact">
+    <div class="container contact">
+      <div class="contact-info">
+        <SectionHead eyebrow="CUSTOMER CENTER" title="고객센터" />
+        <a class="contact-tel" href={`tel:${company.tel}`}>
+          <Icon name="phone" size={28} />
+          <span>{company.tel}</span>
+        </a>
+        <ul class="contact-list">
+          <li>
+            <Icon name="fax" size={20} />
+            <span><b>FAX</b> {company.fax}</span>
+          </li>
+          <li>
+            <Icon name="mail" size={20} />
+            <span><b>E-MAIL</b> <a href={`mailto:${company.email}`}>{company.email}</a></span>
+          </li>
+          <li>
+            <Icon name="clock" size={20} />
+            <span><b>상담시간</b> {company.hours}</span>
+          </li>
+        </ul>
+        <p class="contact-note">
+          현장 상황에 따라 전화 상담이 어려울 수 있습니다. 온라인 견적문의를 남겨 주시면 확인 후 연락드리겠습니다.
+        </p>
+      </div>
+      <div class="contact-form">
+        <h3>온라인 견적문의</h3>
+        <InquiryForm compact />
+      </div>
+    </div>
+  </section>
+
+  <!-- 공지사항 -->
+  <section class="section-tight section-alt">
+    <div class="container notice-home">
+      <div class="notice-head">
+        <SectionHead eyebrow="NOTICE" title="공지사항" />
+        <a class="link-arrow" href="/notice">전체 보기 <Icon name="arrow" size={16} /></a>
+      </div>
+      <ul class="notice-list">
+        {
+          notices.length === 0 ? (
+            <li class="notice-empty">등록된 공지사항이 없습니다.</li>
+          ) : (
+            notices.map((n) => (
+              <li>
+                <a href={`/notice/${n.id}`}>
+                  <span class="notice-title">
+                    {n.data.pinned && <Icon name="bell" size={16} />}
+                    {n.data.title}
+                  </span>
+                  <time datetime={n.data.date.toISOString()}>{fmt(n.data.date)}</time>
+                </a>
+              </li>
+            ))
+          )
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* 사업분야 */
+  .biz-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 300px;
+  }
+  .biz-card .icon-circle {
+    margin-bottom: 8px;
+  }
+  .biz-en {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--blue);
+    font-weight: 700;
+  }
+  .biz-card h3 {
+    font-size: 21px;
+    color: var(--navy);
+    margin-top: -6px;
+  }
+  .biz-card p {
+    color: var(--ink-2);
+    font-size: 15.5px;
+    flex: 1;
+  }
+  .biz-card .link-arrow {
+    margin-top: 8px;
+    font-size: 15px;
+  }
+
+  /* 신뢰 요소 */
+  .trust {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .trust-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    color: var(--navy);
+  }
+  .trust-item svg {
+    flex: none;
+    margin-top: 2px;
+  }
+  .trust-item b {
+    display: block;
+    font-size: 16.5px;
+    color: var(--ink);
+  }
+  .trust-item span {
+    display: block;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 2px;
+  }
+
+  /* 주요실적 */
+  .perf {
+    position: relative;
+    overflow: hidden;
+  }
+  .perf::before {
+    content: '';
+    position: absolute;
+    right: -120px;
+    top: -120px;
+    width: 520px;
+    height: 520px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+  }
+  .perf-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .perf-head .section-head {
+    margin-bottom: 40px;
+  }
+  .perf-head .section-head :global(p) {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .perf-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 30px 28px;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition:
+      background 0.25s,
+      transform 0.25s var(--ease);
+  }
+  .perf-card:hover {
+    background: rgba(255, 255, 255, 0.11);
+    transform: translateY(-4px);
+  }
+  .perf-en {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--blue-pale);
+    font-weight: 700;
+  }
+  .perf-card h3 {
+    font-size: 20px;
+  }
+  .perf-count {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+    flex: 1;
+  }
+  .perf-card .link-arrow {
+    color: #fff;
+    font-size: 15px;
+    margin-top: 10px;
+  }
+
+  /* 고객센터 */
+  .contact {
+    display: grid;
+    grid-template-columns: 1fr 1.25fr;
+    gap: 72px;
+    align-items: start;
+  }
+  .contact-tel {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: clamp(30px, 3.4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin: -16px 0 28px;
+  }
+  .contact-tel svg {
+    color: var(--blue);
+  }
+  .contact-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+    font-size: 16.5px;
+    color: var(--ink-2);
+  }
+  .contact-list li {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .contact-list svg {
+    color: var(--blue);
+    flex: none;
+  }
+  .contact-list b {
+    display: inline-block;
+    min-width: 72px;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+  }
+  .contact-list a:hover {
+    color: var(--blue);
+  }
+  .contact-note {
+    margin-top: 28px;
+    padding: 18px 20px;
+    background: var(--blue-tint);
+    border-radius: var(--radius-sm);
+    color: var(--ink-2);
+    font-size: 15px;
+  }
+  .contact-form {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 36px;
+    box-shadow: var(--shadow-sm);
+  }
+  .contact-form h3 {
+    font-size: 22px;
+    color: var(--navy);
+    margin-bottom: 24px;
+  }
+
+  /* 공지사항 */
+  .notice-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .notice-head .section-head {
+    margin-bottom: 28px;
+  }
+  .notice-list {
+    list-style: none;
+    padding: 0;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .notice-list li + li {
+    border-top: 1px solid var(--line);
+  }
+  .notice-list a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 24px;
+    transition: background 0.15s;
+  }
+  .notice-list a:hover {
+    background: var(--bg-2);
+  }
+  .notice-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .notice-title svg {
+    color: var(--blue);
+  }
+  .notice-list time {
+    color: var(--muted);
+    font-size: 14px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .notice-empty {
+    padding: 36px;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  @media (max-width: 1024px) {
+    .trust {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .contact {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+  @media (max-width: 768px) {
+    .trust {
+      grid-template-columns: 1fr;
+    }
+    .biz-card {
+      min-height: 0;
+    }
+    .contact-form {
+      padding: 24px 20px;
+    }
+    .notice-list a {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      padding: 16px 18px;
+    }
+  }
+</style>

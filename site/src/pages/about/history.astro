@@ -1,0 +1,147 @@
+---
+import SubLayout from '../../layouts/SubLayout.astro';
+import Icon from '../../components/Icon.astro';
+import history from '../../data/history.json';
+import certificates from '../../data/certificates.json';
+
+// 연도별로 묶어 최신 연도부터 표시 (history.json 은 최신순으로 정리되어 있다고 가정)
+const years = Array.from(new Set(history.map((h) => h.year)));
+---
+
+<SubLayout title="연혁" section="about" description="설립부터 현재까지의 주요 이력입니다.">
+  <ol class="timeline">
+    {
+      years.map((year) => (
+        <li class="tl-year">
+          <span class="tl-year-label">{year}</span>
+          <ul class="tl-items">
+            {history
+              .filter((h) => h.year === year)
+              .map((h) => (
+                <li class="tl-item">
+                  <span class="tl-month">{h.month}</span>
+                  <div>
+                    <b>{h.title}</b>
+                    {h.desc && <p>{h.desc}</p>}
+                  </div>
+                </li>
+              ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ol>
+
+  <section class="content-block">
+    <h3 class="block-title">관련 인증서</h3>
+    <div class="doc-grid">
+      {
+        certificates.map((c) => (
+          <div class="doc-card">
+            <div class="doc-thumb">
+              {c.image ? (
+                <img src={c.image} alt={c.name} loading="lazy" />
+              ) : (
+                <span class="doc-placeholder">
+                  <Icon name="award" size={40} />
+                  {c.name}
+                </span>
+              )}
+            </div>
+            <div class="doc-body">
+              <h4>{c.name}</h4>
+              {c.number && <p>{c.number}</p>}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</SubLayout>
+
+<style>
+  .timeline {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0;
+  }
+  .tl-year {
+    display: grid;
+    grid-template-columns: 140px minmax(0, 1fr);
+    gap: 24px;
+    padding: 8px 0 40px;
+    position: relative;
+  }
+  .tl-year::before {
+    content: '';
+    position: absolute;
+    left: 152px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--blue-line);
+  }
+  .tl-year-label {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .tl-items {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 18px;
+    padding-top: 8px;
+  }
+  .tl-item {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 14px;
+    position: relative;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -17px;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 0 4px var(--blue-tint);
+  }
+  .tl-month {
+    font-weight: 700;
+    color: var(--blue);
+    font-variant-numeric: tabular-nums;
+  }
+  .tl-item b {
+    display: block;
+    font-size: 17px;
+    color: var(--ink);
+  }
+  .tl-item p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  @media (max-width: 768px) {
+    .tl-year {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding-left: 20px;
+    }
+    .tl-year::before {
+      left: 0;
+    }
+    .tl-year-label {
+      font-size: 28px;
+    }
+    .tl-item::before {
+      left: -25px;
+    }
+  }
+</style>

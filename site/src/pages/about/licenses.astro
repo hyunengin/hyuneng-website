@@ -1,0 +1,35 @@
+---
+import SubLayout from '../../layouts/SubLayout.astro';
+import Icon from '../../components/Icon.astro';
+import licenses from '../../data/licenses.json';
+---
+
+<SubLayout
+  title="면허보유현황"
+  section="about"
+  description="업무 수행을 위한 등록·신고 및 특허 보유 현황입니다."
+>
+  <div class="doc-grid">
+    {
+      licenses.map((l) => (
+        <div class="doc-card">
+          <div class="doc-thumb">
+            {l.image ? (
+              <img src={l.image} alt={l.name} loading="lazy" />
+            ) : (
+              <span class="doc-placeholder">
+                <Icon name="doc" size={40} />
+                {l.name}
+              </span>
+            )}
+          </div>
+          <div class="doc-body">
+            <h4>{l.name}</h4>
+            {l.number && <p>{l.number}</p>}
+            {l.issuer && <p>{l.issuer}</p>}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</SubLayout>

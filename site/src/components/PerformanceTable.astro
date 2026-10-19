@@ -1,0 +1,47 @@
+---
+/** 사업실적 표. 데이터는 src/data/performance.json 에서 옵니다. */
+interface Row {
+  [key: string]: string | boolean | undefined;
+  sample?: boolean;
+}
+interface Props {
+  columns: string[];
+  keys: string[];
+  rows: Row[];
+}
+const { columns, keys, rows } = Astro.props;
+---
+
+<div class="table-wrap">
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="num" scope="col">No.</th>
+        {columns.map((c) => <th scope="col">{c}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {
+        rows.length === 0 ? (
+          <tr>
+            <td colspan={columns.length + 1} class="table-empty">
+              실적을 정리하여 등록 중입니다.
+            </td>
+          </tr>
+        ) : (
+          rows.map((row, i) => (
+            <tr>
+              <td class="num">{rows.length - i}</td>
+              {keys.map((k, ki) => (
+                <td class:list={{ year: k === 'year' }}>
+                  {row[k]}
+                  {ki === 0 && row.sample && <span class="badge-sample">예시</span>}
+                </td>
+              ))}
+            </tr>
+          ))
+        )
+      }
+    </tbody>
+  </table>
+</div>

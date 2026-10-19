@@ -1,0 +1,27 @@
+---
+import SubLayout from '../../layouts/SubLayout.astro';
+import PerformanceTable from '../../components/PerformanceTable.astro';
+import performance from '../../data/performance.json';
+import { businessAreas } from '../../data/nav';
+
+export function getStaticPaths() {
+  return businessAreas.map((a) => ({
+    params: { slug: a.slug },
+    props: { area: a, data: performance[a.slug] },
+  }));
+}
+type Area = (typeof businessAreas)[number];
+type Data = (typeof performance)[Area['slug']];
+const { area, data } = Astro.props as { area: Area; data: Data };
+---
+
+<SubLayout
+  title={area.label}
+  section="performance"
+  description={`${area.short} 분야의 수행 실적입니다. 최근 실적이 위에 표시됩니다.`}
+>
+  <PerformanceTable columns={data.columns} keys={data.keys} rows={data.rows} />
+  <p class="note">
+    실적 목록은 수시로 갱신됩니다. 유사 업무의 세부 수행 내용은 견적문의를 통해 요청해 주세요.
+  </p>
+</SubLayout>

@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import company from '../data/company.json';
+
+interface Props {
+  title?: string;
+  description?: string;
+  bodyClass?: string;
+}
+const { title, description = company.description, bodyClass = '' } = Astro.props;
+const fullTitle = title ? `${title} | ${company.name}` : `${company.name} | ${company.slogan}`;
+const base = Astro.site ?? new URL(company.domain);
+const canonical = new URL(Astro.url.pathname, base).href;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#0C356E" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={company.name} />
+    <meta property="og:locale" content="ko_KR" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main">본문 바로가기</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

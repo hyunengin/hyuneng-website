@@ -1,0 +1,132 @@
+---
+import SubLayout from '../../layouts/SubLayout.astro';
+import Icon from '../../components/Icon.astro';
+
+const values = [
+  {
+    icon: 'shield',
+    name: '안전성',
+    en: 'SAFETY',
+    desc: '구조적 안정과 시공의 합리성 확보',
+  },
+  {
+    icon: 'search',
+    name: '정확성',
+    en: 'ACCURACY',
+    desc: '근거와 데이터를 기반으로 한 객관적 판단',
+  },
+  {
+    icon: 'award',
+    name: '신뢰성',
+    en: 'RELIABILITY',
+    desc: '투명하고 공정한 업무 수행으로 신뢰 확보',
+  },
+];
+---
+
+<SubLayout title="기업이념" section="about" description="현구조엔지니어링이 일하는 기준입니다.">
+  <section class="vision">
+    <span class="eyebrow">VISION</span>
+    <p class="vision-text">
+      기술력과 법률적 전문성을 겸비한 건설 구조안전 및 법무감정 분야의 선도기업으로서,
+      정확한 분석과 책임 있는 기술 서비스를 통해 고객이 신뢰할 수 있는 공정하고 안전한 건설환경 조성에
+      앞장서겠습니다.
+    </p>
+  </section>
+
+  <section class="content-block">
+    <h3 class="block-title">핵심 가치</h3>
+    <div class="values">
+      {
+        values.map((v, i) => (
+          <div class="value-card">
+            <span class="value-no">0{i + 1}</span>
+            <span class="icon-circle">
+              <Icon name={v.icon} size={26} />
+            </span>
+            <span class="value-en">{v.en}</span>
+            <h4>{v.name}</h4>
+            <p>{v.desc}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</SubLayout>
+
+<style>
+  .vision {
+    padding: 44px 48px;
+    border-radius: var(--radius);
+    background: linear-gradient(130deg, var(--navy-deep), var(--navy) 60%, #1a4f96);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .vision::after {
+    content: '';
+    position: absolute;
+    right: -80px;
+    top: -80px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+  .vision .eyebrow {
+    color: var(--blue-pale);
+  }
+  .vision-text {
+    font-size: clamp(18px, 1.8vw, 22px);
+    line-height: 1.7;
+    font-weight: 500;
+    max-width: 760px;
+  }
+  .values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .value-card {
+    position: relative;
+    padding: 32px 28px 30px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #fff;
+  }
+  .value-no {
+    position: absolute;
+    right: 24px;
+    top: 20px;
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--blue-tint);
+    letter-spacing: -0.03em;
+  }
+  .value-en {
+    margin-top: 8px;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--blue);
+    font-weight: 700;
+  }
+  .value-card h4 {
+    font-size: 22px;
+    color: var(--navy);
+    margin-top: -6px;
+  }
+  .value-card p {
+    color: var(--ink-2);
+  }
+  @media (max-width: 768px) {
+    .vision {
+      padding: 32px 24px;
+    }
+    .values {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

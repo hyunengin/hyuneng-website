@@ -1,0 +1,133 @@
+---
+import SubLayout from '../../layouts/SubLayout.astro';
+import org from '../../data/organization.json';
+---
+
+<SubLayout title="조직도" section="about" description="분야별 전담 조직이 업무를 수행합니다.">
+  <div class="org">
+    <div class="org-top">{org.top}</div>
+    <div class="org-stem" aria-hidden="true"></div>
+    <ul class="org-units">
+      {
+        org.units.map((u) => (
+          <li class="org-unit">
+            <b>{u.name}</b>
+            <span>{u.desc}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="org-stem org-stem-dashed" aria-hidden="true"></div>
+    <div class="org-affiliate">
+      <b>{org.affiliate.name}</b>
+      <span>{org.affiliate.desc}</span>
+    </div>
+  </div>
+</SubLayout>
+
+<style>
+  .org {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .org-top {
+    padding: 18px 48px;
+    border-radius: var(--radius-sm);
+    background: var(--navy);
+    color: #fff;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+  }
+  .org-stem {
+    width: 2px;
+    height: 36px;
+    background: var(--blue-line);
+  }
+  .org-stem-dashed {
+    background: none;
+    border-left: 2px dashed var(--blue-line);
+  }
+  .org-units {
+    list-style: none;
+    padding: 36px 0 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    width: 100%;
+    position: relative;
+  }
+  .org-units::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: var(--blue-line);
+  }
+  .org-unit {
+    position: relative;
+    padding: 22px 16px;
+    border: 1px solid var(--blue-line);
+    border-radius: var(--radius-sm);
+    background: var(--blue-tint);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .org-unit::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -36px;
+    width: 2px;
+    height: 36px;
+    background: var(--blue-line);
+    transform: translateX(-50%);
+  }
+  .org-unit b {
+    font-size: 18px;
+    color: var(--navy);
+  }
+  .org-unit span,
+  .org-affiliate span {
+    font-size: 13.5px;
+    color: var(--muted);
+  }
+  .org-affiliate {
+    padding: 18px 36px;
+    border: 1.5px dashed var(--blue);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    background: #fff;
+  }
+  .org-affiliate b {
+    font-size: 17px;
+    color: var(--navy);
+  }
+  @media (max-width: 1024px) {
+    .org-units {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .org-units::before {
+      display: none;
+    }
+    .org-unit::before {
+      display: none;
+    }
+    .org-units {
+      padding-top: 0;
+    }
+  }
+  @media (max-width: 600px) {
+    .org-units {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<BaseLayout title="페이지를 찾을 수 없습니다">
+  <section class="nf">
+    <div class="container nf-inner">
+      <p class="nf-code">404</p>
+      <h1>페이지를 찾을 수 없습니다</h1>
+      <p class="nf-desc">주소가 잘못 입력되었거나, 페이지가 이동 또는 삭제되었을 수 있습니다.</p>
+      <div class="nf-actions">
+        <a class="btn btn-primary" href="/">홈으로 이동 <Icon name="arrow" size={18} /></a>
+        <a class="btn btn-outline" href="/inquiry">견적문의</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    padding: 120px 0;
+    text-align: center;
+  }
+  .nf-code {
+    font-size: 96px;
+    font-weight: 800;
+    color: var(--blue-tint);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .nf h1 {
+    font-size: 30px;
+    color: var(--navy);
+    margin-top: 8px;
+  }
+  .nf-desc {
+    margin-top: 12px;
+    color: var(--muted);
+  }
+  .nf-actions {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+</style>

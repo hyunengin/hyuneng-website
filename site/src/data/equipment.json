@@ -1,0 +1,10 @@
+[
+  { "category": "비파괴시험", "name": "반발경도시험기 (슈미트해머)", "qty": "", "note": "콘크리트 압축강도 추정", "sample": true },
+  { "category": "비파괴시험", "name": "철근탐사기", "qty": "", "note": "철근 배근 · 피복두께 조사", "sample": true },
+  { "category": "비파괴시험", "name": "초음파 측정기", "qty": "", "note": "균열 깊이 · 내부 결함 조사", "sample": true },
+  { "category": "외관조사", "name": "균열폭 측정기 (크랙 스케일 · 크랙 게이지)", "qty": "", "note": "균열 폭 측정", "sample": true },
+  { "category": "외관조사", "name": "레이저 거리측정기", "qty": "", "note": "부재 치수 · 거리 측정", "sample": true },
+  { "category": "변위측정", "name": "경사계 · 수평기", "qty": "", "note": "기울기 · 처짐 측정", "sample": true },
+  { "category": "재료시험", "name": "코어 채취기", "qty": "", "note": "콘크리트 코어 채취", "sample": true },
+  { "category": "재료시험", "name": "탄산화 시험 세트", "qty": "", "note": "페놀프탈레인 용액 · 측정 도구", "sample": true }
+]

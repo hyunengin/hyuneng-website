@@ -1,0 +1,103 @@
+---
+import SubLayout from '../../layouts/SubLayout.astro';
+import company from '../../data/company.json';
+---
+
+<SubLayout title="인사말" section="about" description={`${company.name}을 찾아주셔서 감사합니다.`}>
+  <div class="greeting">
+    <div class="greeting-text">
+      <p class="greeting-quote">{company.slogan}</p>
+      <div class="prose">
+        <p>
+          {company.name}은 안전진단 및 점검, 법원감정, 원가계산, 건축·토목 구조검토 등 건설 분야 전반의
+          기술적·법률적 서비스를 전문적으로 수행하는 구조안전 전문기업입니다.
+        </p>
+        <p>
+          풍부한 현장 경험과 체계적인 기술력을 바탕으로 안전 최우선의 진단과 구조 설계, 공정하고 객관적인 감정,
+          합리적인 기술 자문을 제공합니다.
+        </p>
+        <p>건설분쟁의 합리적 해결과 구조물의 안전 확보를 위한 최선의 서비스를 제공할 것을 약속드립니다.</p>
+      </div>
+      <p class="greeting-sign">
+        <span>{company.name}</span>
+        <b>대표이사 {company.ceo}</b>
+      </p>
+    </div>
+
+    <!-- 대표 사진 또는 사무실 사진이 준비되면 이 영역을 <img>로 교체합니다. -->
+    <div class="greeting-visual" aria-hidden="true">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="10,10 36,10 10,42" fill="#9CC3EF" opacity="0.9"></polygon>
+        <polygon points="10,90 36,90 10,58" fill="#9CC3EF" opacity="0.9"></polygon>
+        <polygon
+          points="50,10 24,50 50,90 50,58 72,58 72,90 90,90 90,10 72,10 72,42 50,42"
+          fill="#fff"
+          opacity="0.95"></polygon>
+      </svg>
+      <span class="greeting-visual-en">{company.nameEn}</span>
+    </div>
+  </div>
+</SubLayout>
+
+<style>
+  .greeting {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: start;
+  }
+  .greeting-quote {
+    font-size: clamp(24px, 2.6vw, 32px);
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    margin-bottom: 28px;
+  }
+  .greeting-sign {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .greeting-sign b {
+    font-size: 20px;
+    color: var(--ink);
+  }
+  .greeting-visual {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--radius);
+    background: linear-gradient(150deg, var(--navy-deep), var(--blue));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .greeting-visual svg {
+    width: 46%;
+  }
+  .greeting-visual-en {
+    position: absolute;
+    left: 24px;
+    bottom: 22px;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  @media (max-width: 1024px) {
+    .greeting {
+      grid-template-columns: 1fr;
+    }
+    .greeting-visual {
+      aspect-ratio: 16 / 9;
+      order: -1;
+    }
+    .greeting-visual svg {
+      width: 22%;
+    }
+  }
+</style>

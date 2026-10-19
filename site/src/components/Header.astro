@@ -1,0 +1,423 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { nav } from '../data/nav';
+import company from '../data/company.json';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (key: string, href: string) => path === href || path.startsWith(`/${key}`);
+---
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${company.name} 홈으로`}>
+      <Logo />
+    </a>
+
+    <nav class="site-nav" aria-label="주 메뉴" data-nav>
+      <ul class="nav-list">
+        {
+          nav.map((item, i) => (
+            <li class="nav-item" data-index={i}>
+              <a
+                href={item.href}
+                class:list={['nav-link', { 'is-active': isActive(item.key, item.href) }]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="header-cta">
+      <a class="btn btn-primary btn-sm" href="/inquiry">견적문의</a>
+    </div>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      aria-label="메뉴 열기"
+      data-menu-toggle
+    >
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+
+  <!-- 전체 메뉴 (PC: 상단 메뉴에 마우스를 올리면 펼쳐짐) -->
+  <div class="mega" data-mega>
+    <div class="container mega-inner">
+      {
+        nav.map((item, i) => (
+          <div class="mega-col" data-index={i}>
+            <a class="mega-title" href={item.href}>
+              <span>{item.label}</span>
+              <span class="mega-en">{item.en}</span>
+            </a>
+            {item.children.length > 0 && (
+              <ul>
+                {item.children.map((c) => (
+                  <li>
+                    <a href={c.href}>{c.label}</a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- 모바일 메뉴 -->
+  <div class="mobile-nav" id="mobile-nav" data-mobile-nav>
+    <ul class="m-list">
+      {
+        nav.map((item) =>
+          item.children.length > 0 ? (
+            <li class="m-item">
+              <button class="m-toggle" type="button" aria-expanded="false">
+                <span>{item.label}</span>
+                <Icon name="chevron" size={20} />
+              </button>
+              <ul class="m-sub">
+                {item.children.map((c) => (
+                  <li>
+                    <a href={c.href}>{c.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ) : (
+            <li class="m-item">
+              <a class="m-link" href={item.href}>
+                {item.label}
+              </a>
+            </li>
+          )
+        )
+      }
+    </ul>
+    <div class="m-contact">
+      <p class="m-contact-label">고객센터</p>
+      <a class="m-contact-tel" href={`tel:${company.tel}`}>{company.tel}</a>
+      <p class="m-contact-hours">{company.hours}</p>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #fff;
+    border-bottom: 1px solid transparent;
+    transition:
+      box-shadow 0.25s,
+      border-color 0.25s;
+  }
+  .site-header.is-scrolled,
+  .site-header.mega-open {
+    border-color: var(--line);
+    box-shadow: 0 2px 18px rgba(12, 53, 110, 0.08);
+  }
+  .header-inner {
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .brand {
+    display: inline-flex;
+    margin-right: auto;
+  }
+  .nav-list {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+    padding: 0;
+  }
+  .nav-link {
+    display: block;
+    padding: 12px 18px;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--ink);
+    position: relative;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 6px;
+    height: 2px;
+    background: var(--blue);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s var(--ease);
+  }
+  .nav-item:hover .nav-link::after,
+  .nav-link.is-active::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+  .nav-item:hover .nav-link,
+  .nav-link.is-active {
+    color: var(--navy);
+  }
+
+  /* 전체 메뉴 */
+  .mega {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid var(--line);
+    box-shadow: 0 18px 40px rgba(12, 53, 110, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition:
+      opacity 0.22s var(--ease),
+      transform 0.22s var(--ease),
+      visibility 0.22s;
+  }
+  .site-header.mega-open .mega {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+  .mega-inner {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    padding: 28px var(--gutter) 36px;
+  }
+  .mega-col {
+    padding: 14px 18px;
+    border-radius: 10px;
+    transition: background 0.2s;
+  }
+  .mega-col.is-hot {
+    background: var(--blue-tint);
+  }
+  .mega-title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+  .mega-en {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .mega-col ul {
+    list-style: none;
+    padding: 0;
+  }
+  .mega-col li a {
+    display: block;
+    padding: 6px 0;
+    color: var(--ink-2);
+    font-size: 15px;
+    transition: color 0.15s;
+  }
+  .mega-col li a:hover {
+    color: var(--blue);
+  }
+
+  /* 햄버거 */
+  .menu-toggle {
+    display: none;
+    width: 44px;
+    height: 44px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-right: -8px;
+  }
+  .menu-toggle .bar {
+    width: 22px;
+    height: 2px;
+    background: var(--navy);
+    border-radius: 2px;
+    transition: transform 0.25s var(--ease), opacity 0.2s;
+  }
+  .site-header.nav-open .bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .site-header.nav-open .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .site-header.nav-open .bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* 모바일 메뉴 */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: var(--header-h);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.3s var(--ease);
+  }
+  .site-header.nav-open .mobile-nav {
+    transform: none;
+  }
+  .m-list {
+    list-style: none;
+    padding: 8px var(--gutter);
+  }
+  .m-item {
+    border-bottom: 1px solid var(--line);
+  }
+  .m-toggle,
+  .m-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 4px;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    text-align: left;
+  }
+  .m-toggle svg {
+    transition: transform 0.25s var(--ease);
+    color: var(--muted);
+  }
+  .m-toggle[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+  .m-sub {
+    list-style: none;
+    padding: 0 4px 12px;
+    display: none;
+  }
+  .m-toggle[aria-expanded='true'] + .m-sub {
+    display: block;
+  }
+  .m-sub a {
+    display: block;
+    padding: 11px 12px;
+    color: var(--ink-2);
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+  }
+  .m-sub a:hover {
+    background: var(--bg-2);
+    color: var(--navy);
+  }
+  .m-contact {
+    margin: 16px var(--gutter) 40px;
+    padding: 22px 24px;
+    border-radius: var(--radius);
+    background: var(--navy);
+    color: #fff;
+  }
+  .m-contact-label {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--blue-pale);
+    font-weight: 700;
+  }
+  .m-contact-tel {
+    display: block;
+    font-size: 26px;
+    font-weight: 800;
+    margin: 6px 0 2px;
+  }
+  .m-contact-hours {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  @media (max-width: 1024px) {
+    .site-nav,
+    .header-cta,
+    .mega {
+      display: none;
+    }
+    .menu-toggle {
+      display: flex;
+    }
+    .mobile-nav {
+      display: block;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    // 스크롤 시 그림자
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // 전체 메뉴 열고 닫기 + 현재 올려둔 메뉴 열 강조
+    const navEl = header.querySelector<HTMLElement>('[data-nav]');
+    const mega = header.querySelector<HTMLElement>('[data-mega]');
+    const cols = Array.from(header.querySelectorAll<HTMLElement>('.mega-col'));
+    const items = Array.from(header.querySelectorAll<HTMLElement>('.nav-item'));
+    const open = () => header.classList.add('mega-open');
+    const close = () => {
+      header.classList.remove('mega-open');
+      cols.forEach((c) => c.classList.remove('is-hot'));
+    };
+    const hot = (i: string | undefined) =>
+      cols.forEach((c) => c.classList.toggle('is-hot', c.dataset.index === i));
+
+    navEl?.addEventListener('mouseenter', open);
+    navEl?.addEventListener('focusin', open);
+    items.forEach((it) => {
+      it.addEventListener('mouseenter', () => hot(it.dataset.index));
+      it.addEventListener('focusin', () => hot(it.dataset.index));
+    });
+    cols.forEach((c) => c.addEventListener('mouseenter', () => hot(c.dataset.index)));
+    header.addEventListener('mouseleave', close);
+    mega?.addEventListener('focusout', (e) => {
+      if (!header.contains(e.relatedTarget as Node)) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+
+    // 모바일 메뉴
+    const toggle = header.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+    toggle?.addEventListener('click', () => {
+      const isOpen = header.classList.toggle('nav-open');
+      document.body.classList.toggle('nav-open', isOpen);
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      toggle.setAttribute('aria-label', isOpen ? '메뉴 닫기' : '메뉴 열기');
+    });
+    header.querySelectorAll<HTMLButtonElement>('.m-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        btn.setAttribute('aria-expanded', String(!expanded));
+      });
+    });
+  }
+</script>

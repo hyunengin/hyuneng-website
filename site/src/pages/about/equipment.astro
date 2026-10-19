@@ -1,0 +1,48 @@
+---
+import SubLayout from '../../layouts/SubLayout.astro';
+import equipment from '../../data/equipment.json';
+---
+
+<SubLayout
+  title="장비보유현황"
+  section="about"
+  description="현장조사와 시험·측정에 사용하는 주요 보유 장비입니다."
+>
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="num" scope="col">No.</th>
+          <th scope="col">구분</th>
+          <th scope="col">장비명</th>
+          <th scope="col">수량</th>
+          <th scope="col">용도</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          equipment.length === 0 ? (
+            <tr>
+              <td colspan="5" class="table-empty">
+                장비 목록을 정리하여 등록 중입니다.
+              </td>
+            </tr>
+          ) : (
+            equipment.map((e, i) => (
+              <tr>
+                <td class="num">{i + 1}</td>
+                <td>{e.category}</td>
+                <td>
+                  {e.name}
+                  {e.sample && <span class="badge-sample">예시</span>}
+                </td>
+                <td>{e.qty || '-'}</td>
+                <td>{e.note}</td>
+              </tr>
+            ))
+          )
+        }
+      </tbody>
+    </table>
+  </div>
+</SubLayout>

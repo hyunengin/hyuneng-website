@@ -1,0 +1,87 @@
+---
+/**
+ * 서브페이지 공통 레이아웃: 상단 띠(섹션명 + 경로) + 왼쪽 하위메뉴 + 본문
+ */
+import BaseLayout from './BaseLayout.astro';
+import { findNav } from '../data/nav';
+
+interface Props {
+  title: string; // 페이지 제목 (예: 인사말)
+  section: string; // nav.ts의 key (about / business / performance / notice / inquiry)
+  description?: string;
+  en?: string;
+  hideSide?: boolean;
+}
+const { title, section, description, en, hideSide = false } = Astro.props;
+const item = findNav(section);
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const hasSide = item.children.length > 0 && !hideSide;
+
+const crumbs = [
+  { label: 'HOME', href: '/' },
+  { label: item.label, href: item.href },
+  ...(title !== item.label ? [{ label: title, href: path }] : []),
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="page-hero">
+    <div class="page-hero-bg" aria-hidden="true">
+      <svg viewBox="0 0 1600 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="sub-grid" width="64" height="64" patternUnits="userSpaceOnUse">
+            <path d="M64 0H0V64" fill="none" stroke="#fff" stroke-opacity="0.12"></path>
+          </pattern>
+        </defs>
+        <rect width="1600" height="320" fill="url(#sub-grid)"></rect>
+        <circle cx="1380" cy="330" r="260" fill="none" stroke="#fff" stroke-opacity="0.14" stroke-width="1.5"></circle>
+        <circle cx="1380" cy="330" r="180" fill="none" stroke="#fff" stroke-opacity="0.1"></circle>
+        <path d="M1120 320 L1380 60 L1640 320" fill="none" stroke="#fff" stroke-opacity="0.12" stroke-width="1.5"></path>
+      </svg>
+    </div>
+    <div class="container">
+      <p class="page-hero-en">{en ?? item.en}</p>
+      <h1 class="page-hero-title">{item.label}</h1>
+      <ol class="crumbs" aria-label="현재 위치">
+        {
+          crumbs.map((c, i) => (
+            <li>
+              {i > 0 && <span class="sep">›</span>}
+              <a href={c.href} aria-current={i === crumbs.length - 1 ? 'page' : undefined}>
+                {c.label}
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <div class:list={['container', 'sub-body', { 'no-side': !hasSide }]}>
+    {
+      hasSide && (
+        <aside class="sub-side">
+          <nav aria-label={`${item.label} 하위 메뉴`}>
+            <p class="sub-side-title">{item.en}</p>
+            <ul>
+              {item.children.map((c) => (
+                <li>
+                  <a href={c.href} class:list={{ 'is-active': c.href === path }}>
+                    {c.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      )
+    }
+    <article class="sub-content">
+      <header class="content-head">
+        <h2 class="content-title">{title}</h2>
+        {description && <p class="content-desc">{description}</p>}
+      </header>
+      <slot />
+    </article>
+  </div>
+</BaseLayout>

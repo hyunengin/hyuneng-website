@@ -1,0 +1,110 @@
+---
+import SubLayout from '../../layouts/SubLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const all = (await getCollection('notices')).sort(
+    (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+  );
+  return all.map((n, i) => ({
+    params: { slug: n.id },
+    props: { n, prev: all[i + 1] ?? null, next: all[i - 1] ?? null },
+  }));
+}
+const { n, prev, next } = Astro.props;
+const { Content } = await render(n);
+const fmt = (d: Date) =>
+  `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+---
+
+<SubLayout title={n.data.title} section="notice" description={n.data.summary}>
+  <div class="notice-meta">
+    <time datetime={n.data.date.toISOString()}>{fmt(n.data.date)}</time>
+  </div>
+  <div class="prose notice-content">
+    <Content />
+  </div>
+
+  <nav class="notice-nav" aria-label="이전·다음 글">
+    <a class:list={['nn', { disabled: !prev }]} href={prev ? `/notice/${prev.id}` : undefined}>
+      <span class="nn-label">이전 글</span>
+      <span class="nn-title">{prev ? prev.data.title : '이전 글이 없습니다'}</span>
+    </a>
+    <a class:list={['nn', { disabled: !next }]} href={next ? `/notice/${next.id}` : undefined}>
+      <span class="nn-label">다음 글</span>
+      <span class="nn-title">{next ? next.data.title : '다음 글이 없습니다'}</span>
+    </a>
+  </nav>
+  <p class="notice-back">
+    <a class="btn btn-outline" href="/notice"><Icon name="arrow" size={18} class="flip" /> 목록으로</a>
+  </p>
+</SubLayout>
+
+<style>
+  .notice-meta {
+    margin-top: -24px;
+    margin-bottom: 32px;
+    color: var(--muted);
+    font-size: 14.5px;
+  }
+  .notice-content {
+    min-height: 200px;
+  }
+  .notice-content :global(h2),
+  .notice-content :global(h3) {
+    margin: 32px 0 12px;
+    color: var(--navy);
+  }
+  .notice-content :global(ul),
+  .notice-content :global(ol) {
+    padding-left: 1.4em;
+    margin: 12px 0;
+  }
+  .notice-content :global(img) {
+    border-radius: var(--radius-sm);
+    margin: 16px 0;
+  }
+  .notice-content :global(a) {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .notice-nav {
+    margin-top: 56px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .nn {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr);
+    gap: 16px;
+    padding: 16px 8px;
+  }
+  .nn + .nn {
+    border-top: 1px solid var(--line);
+  }
+  .nn:not(.disabled):hover .nn-title {
+    color: var(--blue);
+  }
+  .nn.disabled {
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .nn-label {
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .nn-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .notice-back {
+    margin-top: 28px;
+  }
+  .notice-back :global(.flip) {
+    transform: scaleX(-1);
+  }
+</style>

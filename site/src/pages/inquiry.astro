@@ -1,0 +1,184 @@
+---
+import SubLayout from '../layouts/SubLayout.astro';
+import Icon from '../components/Icon.astro';
+import InquiryForm from '../components/InquiryForm.astro';
+import company from '../data/company.json';
+
+const steps = [
+  { title: '문의 접수', desc: '온라인 폼 또는 전화로 문의 내용을 접수합니다.' },
+  { title: '내용 검토', desc: '대상 현장과 요청 업무를 확인하고 필요 자료를 안내합니다.' },
+  { title: '견적 안내', desc: '업무 범위와 일정을 반영한 견적을 보내드립니다.' },
+  { title: '계약 및 착수', desc: '계약 체결 후 일정에 맞춰 업무를 시작합니다.' },
+];
+---
+
+<SubLayout title="견적문의" section="inquiry" description="전화 또는 온라인으로 편하게 문의해 주세요.">
+  <div class="inquiry">
+    <aside class="inquiry-side">
+      <div class="tel-card">
+        <span class="eyebrow">TEL</span>
+        <a class="tel-num" href={`tel:${company.tel}`}>{company.tel}</a>
+        <ul>
+          <li>
+            <Icon name="fax" size={18} />
+            <span>FAX {company.fax}</span>
+          </li>
+          <li>
+            <Icon name="mail" size={18} />
+            <a href={`mailto:${company.email}`}>{company.email}</a>
+          </li>
+          <li>
+            <Icon name="clock" size={18} />
+            <span>상담 시간 {company.hours}</span>
+          </li>
+        </ul>
+      </div>
+
+      <ol class="steps">
+        {
+          steps.map((s, i) => (
+            <li>
+              <span class="steps-no">0{i + 1}</span>
+              <div>
+                <b>{s.title}</b>
+                <p>{s.desc}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </aside>
+
+    <section class="inquiry-form-wrap">
+      <h3>온라인 견적문의</h3>
+      <p class="inquiry-help">
+        <span class="req">*</span> 표시는 필수 항목입니다. 대상 건물·현장의 위치와 규모, 요청 업무를 함께 적어 주시면 더 정확하게 안내해 드릴 수 있습니다.
+      </p>
+      <InquiryForm />
+    </section>
+  </div>
+</SubLayout>
+
+<style>
+  .inquiry {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .tel-card {
+    padding: 28px 28px 24px;
+    border-radius: var(--radius);
+    background: linear-gradient(140deg, var(--navy-deep), var(--navy) 65%, #1a4f96);
+    color: #fff;
+  }
+  .tel-card .eyebrow {
+    color: var(--blue-pale);
+    margin-bottom: 6px;
+  }
+  .tel-num {
+    display: block;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 18px;
+  }
+  .tel-card ul {
+    list-style: none;
+    padding: 18px 0 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    display: grid;
+    gap: 10px;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .tel-card li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .tel-card svg {
+    color: var(--blue-pale);
+    flex: none;
+  }
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin-top: 24px;
+    display: grid;
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .steps li {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 12px;
+    padding: 18px 20px;
+    background: #fff;
+  }
+  .steps li + li {
+    border-top: 1px solid var(--line);
+  }
+  .steps-no {
+    font-weight: 800;
+    color: var(--blue);
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  .steps b {
+    display: block;
+    font-size: 16px;
+  }
+  .steps p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .inquiry-form-wrap h3 {
+    font-size: 24px;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .inquiry-help {
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+  .inquiry-help .req {
+    color: #d9534f;
+  }
+  @media (max-width: 1024px) {
+    .inquiry {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .steps li + li {
+      border-top: 0;
+    }
+    .steps li {
+      border-top: 1px solid var(--line);
+    }
+    .steps li:nth-child(-n + 2) {
+      border-top: 0;
+    }
+    .steps li:nth-child(even) {
+      border-left: 1px solid var(--line);
+    }
+  }
+  @media (max-width: 600px) {
+    .steps {
+      grid-template-columns: 1fr;
+    }
+    .steps li:nth-child(even) {
+      border-left: 0;
+    }
+    .steps li:nth-child(2) {
+      border-top: 1px solid var(--line);
+    }
+  }
+</style>

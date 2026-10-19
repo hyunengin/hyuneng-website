@@ -1,0 +1,168 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/nav';
+import company from '../data/company.json';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <Logo variant="light" size={40} />
+      <p class="footer-slogan">{company.slogan}</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="푸터 메뉴">
+      {
+        nav
+          .filter((n) => n.children.length > 0)
+          .map((item) => (
+            <div class="footer-col">
+              <p class="footer-col-title">{item.label}</p>
+              <ul>
+                {item.children.map((c) => (
+                  <li>
+                    <a href={c.href}>{c.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+      }
+      <div class="footer-col">
+        <p class="footer-col-title">고객센터</p>
+        <ul>
+          <li><a href="/notice">공지사항</a></li>
+          <li><a href="/inquiry">견적문의</a></li>
+          <li><a href="/privacy">개인정보처리방침</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <div class="footer-info">
+    <div class="container footer-info-inner">
+      <p>
+        <span>{company.name}</span>
+        <span>대표이사 {company.ceo}</span>
+        <span>사업자등록번호 {company.bizNo}</span>
+      </p>
+      <p>
+        <span>{company.address}</span>
+      </p>
+      <p>
+        <span>TEL <a href={`tel:${company.tel}`}>{company.tel}</a></span>
+        <span>FAX {company.fax}</span>
+        <span>E-MAIL <a href={`mailto:${company.email}`}>{company.email}</a></span>
+        <span>상담시간 {company.hours}</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <a class="footer-privacy" href="/privacy">개인정보처리방침</a>
+      <p class="copyright">© {year} {company.name}. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy-deep);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 14.5px;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.1fr 2fr;
+    gap: 48px;
+    padding: 64px var(--gutter) 48px;
+  }
+  .footer-slogan {
+    margin-top: 18px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 15px;
+  }
+  .footer-nav {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .footer-col-title {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 14px;
+    font-size: 15px;
+  }
+  .footer-col ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+  .footer-col a {
+    color: rgba(255, 255, 255, 0.65);
+    transition: color 0.15s;
+  }
+  .footer-col a:hover {
+    color: #fff;
+  }
+  .footer-info {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .footer-info-inner {
+    padding: 26px var(--gutter);
+    display: grid;
+    gap: 6px;
+  }
+  .footer-info p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 0;
+  }
+  .footer-info span + span::before {
+    content: '|';
+    margin: 0 12px;
+    opacity: 0.3;
+  }
+  .footer-info a:hover {
+    color: #fff;
+  }
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .footer-bottom-inner {
+    padding: 20px var(--gutter);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13.5px;
+  }
+  .footer-privacy {
+    color: #fff;
+    font-weight: 700;
+  }
+  .copyright {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  @media (max-width: 1024px) {
+    .footer-top {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .footer-nav {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 768px) {
+    .footer-top {
+      padding: 48px var(--gutter) 36px;
+    }
+    .footer-info span + span::before {
+      margin: 0 8px;
+    }
+  }
+</style>

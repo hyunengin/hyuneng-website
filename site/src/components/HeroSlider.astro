@@ -1,0 +1,513 @@
+---
+/**
+ * 메인 상단 슬라이드. 사진이 준비되면 각 슬라이드의 배경 SVG 자리에 <img>를 넣으면 됩니다.
+ */
+import Icon from './Icon.astro';
+import company from '../data/company.json';
+
+const slides = [
+  {
+    eyebrow: company.nameEn,
+    title: '정확한 판단,\n안전한 구조,\n신뢰받는 기술',
+    desc: '안전진단 · 법원감정 · 원가계산 · 건축·토목 구조검토\n건설 분야 전반의 기술적·법률적 서비스를 수행하는 구조안전 전문기업',
+    ctas: [
+      { label: '사업분야 보기', href: '/business/safety-diagnosis', style: 'btn-light' },
+      { label: '견적문의', href: '/inquiry', style: 'btn-outline-light' },
+    ],
+    theme: 'a',
+  },
+  {
+    eyebrow: 'SAFETY DIAGNOSIS',
+    title: '건축물의 상태를\n정확히 진단합니다',
+    desc: '안전진단전문기관(건축) 등록 서울-489호\n정기안전점검 · 정밀안전점검 · 정밀안전진단 · 건설공사 안전점검',
+    ctas: [{ label: '안전진단 자세히 보기', href: '/business/safety-diagnosis', style: 'btn-light' }],
+    theme: 'b',
+  },
+  {
+    eyebrow: 'COURT APPRAISAL',
+    title: '건설분쟁의 쟁점을\n객관적으로 분석합니다',
+    desc: '하자 · 공사비 · 기성고 · 피해 감정\n법원과 의뢰인이 이해할 수 있는 감정보고서와 기술의견을 제공합니다',
+    ctas: [{ label: '법원감정 자세히 보기', href: '/business/court-appraisal', style: 'btn-light' }],
+    theme: 'c',
+  },
+];
+---
+
+<section class="hero" data-hero aria-roledescription="carousel" aria-label="주요 안내">
+  {
+    slides.map((s, i) => (
+      <div
+        class:list={['hero-slide', `theme-${s.theme}`, { 'is-active': i === 0 }]}
+        role="group"
+        aria-roledescription="slide"
+        aria-label={`${i + 1} / ${slides.length}`}
+        aria-hidden={i !== 0}
+      >
+        <div class="hero-bg" aria-hidden="true">
+          {s.theme === 'a' && (
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="hg-a" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#082650" />
+                  <stop offset="0.55" stop-color="#0C356E" />
+                  <stop offset="1" stop-color="#1E5BA8" />
+                </linearGradient>
+                <pattern id="hp-a" width="80" height="80" patternUnits="userSpaceOnUse">
+                  <path d="M80 0H0V80" fill="none" stroke="#fff" stroke-opacity="0.07" />
+                </pattern>
+              </defs>
+              <rect width="1600" height="900" fill="url(#hg-a)" />
+              <rect width="1600" height="900" fill="url(#hp-a)" />
+              <g transform="translate(980 110) scale(6.6)" opacity="0.13">
+                <polygon points="10,10 36,10 10,42" fill="#9CC3EF" />
+                <polygon points="10,90 36,90 10,58" fill="#9CC3EF" />
+                <polygon points="50,10 24,50 50,90 50,58 72,58 72,90 90,90 90,10 72,10 72,42 50,42" fill="#fff" />
+              </g>
+              <circle cx="1420" cy="760" r="420" fill="none" stroke="#fff" stroke-opacity="0.08" stroke-width="1.5" />
+              <circle cx="1420" cy="760" r="300" fill="none" stroke="#fff" stroke-opacity="0.06" />
+            </svg>
+          )}
+          {s.theme === 'b' && (
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="hg-b" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#0C356E" />
+                  <stop offset="0.6" stop-color="#143F7F" />
+                  <stop offset="1" stop-color="#2F6BB0" />
+                </linearGradient>
+              </defs>
+              <rect width="1600" height="900" fill="url(#hg-b)" />
+              <g fill="none" stroke="#fff" stroke-opacity="0.12" stroke-width="2">
+                <path d="M700 900 L700 520 L1600 520" />
+                <path d="M700 520 L900 720 L1100 520 L1300 720 L1500 520 L1600 620" />
+                <path d="M700 720 L1600 720" />
+                <path d="M900 520 L900 720 M1100 520 L1100 720 M1300 520 L1300 720 M1500 520 L1500 720" />
+                <path d="M1000 520 L1000 300 L1600 300" stroke-opacity="0.08" />
+                <path d="M1000 300 L1150 450 L1300 300 L1450 450 L1600 300" stroke-opacity="0.08" />
+              </g>
+              <g fill="#fff" fill-opacity="0.25">
+                <circle cx="900" cy="520" r="5" />
+                <circle cx="1100" cy="520" r="5" />
+                <circle cx="1300" cy="520" r="5" />
+                <circle cx="1500" cy="520" r="5" />
+                <circle cx="900" cy="720" r="5" />
+                <circle cx="1100" cy="720" r="5" />
+                <circle cx="1300" cy="720" r="5" />
+                <circle cx="1500" cy="720" r="5" />
+              </g>
+            </svg>
+          )}
+          {s.theme === 'c' && (
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="hg-c" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#0A2D5E" />
+                  <stop offset="1" stop-color="#1B4E95" />
+                </linearGradient>
+              </defs>
+              <rect width="1600" height="900" fill="url(#hg-c)" />
+              <g fill="none" stroke="#fff" stroke-width="1.5">
+                <circle cx="1250" cy="450" r="120" stroke-opacity="0.16" />
+                <circle cx="1250" cy="450" r="220" stroke-opacity="0.12" />
+                <circle cx="1250" cy="450" r="320" stroke-opacity="0.09" />
+                <circle cx="1250" cy="450" r="420" stroke-opacity="0.06" />
+                <circle cx="1250" cy="450" r="520" stroke-opacity="0.04" />
+                <path d="M1250 0V900" stroke-opacity="0.1" />
+                <path d="M700 450H1600" stroke-opacity="0.1" />
+              </g>
+            </svg>
+          )}
+        </div>
+        <div class="container hero-content">
+          <p class="hero-eyebrow">{s.eyebrow}</p>
+          <h2 class="hero-title">{s.title}</h2>
+          <p class="hero-desc">{s.desc}</p>
+          <div class="hero-ctas">
+            {s.ctas.map((c) => (
+              <a class:list={['btn', c.style]} href={c.href}>
+                {c.label}
+                <Icon name="arrow" size={18} />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    ))
+  }
+
+  <div class="container hero-controls">
+    <button class="hero-btn" type="button" data-hero-prev aria-label="이전 슬라이드">
+      <Icon name="arrow" size={20} class="flip" />
+    </button>
+    <span class="hero-counter"><b data-hero-current>01</b> / {String(slides.length).padStart(2, '0')}</span>
+    <button class="hero-btn" type="button" data-hero-next aria-label="다음 슬라이드">
+      <Icon name="arrow" size={20} />
+    </button>
+    <button class="hero-play" type="button" data-hero-toggle aria-label="자동 재생 일시정지">
+      <span class="pause"></span>
+    </button>
+  </div>
+
+  <div class="hero-dots" role="tablist" aria-label="슬라이드 선택">
+    {
+      slides.map((_, i) => (
+        <button
+          class="hero-dot"
+          type="button"
+          role="tab"
+          aria-selected={i === 0}
+          aria-label={`${i + 1}번 슬라이드`}
+          data-hero-dot={i}
+        />
+      ))
+    }
+  </div>
+
+  <a class="hero-scroll" href="#business" aria-label="아래로 이동">
+    <span>SCROLL</span>
+    <i></i>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    height: clamp(600px, 86vh, 860px);
+    background: var(--navy);
+    color: #fff;
+    overflow: hidden;
+  }
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.9s var(--ease),
+      visibility 0.9s;
+  }
+  .hero-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+  }
+  .hero-bg svg,
+  .hero-bg :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.06);
+    transition: transform 7s linear;
+  }
+  .hero-slide.is-active .hero-bg svg,
+  .hero-slide.is-active .hero-bg :global(img) {
+    transform: scale(1);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 72px;
+  }
+  .hero-eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    color: var(--blue-pale);
+    margin-bottom: 22px;
+  }
+  .hero-title {
+    color: #fff;
+    font-size: clamp(36px, 5.4vw, 66px);
+    line-height: 1.16;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    white-space: pre-line;
+    max-width: 14em;
+  }
+  .hero-desc {
+    margin-top: 26px;
+    font-size: clamp(15.5px, 1.4vw, 18.5px);
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.78);
+    white-space: pre-line;
+    max-width: 640px;
+  }
+  .hero-ctas {
+    margin-top: 40px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .hero-slide.is-active .hero-eyebrow,
+  .hero-slide.is-active .hero-title,
+  .hero-slide.is-active .hero-desc,
+  .hero-slide.is-active .hero-ctas {
+    animation: rise 0.9s var(--ease) both;
+  }
+  .hero-slide.is-active .hero-title {
+    animation-delay: 0.1s;
+  }
+  .hero-slide.is-active .hero-desc {
+    animation-delay: 0.22s;
+  }
+  .hero-slide.is-active .hero-ctas {
+    animation-delay: 0.34s;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .hero-controls {
+    position: absolute;
+    left: 50%;
+    bottom: 56px;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+  }
+  .hero-controls > * {
+    pointer-events: auto;
+  }
+  .hero-btn,
+  .hero-play {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background 0.2s,
+      border-color 0.2s;
+  }
+  .hero-btn:hover,
+  .hero-play:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: #fff;
+  }
+  .hero-btn :global(.flip) {
+    transform: scaleX(-1);
+  }
+  .hero-counter {
+    padding: 0 12px;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.7);
+    font-variant-numeric: tabular-nums;
+  }
+  .hero-counter b {
+    color: #fff;
+    font-weight: 700;
+  }
+  .hero-play {
+    margin-left: 10px;
+  }
+  .hero-play .pause {
+    width: 10px;
+    height: 12px;
+    border-left: 3px solid #fff;
+    border-right: 3px solid #fff;
+  }
+  .hero-play.is-paused .pause {
+    width: 0;
+    height: 0;
+    border: 0;
+    border-left: 11px solid #fff;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
+    margin-left: 3px;
+  }
+
+  .hero-dots {
+    position: absolute;
+    right: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .hero-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.35);
+    transition:
+      background 0.2s,
+      transform 0.2s;
+  }
+  .hero-dot[aria-selected='true'] {
+    background: #fff;
+    transform: scale(1.3);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    right: 32px;
+    bottom: 40px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .hero-scroll i {
+    width: 1px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-scroll i::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -100%;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    animation: drop 1.8s var(--ease) infinite;
+  }
+  @keyframes drop {
+    to {
+      top: 100%;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .hero {
+      height: clamp(560px, 80vh, 720px);
+    }
+    .hero-dots {
+      right: 20px;
+    }
+  }
+  @media (max-width: 768px) {
+    .hero {
+      height: auto;
+      min-height: 560px;
+    }
+    .hero-slide {
+      position: absolute;
+    }
+    .hero-slide.is-active {
+      position: relative;
+    }
+    .hero-content {
+      padding-top: 84px;
+      padding-bottom: 150px;
+    }
+    .hero-desc {
+      font-size: 15px;
+    }
+    .hero-controls {
+      bottom: 40px;
+    }
+    .hero-dots {
+      flex-direction: row;
+      top: auto;
+      bottom: 112px;
+      left: var(--gutter);
+      right: auto;
+      transform: none;
+    }
+    .hero-scroll {
+      display: none;
+    }
+    .hero-dot {
+      width: 24px;
+      height: 4px;
+      border-radius: 2px;
+    }
+    .hero-dot[aria-selected='true'] {
+      transform: none;
+    }
+    .hero-bg svg {
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-hero]');
+  if (root) {
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('.hero-slide'));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-hero-dot]'));
+    const current = root.querySelector<HTMLElement>('[data-hero-current]');
+    const toggle = root.querySelector<HTMLButtonElement>('[data-hero-toggle]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const INTERVAL = 6500;
+    let index = 0;
+    let timer: number | undefined;
+    let paused = reduce;
+
+    const show = (n: number) => {
+      index = (n + slides.length) % slides.length;
+      slides.forEach((s, i) => {
+        s.classList.toggle('is-active', i === index);
+        s.setAttribute('aria-hidden', String(i !== index));
+      });
+      dots.forEach((d, i) => d.setAttribute('aria-selected', String(i === index)));
+      if (current) current.textContent = String(index + 1).padStart(2, '0');
+    };
+    const stop = () => {
+      if (timer) window.clearInterval(timer);
+      timer = undefined;
+    };
+    const start = () => {
+      stop();
+      if (paused) return;
+      timer = window.setInterval(() => show(index + 1), INTERVAL);
+    };
+
+    root.querySelector('[data-hero-prev]')?.addEventListener('click', () => {
+      show(index - 1);
+      start();
+    });
+    root.querySelector('[data-hero-next]')?.addEventListener('click', () => {
+      show(index + 1);
+      start();
+    });
+    dots.forEach((d, i) =>
+      d.addEventListener('click', () => {
+        show(i);
+        start();
+      }),
+    );
+    toggle?.addEventListener('click', () => {
+      paused = !paused;
+      toggle.classList.toggle('is-paused', paused);
+      toggle.setAttribute('aria-label', paused ? '자동 재생 시작' : '자동 재생 일시정지');
+      start();
+    });
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+
+    if (paused) toggle?.classList.add('is-paused');
+    show(0);
+    start();
+  }
+</script>
