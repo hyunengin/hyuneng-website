@@ -1,0 +1,13 @@
+# 줄바꿈을 LF로 통일 (Windows에서 CRLF 경고 방지)
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.pdf binary
+*.pptx binary
+*.ai binary
+*.psd binary
+*.woff binary
+*.woff2 binary
