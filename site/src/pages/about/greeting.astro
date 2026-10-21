@@ -4,11 +4,6 @@ import company from '../../data/company.json';
 ---
 
 <SubLayout title="인사말" section="about" description={`${company.name}를 찾아주셔서 감사합니다.`}>
-  <Fragment slot="head">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Brush+Script&display=swap" />
-  </Fragment>
   <div class="greeting">
     <div class="greeting-text">
       <p class="greeting-quote">{company.slogan}</p>
@@ -23,12 +18,12 @@ import company from '../../data/company.json';
         </p>
         <p>건설분쟁의 합리적 해결과 구조물의 안전 확보를 위한 최선의 서비스를 제공할 것을 약속드립니다.</p>
       </div>
-      <!-- 대표 서명 이미지가 준비되면 .signature 자리에 <img src="/images/signature.png" alt=""> 로 교체합니다. -->
+      <!-- 대표 서명: 자료/대표님 서명.pdf 에서 잘라내 투명 배경으로 만든 이미지 (public/images/signature.png) -->
       <p class="greeting-sign">
         <span>{company.name}</span>
         <b>
           대표이사 {company.ceo}
-          <span class="signature" aria-hidden="true">{company.ceo}</span>
+          <img class="signature" src="/images/signature.png" alt="" width="467" height="225" loading="lazy" />
         </b>
       </p>
     </div>
@@ -79,12 +74,11 @@ import company from '../../data/company.json';
     gap: 14px;
   }
   .signature {
-    font-family: 'Nanum Brush Script', 'Nanum Pen Script', cursive;
-    font-size: 40px;
-    font-weight: 400;
-    color: var(--navy);
-    line-height: 1;
-    letter-spacing: 0.02em;
+    width: 120px;
+    height: auto;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -14px;
   }
   .greeting-visual {
     position: relative;
