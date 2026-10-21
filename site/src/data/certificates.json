@@ -1,32 +1,38 @@
 [
   {
+    "name": "ISO 9001 인증서",
+    "number": "품질경영시스템 · ISO 9001:2015 · QI203625",
+    "desc": "인증범위 건축설계 감리 및 건설감정평가 · 2025.10.31 ~ 2028.10.30 · ICR",
+    "image": "/images/docs/iso-9001.jpg"
+  },
+  {
+    "name": "ISO 14001 인증서",
+    "number": "환경경영시스템 · ISO 14001:2015 · EI138125",
+    "desc": "인증범위 건축설계 감리 및 건설감정평가 · 2025.10.31 ~ 2028.10.30 · ICR",
+    "image": "/images/docs/iso-14001.jpg"
+  },
+  {
     "name": "벤처기업확인서",
     "number": "혁신성장유형 · 2025.12.31 ~ 2028.12.30",
+    "desc": "",
     "image": "/images/docs/venture-certificate.jpg"
   },
   {
     "name": "기술혁신형 중소기업(Inno-Biz) 확인서",
     "number": "A등급 · 2026.09.18 ~ 2029.09.17",
+    "desc": "",
     "image": "/images/docs/innobiz-certificate.jpg"
   },
   {
     "name": "기업부설연구소 인정서",
     "number": "제 2025113206 호 · 한국산업기술진흥협회",
+    "desc": "",
     "image": "/images/docs/research-institute.jpg"
   },
   {
     "name": "중소기업 확인서",
     "number": "소기업(소상공인) · 2026.04.01 ~ 2027.03.31",
+    "desc": "",
     "image": "/images/docs/sme-certificate.jpg"
-  },
-  {
-    "name": "ISO 9001 인증서",
-    "number": "품질경영시스템 · 2025.10",
-    "image": ""
-  },
-  {
-    "name": "ISO 14001 인증서",
-    "number": "환경경영시스템 · 2025.10",
-    "image": ""
   }
 ]

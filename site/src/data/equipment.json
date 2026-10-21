@@ -14,5 +14,6 @@
   { "category": "공통", "name": "자분탐상기 (MT)", "model": "Leeb620", "qty": "1", "note": "강재 표면 결함 탐상" },
   { "category": "공통", "name": "초음파시험기 (UT)", "model": "Leeb500", "qty": "1", "note": "강재 내부 결함·용접부 검사" },
   { "category": "건축", "name": "진동측정기", "model": "VB-8201HA", "qty": "1", "note": "구조물 진동 측정" },
-  { "category": "건축", "name": "정적 변형측정장치", "model": "TS-DL01", "qty": "1", "note": "재하시험 시 변형·처짐 측정" }
+  { "category": "건축", "name": "정적 변형측정장치", "model": "TS-DL01", "qty": "1", "note": "재하시험 시 변형·처짐 측정" },
+  { "category": "기타", "name": "드론 (무인멀티콥터)", "model": "DJI AIR 3S", "qty": "1", "note": "고층부·접근 곤란 부위 촬영" }
 ]

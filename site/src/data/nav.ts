@@ -17,8 +17,8 @@ export interface NavItem {
 export const businessAreas = [
   { slug: 'safety-diagnosis', label: '안전진단전문기관', short: '안전진단', performancePublic: false },
   { slug: 'court-appraisal', label: '법원감정전문기관', short: '법원감정', performancePublic: true },
-  { slug: 'cost-calculation', label: '원가계산용역기관', short: '원가계산', performancePublic: false },
-  { slug: 'structural-review', label: '건축·토목 구조검토', short: '구조검토', performancePublic: true },
+  { slug: 'cost-calculation', label: '원가계산용역', short: '원가계산', performancePublic: false },
+  { slug: 'structural-review', label: '건축·토목 구조검토 및 가시설 설계', short: '구조검토', performancePublic: true },
 ] as const;
 
 export const nav: NavItem[] = [

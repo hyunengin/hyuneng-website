@@ -7,7 +7,34 @@ import company from '../../data/company.json';
 export function getStaticPaths() {
   return business.map((b) => ({ params: { slug: b.slug }, props: { b } }));
 }
-type Business = (typeof business)[number];
+
+// business.json 항목 중 선택 항목(principles, lawInfo, documents)은 분야에 따라 없을 수 있습니다.
+interface Principle {
+  icon: string;
+  title: string;
+  desc: string;
+}
+interface LawInfo {
+  title: string;
+  laws: { name: string; desc: string }[];
+  facilityTitle: string;
+  facilities: { grade: string; note: string; items: string[] }[];
+  cycleTitle: string;
+  cycleHead: string[];
+  cycleRows: string[][];
+  cycleNote: string;
+  source: string;
+}
+interface Documents {
+  title: string;
+  items: string[];
+  note: string;
+}
+type Business = (typeof business)[number] & {
+  principles?: Principle[];
+  lawInfo?: LawInfo;
+  documents?: Documents;
+};
 const { b } = Astro.props as { b: Business };
 ---
 
@@ -22,6 +49,28 @@ const { b } = Astro.props as { b: Business };
   </div>
   {b.legalNote && <p class="note">{b.legalNote}</p>}
 
+  {
+    b.principles && (
+      <section class="content-block">
+        <h3 class="block-title">수행 원칙</h3>
+        <div class="principles">
+          {b.principles.map((p, i) => (
+            <div class="principle">
+              <span class="icon-circle">
+                <Icon name={p.icon} size={24} />
+              </span>
+              <div>
+                <span class="principle-no">0{i + 1}</span>
+                <b>{p.title}</b>
+                <p>{p.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
   <section class="content-block">
     <h3 class="block-title">주요 업무</h3>
     <div class="service-grid">
@@ -35,6 +84,73 @@ const { b } = Astro.props as { b: Business };
       }
     </div>
   </section>
+
+  {
+    b.lawInfo && (
+      <section class="content-block">
+        <h3 class="block-title">{b.lawInfo.title}</h3>
+        <div class="law-grid">
+          {b.lawInfo.laws.map((l) => (
+            <div class="law-card">
+              <h4>{l.name}</h4>
+              <p>{l.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <h4 class="sub-title">{b.lawInfo.facilityTitle}</h4>
+        <div class="table-wrap">
+          <table class="table facility-table">
+            <thead>
+              <tr>
+                <th scope="col">구분</th>
+                <th scope="col">대상 건축물</th>
+              </tr>
+            </thead>
+            <tbody>
+              {b.lawInfo.facilities.map((f) => (
+                <tr>
+                  <th scope="row">
+                    {f.grade}
+                    {f.note && <small>{f.note}</small>}
+                  </th>
+                  <td>
+                    <ul>
+                      {f.items.map((it) => (
+                        <li>{it}</li>
+                      ))}
+                    </ul>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <h4 class="sub-title">{b.lawInfo.cycleTitle}</h4>
+        <div class="table-wrap">
+          <table class="table cycle-table">
+            <thead>
+              <tr>
+                {b.lawInfo.cycleHead.map((h) => (
+                  <th scope="col">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {b.lawInfo.cycleRows.map((row) => (
+                <tr>
+                  {row.map((cell, i) => (i === 0 ? <th scope="row">{cell}</th> : <td>{cell}</td>))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="note">{b.lawInfo.cycleNote}</p>
+        <p class="law-source">{b.lawInfo.source}</p>
+      </section>
+    )
+  }
 
   <section class="content-block">
     <h3 class="block-title">{b.targetsTitle}</h3>
@@ -68,6 +184,23 @@ const { b } = Astro.props as { b: Business };
     </ol>
   </section>
 
+  {
+    b.documents && (
+      <section class="content-block">
+        <h3 class="block-title">{b.documents.title}</h3>
+        <ul class="checklist docs-list">
+          {b.documents.items.map((d) => (
+            <li>
+              <Icon name="doc" size={18} />
+              <span>{d}</span>
+            </li>
+          ))}
+        </ul>
+        {b.documents.note && <p class="note">{b.documents.note}</p>}
+      </section>
+    )
+  }
+
   <aside class="biz-cta">
     <div>
       <span class="eyebrow">INQUIRY</span>
@@ -95,6 +228,128 @@ const { b } = Astro.props as { b: Business };
     width: 56px;
     height: 56px;
   }
+
+  /* 수행 원칙 */
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .principle {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 24px 22px;
+    border-radius: var(--radius);
+    background: var(--blue-tint);
+    border: 1px solid var(--blue-line);
+  }
+  .principle .icon-circle {
+    width: 48px;
+    height: 48px;
+    flex: none;
+    background: #fff;
+  }
+  .principle-no {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--blue);
+    margin-bottom: 4px;
+  }
+  .principle b {
+    display: block;
+    font-size: 18px;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .principle p {
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+
+  /* 법령 */
+  .law-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .law-card {
+    padding: 22px 22px 24px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+  .law-card h4 {
+    font-size: 16.5px;
+    color: var(--navy);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .law-card p {
+    font-size: 14.5px;
+    color: var(--ink-2);
+  }
+  .sub-title {
+    font-size: 17px;
+    color: var(--ink);
+    margin: 36px 0 14px;
+  }
+  .facility-table th[scope='row'] {
+    background: var(--bg-2);
+    color: var(--navy);
+    white-space: nowrap;
+    width: 160px;
+    vertical-align: top;
+  }
+  .facility-table th small {
+    display: block;
+    margin-top: 4px;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--muted);
+    white-space: normal;
+  }
+  .facility-table ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+  }
+  .facility-table li {
+    position: relative;
+    padding-left: 14px;
+    font-size: 15px;
+    color: var(--ink-2);
+  }
+  .facility-table li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--blue);
+  }
+  .cycle-table th[scope='row'] {
+    background: var(--bg-2);
+    color: var(--navy);
+    white-space: nowrap;
+  }
+  .cycle-table td {
+    font-size: 15px;
+  }
+  .law-source {
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .docs-list svg {
+    color: var(--navy);
+  }
+
   .biz-cta {
     margin-top: 72px;
     padding: 40px 44px;
@@ -124,6 +379,12 @@ const { b } = Astro.props as { b: Business };
     gap: 12px;
     flex-wrap: wrap;
   }
+  @media (max-width: 1024px) {
+    .principles,
+    .law-grid {
+      grid-template-columns: 1fr;
+    }
+  }
   @media (max-width: 768px) {
     .biz-intro {
       grid-template-columns: 1fr;
@@ -132,6 +393,10 @@ const { b } = Astro.props as { b: Business };
     .biz-cta {
       padding: 28px 24px;
       margin-top: 48px;
+    }
+    .facility-table th[scope='row'] {
+      width: 110px;
+      white-space: normal;
     }
   }
 </style>

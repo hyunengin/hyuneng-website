@@ -1,7 +1,8 @@
 ---
-/** 사업실적 표. 데이터는 src/data/performance.json 에서 옵니다. */
+/** 사업실적 표. 데이터는 src/data/performance.json 에서 옵니다. tags 열은 칩으로 표시되고 필터에 쓰입니다. */
 interface Row {
-  [key: string]: string | boolean | undefined;
+  [key: string]: string | string[] | boolean | undefined;
+  tags?: string[];
   sample?: boolean;
 }
 interface Props {
@@ -10,10 +11,15 @@ interface Props {
   rows: Row[];
 }
 const { columns, keys, rows } = Astro.props;
+const textOf = (row: Row) =>
+  keys
+    .map((k) => (Array.isArray(row[k]) ? '' : String(row[k] ?? '')))
+    .join(' ')
+    .toLowerCase();
 ---
 
 <div class="table-wrap">
-  <table class="table">
+  <table class="table perf-table" data-perf-table>
     <thead>
       <tr>
         <th class="num" scope="col">No.</th>
@@ -30,11 +36,21 @@ const { columns, keys, rows } = Astro.props;
           </tr>
         ) : (
           rows.map((row, i) => (
-            <tr>
-              <td class="num">{rows.length - i}</td>
+            <tr data-tags={(row.tags ?? []).join('|')} data-text={textOf(row)}>
+              <td class="num" data-num>
+                {rows.length - i}
+              </td>
               {keys.map((k, ki) => (
-                <td class:list={{ year: k === 'year' }}>
-                  {row[k]}
+                <td class:list={{ year: k === 'year', 'tag-cell': Array.isArray(row[k]) }}>
+                  {Array.isArray(row[k]) ? (
+                    <span class="tags">
+                      {(row[k] as string[]).map((t) => (
+                        <span class="tag">{t}</span>
+                      ))}
+                    </span>
+                  ) : (
+                    row[k]
+                  )}
                   {ki === 0 && row.sample && <span class="badge-sample">예시</span>}
                 </td>
               ))}
@@ -42,6 +58,35 @@ const { columns, keys, rows } = Astro.props;
           ))
         )
       }
+      <tr class="perf-none" data-perf-none hidden>
+        <td colspan={columns.length + 1} class="table-empty">
+          조건에 맞는 실적이 없습니다.
+        </td>
+      </tr>
     </tbody>
   </table>
 </div>
+
+<style>
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .tag {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: var(--blue-tint);
+    color: var(--navy);
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .tag-cell {
+    min-width: 150px;
+  }
+  .perf-table tr[hidden] {
+    display: none;
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import SubLayout from '../../layouts/SubLayout.astro';
 import PerformanceTable from '../../components/PerformanceTable.astro';
+import Icon from '../../components/Icon.astro';
 import performance from '../../data/performance.json';
 import { businessAreas } from '../../data/nav';
 
@@ -14,17 +15,189 @@ export function getStaticPaths() {
     }));
 }
 type Area = (typeof businessAreas)[number];
-type Data = (typeof performance)[Area['slug']];
-const { area, data } = Astro.props as { area: Area; data: Data };
+interface PerfData {
+  columns: string[];
+  keys: string[];
+  filters?: string[];
+  rows: Record<string, unknown>[];
+}
+const { area, data } = Astro.props as { area: Area; data: PerfData };
+
+const filters = data.filters ?? [];
+const count = (tag: string) =>
+  data.rows.filter((r) => Array.isArray(r.tags) && (r.tags as string[]).includes(tag)).length;
 ---
 
 <SubLayout
   title={area.label}
   section="performance"
-  description={`${area.short} 분야의 수행 실적입니다. 최근 실적이 위에 표시됩니다.`}
+  description={`${area.short} 분야의 수행 실적입니다. 총 ${data.rows.length}건이며 최근 실적이 위에 표시됩니다.`}
 >
-  <PerformanceTable columns={data.columns} keys={data.keys} rows={data.rows} />
+  {
+    filters.length > 0 && (
+      <div class="perf-filters" data-perf-filters>
+        <div class="filter-chips" role="group" aria-label="분야별 보기">
+          <button type="button" class="chip is-active" data-filter="" aria-pressed="true">
+            전체 <span class="chip-count">{data.rows.length}</span>
+          </button>
+          {filters.map((f) => (
+            <button type="button" class="chip" data-filter={f} aria-pressed="false">
+              {f} <span class="chip-count">{count(f)}</span>
+            </button>
+          ))}
+        </div>
+        <label class="filter-search">
+          <Icon name="search" size={18} />
+          <input type="search" placeholder="사건개요 · 법원명 검색" data-perf-search autocomplete="off" />
+        </label>
+        <p class="filter-result" data-perf-result aria-live="polite">
+          전체 {data.rows.length}건
+        </p>
+      </div>
+    )
+  }
+
+  <PerformanceTable columns={data.columns} keys={data.keys} rows={data.rows as any} />
   <p class="note">
-    실적 목록은 수시로 갱신됩니다. 유사 업무의 세부 수행 내용은 견적문의를 통해 요청해 주세요.
+    {
+      filters.length > 0
+        ? '사건번호는 개인정보 보호를 위해 일부를 가렸습니다. 분야 버튼을 누르면 해당 사건만 볼 수 있고, 여러 분야에 걸친 사건은 각 분야에 모두 표시됩니다.'
+        : '실적 목록은 수시로 갱신됩니다. 유사 업무의 세부 수행 내용은 견적문의를 통해 요청해 주세요.'
+    }
   </p>
 </SubLayout>
+
+<style>
+  .perf-filters {
+    margin-bottom: 20px;
+    display: grid;
+    gap: 14px;
+  }
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #fff;
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--ink-2);
+    transition:
+      background 0.15s,
+      color 0.15s,
+      border-color 0.15s;
+  }
+  .chip:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  .chip.is-active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: #fff;
+  }
+  .chip-count {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: var(--bg-2);
+    color: var(--muted);
+  }
+  .chip.is-active .chip-count {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
+  .filter-search {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 360px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: #fff;
+    color: var(--muted);
+  }
+  .filter-search input {
+    flex: 1;
+    border: 0;
+    padding: 11px 0;
+    background: none;
+    font-size: 15px;
+    min-width: 0;
+  }
+  .filter-search input:focus {
+    outline: none;
+  }
+  .filter-search:focus-within {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(54, 118, 183, 0.15);
+  }
+  .filter-result {
+    font-size: 14px;
+    color: var(--muted);
+  }
+</style>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>('[data-perf-filters]');
+  const table = document.querySelector<HTMLTableElement>('[data-perf-table]');
+  if (wrap && table) {
+    const chips = Array.from(wrap.querySelectorAll<HTMLButtonElement>('.chip'));
+    const search = wrap.querySelector<HTMLInputElement>('[data-perf-search]');
+    const result = wrap.querySelector<HTMLElement>('[data-perf-result]');
+    const rows = Array.from(table.querySelectorAll<HTMLTableRowElement>('tbody tr[data-tags]'));
+    const none = table.querySelector<HTMLTableRowElement>('[data-perf-none]');
+    let tag = '';
+    let q = '';
+
+    const apply = () => {
+      let shown = 0;
+      rows.forEach((r) => {
+        const tags = (r.dataset.tags ?? '').split('|');
+        const text = r.dataset.text ?? '';
+        const ok = (!tag || tags.includes(tag)) && (!q || text.includes(q));
+        r.hidden = !ok;
+        if (ok) shown += 1;
+      });
+      // 보이는 행만 다시 번호 매기기 (위가 큰 번호)
+      let n = shown;
+      rows.forEach((r) => {
+        if (!r.hidden) {
+          const cell = r.querySelector<HTMLElement>('[data-num]');
+          if (cell) cell.textContent = String(n);
+          n -= 1;
+        }
+      });
+      if (none) none.hidden = shown !== 0;
+      if (result) {
+        const label = tag ? `${tag} ${shown}건` : `전체 ${shown}건`;
+        result.textContent = q ? `${label} (검색: ${q})` : label;
+      }
+    };
+
+    chips.forEach((c) =>
+      c.addEventListener('click', () => {
+        tag = c.dataset.filter ?? '';
+        chips.forEach((x) => {
+          const on = x === c;
+          x.classList.toggle('is-active', on);
+          x.setAttribute('aria-pressed', String(on));
+        });
+        apply();
+      }),
+    );
+    search?.addEventListener('input', () => {
+      q = search.value.trim().toLowerCase();
+      apply();
+    });
+  }
+</script>

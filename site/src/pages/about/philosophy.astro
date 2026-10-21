@@ -27,10 +27,10 @@ const values = [
 <SubLayout title="기업이념" section="about" description="현구조안전공사가 일하는 기준입니다.">
   <section class="vision">
     <span class="eyebrow">VISION</span>
+    <p class="vision-headline">건설기술감정 및 정밀안전진단 분야의 절대적 표준이 되는 기업</p>
     <p class="vision-text">
-      기술력과 법률적 전문성을 겸비한 건설 구조안전 및 법무감정 분야의 선도기업으로서,
-      정확한 분석과 책임 있는 기술 서비스를 통해 고객이 신뢰할 수 있는 공정하고 안전한 건설환경 조성에
-      앞장서겠습니다.
+      ㈜현구조안전공사는 축적된 공학적 데이터와 융합형 기술 역량을 바탕으로 건설 엔지니어링 시장의 혁신을
+      주도하고, 정확한 분석과 책임 있는 기술 서비스를 통해 공정하고 안전한 건설환경 조성에 앞장서겠습니다.
     </p>
   </section>
 
@@ -76,10 +76,20 @@ const values = [
   .vision .eyebrow {
     color: var(--blue-pale);
   }
+  .vision-headline {
+    font-size: clamp(22px, 2.4vw, 30px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+    color: #fff;
+    margin-bottom: 18px;
+    max-width: 760px;
+  }
   .vision-text {
-    font-size: clamp(18px, 1.8vw, 22px);
-    line-height: 1.7;
-    font-weight: 500;
+    font-size: clamp(16px, 1.5vw, 18.5px);
+    line-height: 1.75;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.88);
     max-width: 760px;
   }
   .values {

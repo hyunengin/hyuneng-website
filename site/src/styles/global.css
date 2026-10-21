@@ -489,8 +489,9 @@ table {
   color: var(--muted);
   font-size: 17px;
 }
-.content-block + .content-block {
-  margin-top: 64px;
+.content-block + .content-block,
+.sub-content > * + .content-block {
+  margin-top: 72px;
 }
 .block-title {
   font-size: 22px;
@@ -845,8 +846,9 @@ table {
   .crumbs {
     margin-top: 18px;
   }
-  .content-block + .content-block {
-    margin-top: 48px;
+  .content-block + .content-block,
+  .sub-content > * + .content-block {
+    margin-top: 52px;
   }
   .process li {
     grid-template-columns: 52px minmax(0, 1fr);
