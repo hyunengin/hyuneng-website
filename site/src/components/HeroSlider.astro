@@ -19,7 +19,7 @@ const slides = [
   {
     eyebrow: 'SAFETY DIAGNOSIS',
     title: '건축물의 상태를\n정확히 진단합니다',
-    desc: '안전진단전문기관(건축) 등록 서울-489호\n정기안전점검 · 정밀안전점검 · 정밀안전진단 · 건설공사 안전점검',
+    desc: '안전진단전문기관(건축) 등록 제 서울-489호\n정기안전점검 · 정밀안전점검 · 정밀안전진단 · 건설공사 안전점검',
     ctas: [{ label: '안전진단 자세히 보기', href: '/business/safety-diagnosis', style: 'btn-light' }],
     theme: 'b',
   },
@@ -29,6 +29,20 @@ const slides = [
     desc: '하자 · 공사비 · 기성고 · 피해 감정\n법원과 의뢰인이 이해할 수 있는 감정보고서와 기술의견을 제공합니다',
     ctas: [{ label: '법원감정 자세히 보기', href: '/business/court-appraisal', style: 'btn-light' }],
     theme: 'c',
+  },
+  {
+    eyebrow: 'COST CALCULATION',
+    title: '합리적인 계약금액을 위한\n객관적인 원가분석',
+    desc: '공사 · 용역 · 제조 원가계산\n예정가격 산정 · 설계변경 · 물가변동 · 정산 검토',
+    ctas: [{ label: '원가계산 자세히 보기', href: '/business/cost-calculation', style: 'btn-light' }],
+    theme: 'd',
+  },
+  {
+    eyebrow: 'STRUCTURAL REVIEW',
+    title: '구조적 안전성을 검토하고\n안전한 공사를 지원합니다',
+    desc: '건축·토목 구조검토 · 해체계획서 작성\n흙막이 · 동바리 · 비계 등 가시설 구조검토',
+    ctas: [{ label: '구조검토 자세히 보기', href: '/business/structural-review', style: 'btn-light' }],
+    theme: 'e',
   },
 ];
 ---
@@ -114,6 +128,60 @@ const slides = [
                 <circle cx="1250" cy="450" r="520" stroke-opacity="0.04" />
                 <path d="M1250 0V900" stroke-opacity="0.1" />
                 <path d="M700 450H1600" stroke-opacity="0.1" />
+              </g>
+            </svg>
+          )}
+          {s.theme === 'd' && (
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="hg-d" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#0B2F63" />
+                  <stop offset="0.6" stop-color="#17457F" />
+                  <stop offset="1" stop-color="#2E6AAE" />
+                </linearGradient>
+                <pattern id="hp-d" width="40" height="40" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1.4" fill="#fff" fill-opacity="0.16" />
+                </pattern>
+              </defs>
+              <rect width="1600" height="900" fill="url(#hg-d)" />
+              <rect width="1600" height="900" fill="url(#hp-d)" />
+              <g fill="none" stroke="#fff" stroke-opacity="0.18" stroke-width="2">
+                <rect x="980" y="200" width="460" height="520" rx="8" />
+                <path d="M1020 280h380M1020 340h380M1020 400h380M1020 460h380M1020 520h380M1020 580h260" />
+                <path d="M1300 640h100" stroke-opacity="0.45" stroke-width="3" />
+              </g>
+              <g fill="#fff" fill-opacity="0.16">
+                <rect x="1020" y="262" width="120" height="8" rx="2" />
+                <rect x="1020" y="322" width="180" height="8" rx="2" />
+                <rect x="1020" y="382" width="140" height="8" rx="2" />
+                <rect x="1020" y="442" width="200" height="8" rx="2" />
+                <rect x="1020" y="502" width="160" height="8" rx="2" />
+              </g>
+              <circle cx="1480" cy="140" r="90" fill="none" stroke="#fff" stroke-opacity="0.12" />
+            </svg>
+          )}
+          {s.theme === 'e' && (
+            <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="hg-e" x1="0" y1="1" x2="1" y2="0">
+                  <stop offset="0" stop-color="#0C356E" />
+                  <stop offset="0.55" stop-color="#16417E" />
+                  <stop offset="1" stop-color="#2F6BB0" />
+                </linearGradient>
+              </defs>
+              <rect width="1600" height="900" fill="url(#hg-e)" />
+              <g fill="none" stroke="#fff" stroke-width="2" stroke-opacity="0.38" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="960" y="470" width="130" height="430" />
+                <rect x="1130" y="330" width="170" height="570" />
+                <rect x="1340" y="420" width="120" height="480" />
+                <rect x="1500" y="260" width="170" height="640" />
+                <path d="M990 520h70M990 570h70M990 620h70M990 670h70M990 720h70M990 770h70" stroke-opacity="0.2" />
+                <path d="M1160 380h110M1160 440h110M1160 500h110M1160 560h110M1160 620h110M1160 680h110M1160 740h110M1160 800h110" stroke-opacity="0.2" />
+                <path d="M1370 470h60M1370 530h60M1370 590h60M1370 650h60M1370 710h60M1370 770h60" stroke-opacity="0.2" />
+                <path d="M1530 310h110M1530 380h110M1530 450h110M1530 520h110M1530 590h110M1530 660h110M1530 730h110" stroke-opacity="0.2" />
+                <path d="M1215 330V110M1215 110H1500M1215 110L1180 150M1500 110L1460 150M1440 110V190M1425 190h30v26h-30z" />
+                <path d="M1215 160L1260 110M1215 210L1300 110M1215 260L1340 110" stroke-opacity="0.25" />
+                <path d="M700 900H1600" stroke-width="3" />
               </g>
             </svg>
           )}

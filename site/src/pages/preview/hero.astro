@@ -1,0 +1,204 @@
+---
+/**
+ * 메인 이미지 시안 비교 페이지 (내부 검토용). 검색엔진에 노출되지 않습니다.
+ * 시안이 확정되면 이 페이지와 hero-variants 폴더는 지워도 됩니다.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HeroA from '../../components/hero-variants/HeroA.astro';
+import HeroB from '../../components/hero-variants/HeroB.astro';
+import HeroC from '../../components/hero-variants/HeroC.astro';
+
+const variants = [
+  {
+    id: 'a',
+    name: '시안 A',
+    title: '밝은 블루 그라데이션',
+    desc: '로고의 밝은 파랑(#3676B7)을 전면에 깔고 오른쪽 위로 갈수록 하늘빛으로 풀어낸 배경. 흰 글자와 흰 버튼으로 시원한 인상.',
+  },
+  {
+    id: 'b',
+    name: '시안 B',
+    title: '화이트 베이스 + 블루 포인트',
+    desc: '흰 바탕에 남색 제목, 밝은 파랑 포인트. 오른쪽에 로고 심볼을 크게 두어 세 안 중 가장 밝고 깔끔한 인상.',
+  },
+  {
+    id: 'c',
+    name: '시안 C',
+    title: '투톤 분할',
+    desc: '왼쪽은 연한 하늘빛 바탕에 남색 제목, 오른쪽은 밝은 파랑 패널에 흰 선으로 그린 건물과 크레인. 건설·구조 업종의 느낌을 직접 보여주는 안.',
+  },
+];
+---
+
+<BaseLayout title="메인 이미지 시안 비교" description="메인 상단 이미지 시안 3종 비교 (내부 검토용)">
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, nofollow" />
+  </Fragment>
+
+  <div class="pv-intro">
+    <div class="container">
+      <span class="eyebrow">MAIN VISUAL DRAFTS</span>
+      <h1>메인 이미지 시안 비교</h1>
+      <p>로고 키컬러 중 밝은 파랑(#3676B7)을 주조색으로 한 세 가지 방향입니다. 아래로 내리면서 비교해 보세요.</p>
+      <nav class="pv-jump" aria-label="시안 바로가기">
+        {variants.map((v) => <a href={'#v-' + v.id}>{v.name} · {v.title}</a>)}
+      </nav>
+    </div>
+  </div>
+
+  {
+    variants.map((v) => (
+      <section id={'v-' + v.id} class="pv-variant">
+        <div class="pv-label">
+          <div class="container pv-label-inner">
+            <span class="pv-chip">{v.name}</span>
+            <b>{v.title}</b>
+            <span class="pv-desc">{v.desc}</span>
+          </div>
+        </div>
+        {v.id === 'a' && <HeroA />}
+        {v.id === 'b' && <HeroB />}
+        {v.id === 'c' && <HeroC />}
+      </section>
+    ))
+  }
+
+  <div class="pv-foot">
+    <div class="container">
+      <p>마음에 드는 시안의 이름(A/B/C)을 알려주시면 메인 페이지에 적용하고, 서브페이지 상단 띠와 어두운 구간도 같은 톤으로 맞추겠습니다. 두 안을 섞는 것도 가능합니다.</p>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  /* 시안 공통 (hero-variants 컴포넌트가 사용) */
+  .hv {
+    position: relative;
+    min-height: clamp(560px, 80vh, 800px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  .hv-bg {
+    position: absolute;
+    inset: 0;
+  }
+  .hv-bg svg {
+    width: 100%;
+    height: 100%;
+  }
+  .hv-content {
+    position: relative;
+    z-index: 1;
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+  .hv-eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    margin-bottom: 22px;
+  }
+  .hv-title {
+    font-size: clamp(36px, 5.4vw, 66px);
+    line-height: 1.16;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .hv-desc {
+    margin-top: 26px;
+    font-size: clamp(15.5px, 1.4vw, 18.5px);
+    line-height: 1.7;
+    max-width: 640px;
+  }
+  .hv-ctas {
+    margin-top: 40px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 768px) {
+    .hv {
+      min-height: 520px;
+    }
+    .hv-content {
+      padding-top: 56px;
+      padding-bottom: 56px;
+    }
+  }
+</style>
+
+<style>
+  .pv-intro {
+    padding: 56px 0 32px;
+    border-bottom: 1px solid var(--line);
+  }
+  .pv-intro h1 {
+    font-size: clamp(26px, 3vw, 34px);
+    color: var(--navy);
+  }
+  .pv-intro p {
+    margin-top: 10px;
+    color: var(--muted);
+  }
+  .pv-jump {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .pv-jump a {
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+  .pv-jump a:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  .pv-variant {
+    scroll-margin-top: calc(var(--header-h) + 8px);
+  }
+  .pv-label {
+    background: var(--ink);
+    color: #fff;
+    position: sticky;
+    top: var(--header-h);
+    z-index: 5;
+  }
+  .pv-label-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    font-size: 14px;
+    flex-wrap: wrap;
+  }
+  .pv-chip {
+    padding: 4px 10px;
+    border-radius: 6px;
+    background: var(--blue);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  .pv-label b {
+    font-size: 15px;
+  }
+  .pv-desc {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .pv-foot {
+    padding: 48px 0 72px;
+    color: var(--ink-2);
+  }
+  @media (max-width: 768px) {
+    .pv-desc {
+      display: none;
+    }
+  }
+</style>

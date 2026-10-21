@@ -25,6 +25,7 @@ const crumbs = [
 ---
 
 <BaseLayout title={title} description={description}>
+  <slot name="head" slot="head" />
   <section class="page-hero">
     <div class="page-hero-bg" aria-hidden="true">
       <svg viewBox="0 0 1600 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">

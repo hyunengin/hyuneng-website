@@ -6,7 +6,7 @@ import equipment from '../../data/equipment.json';
 <SubLayout
   title="장비보유현황"
   section="about"
-  description="현장조사와 시험·측정에 사용하는 주요 보유 장비입니다."
+  description="안전점검·정밀안전진단과 구조검토 현장조사에 사용하는 보유 장비입니다."
 >
   <div class="table-wrap">
     <table class="table">
@@ -15,6 +15,7 @@ import equipment from '../../data/equipment.json';
           <th class="num" scope="col">No.</th>
           <th scope="col">구분</th>
           <th scope="col">장비명</th>
+          <th scope="col">규격 · 모델</th>
           <th scope="col">수량</th>
           <th scope="col">용도</th>
         </tr>
@@ -23,7 +24,7 @@ import equipment from '../../data/equipment.json';
         {
           equipment.length === 0 ? (
             <tr>
-              <td colspan="5" class="table-empty">
+              <td colspan="6" class="table-empty">
                 장비 목록을 정리하여 등록 중입니다.
               </td>
             </tr>
@@ -32,10 +33,8 @@ import equipment from '../../data/equipment.json';
               <tr>
                 <td class="num">{i + 1}</td>
                 <td>{e.category}</td>
-                <td>
-                  {e.name}
-                  {e.sample && <span class="badge-sample">예시</span>}
-                </td>
+                <td class="eq-name">{e.name}</td>
+                <td class="eq-model">{e.model}</td>
                 <td>{e.qty || '-'}</td>
                 <td>{e.note}</td>
               </tr>
@@ -45,4 +44,19 @@ import equipment from '../../data/equipment.json';
       </tbody>
     </table>
   </div>
+  <p class="note">
+    모든 장비는 자기소유이며, 교정 대상 장비는 교정 주기에 따라 관리합니다.
+  </p>
 </SubLayout>
+
+<style>
+  .eq-name {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .eq-model {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--ink-2);
+  }
+</style>

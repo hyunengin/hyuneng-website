@@ -4,14 +4,16 @@ import Icon from '../../components/Icon.astro';
 import certificates from '../../data/certificates.json';
 ---
 
-<SubLayout title="인증서" section="about" description="경영 시스템 및 기업 인증 현황입니다.">
+<SubLayout title="인증서" section="about" description="기업 인증 및 경영 시스템 인증 현황입니다.">
   <div class="doc-grid">
     {
       certificates.map((c) => (
         <div class="doc-card">
           <div class="doc-thumb">
             {c.image ? (
-              <img src={c.image} alt={c.name} loading="lazy" />
+              <a href={c.image} target="_blank" rel="noopener" aria-label={`${c.name} 크게 보기`}>
+                <img src={c.image} alt={c.name} loading="lazy" />
+              </a>
             ) : (
               <span class="doc-placeholder">
                 <Icon name="award" size={40} />
@@ -28,3 +30,14 @@ import certificates from '../../data/certificates.json';
     }
   </div>
 </SubLayout>
+
+<style>
+  .doc-thumb a {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .doc-thumb img {
+    object-position: top;
+  }
+</style>

@@ -13,11 +13,12 @@ export interface NavItem {
   children: NavChild[];
 }
 
+// performancePublic: 사업실적 페이지를 공개할지 여부. 실적이 쌓이면 true 로 바꿉니다.
 export const businessAreas = [
-  { slug: 'safety-diagnosis', label: '안전진단전문기관', short: '안전진단' },
-  { slug: 'court-appraisal', label: '법원감정전문기관', short: '법원감정' },
-  { slug: 'cost-calculation', label: '원가계산용역기관', short: '원가계산' },
-  { slug: 'structural-review', label: '건축·토목 구조검토', short: '구조검토' },
+  { slug: 'safety-diagnosis', label: '안전진단전문기관', short: '안전진단', performancePublic: false },
+  { slug: 'court-appraisal', label: '법원감정전문기관', short: '법원감정', performancePublic: true },
+  { slug: 'cost-calculation', label: '원가계산용역기관', short: '원가계산', performancePublic: false },
+  { slug: 'structural-review', label: '건축·토목 구조검토', short: '구조검토', performancePublic: true },
 ] as const;
 
 export const nav: NavItem[] = [
@@ -47,8 +48,10 @@ export const nav: NavItem[] = [
     key: 'performance',
     label: '사업실적',
     en: 'PERFORMANCE',
-    href: '/performance/safety-diagnosis',
-    children: businessAreas.map((b) => ({ label: b.label, href: `/performance/${b.slug}` })),
+    href: '/performance/court-appraisal',
+    children: businessAreas
+      .filter((b) => b.performancePublic)
+      .map((b) => ({ label: b.label, href: `/performance/${b.slug}` })),
   },
   {
     key: 'notice',

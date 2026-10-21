@@ -1,10 +1,18 @@
 [
-  { "category": "비파괴시험", "name": "반발경도시험기 (슈미트해머)", "qty": "", "note": "콘크리트 압축강도 추정", "sample": true },
-  { "category": "비파괴시험", "name": "철근탐사기", "qty": "", "note": "철근 배근 · 피복두께 조사", "sample": true },
-  { "category": "비파괴시험", "name": "초음파 측정기", "qty": "", "note": "균열 깊이 · 내부 결함 조사", "sample": true },
-  { "category": "외관조사", "name": "균열폭 측정기 (크랙 스케일 · 크랙 게이지)", "qty": "", "note": "균열 폭 측정", "sample": true },
-  { "category": "외관조사", "name": "레이저 거리측정기", "qty": "", "note": "부재 치수 · 거리 측정", "sample": true },
-  { "category": "변위측정", "name": "경사계 · 수평기", "qty": "", "note": "기울기 · 처짐 측정", "sample": true },
-  { "category": "재료시험", "name": "코어 채취기", "qty": "", "note": "콘크리트 코어 채취", "sample": true },
-  { "category": "재료시험", "name": "탄산화 시험 세트", "qty": "", "note": "페놀프탈레인 용액 · 측정 도구", "sample": true }
+  { "category": "공통", "name": "균열폭측정기", "model": "KS-10X", "qty": "1", "note": "구조물 균열폭 측정" },
+  { "category": "공통", "name": "반발경도측정기 (슈미트해머)", "model": "KS-100", "qty": "1", "note": "콘크리트 표면 비파괴 강도 측정" },
+  { "category": "공통", "name": "반발경도 교정장치", "model": "KS-200", "qty": "1", "note": "반발경도측정기 교정" },
+  { "category": "공통", "name": "초음파측정기", "model": "JUST-500", "qty": "1", "note": "콘크리트 균열 깊이·내부 결함 조사" },
+  { "category": "공통", "name": "철근탐사장비", "model": "KD322", "qty": "1", "note": "철근 배근 간격·피복두께 조사" },
+  { "category": "공통", "name": "철근부식도측정장비", "model": "JC-2500", "qty": "1", "note": "철근 부식 상태 평가" },
+  { "category": "공통", "name": "염분측정장비", "model": "YK-31SA", "qty": "1", "note": "콘크리트 염화물 함유량 측정" },
+  { "category": "공통", "name": "코어채취기", "model": "RHC-100B", "qty": "1", "note": "콘크리트 코어 채취(압축강도 시험용)" },
+  { "category": "공통", "name": "도막두께측정장비", "model": "Leeb250S", "qty": "1", "note": "강재 도장 두께 측정" },
+  { "category": "공통", "name": "측량기 (데오도라이트)", "model": "DT-02S", "qty": "1", "note": "각도·기울기 측량" },
+  { "category": "공통", "name": "측량기 (레벨)", "model": "T32", "qty": "1", "note": "수준 측량·부등침하 조사" },
+  { "category": "공통", "name": "측량기 (거리측정기)", "model": "JA10A", "qty": "1", "note": "부재 치수·거리 측정" },
+  { "category": "공통", "name": "자분탐상기 (MT)", "model": "Leeb620", "qty": "1", "note": "강재 표면 결함 탐상" },
+  { "category": "공통", "name": "초음파시험기 (UT)", "model": "Leeb500", "qty": "1", "note": "강재 내부 결함·용접부 검사" },
+  { "category": "건축", "name": "진동측정기", "model": "VB-8201HA", "qty": "1", "note": "구조물 진동 측정" },
+  { "category": "건축", "name": "정적 변형측정장치", "model": "TS-DL01", "qty": "1", "note": "재하시험 시 변형·처짐 측정" }
 ]

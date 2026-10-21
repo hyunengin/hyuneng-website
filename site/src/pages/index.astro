@@ -7,7 +7,7 @@ import InquiryForm from '../components/InquiryForm.astro';
 import { getCollection } from 'astro:content';
 import company from '../data/company.json';
 import business from '../data/business.json';
-import performance from '../data/performance.json';
+import { businessAreas } from '../data/nav';
 
 const notices = (await getCollection('notices'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
@@ -16,12 +16,11 @@ const notices = (await getCollection('notices'))
 const fmt = (d: Date) =>
   `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
 
-type PerfKey = keyof typeof performance;
-const perfCount = (slug: string) => {
-  const p = performance[slug as PerfKey];
-  if (!p) return 0;
-  return p.rows.filter((r: { sample?: boolean }) => !r.sample).length;
-};
+// 사업실적을 공개한 분야만 주요실적에 표시 (nav.ts 의 performancePublic)
+const publicSlugs = new Set<string>(
+  businessAreas.filter((a) => a.performancePublic).map((a) => a.slug),
+);
+const perfAreas = business.filter((b) => publicSlugs.has(b.slug));
 ---
 
 <BaseLayout>
@@ -62,14 +61,14 @@ const perfCount = (slug: string) => {
         <Icon name="award" size={30} />
         <div>
           <b>안전진단전문기관 등록</b>
-          <span>건축 분야 · 서울-489호</span>
+          <span>건축 분야 · 제 서울-489호</span>
         </div>
       </div>
       <div class="trust-item">
         <Icon name="doc" size={30} />
         <div>
-          <b>기술사사무소 · 원가계산용역기관</b>
-          <span>엔지니어링사업자 신고 · 특허 보유</span>
+          <b>기술사사무소 · 엔지니어링사업자</b>
+          <span>토목구조 · 건축시공 · 토목시공기술사 · 특허 보유</span>
         </div>
       </div>
       <div class="trust-item">
@@ -82,8 +81,8 @@ const perfCount = (slug: string) => {
       <div class="trust-item">
         <Icon name="shield" size={30} />
         <div>
-          <b>벤처기업 · 기업부설연구소</b>
-          <span>혁신성장유형 벤처기업 인증</span>
+          <b>벤처기업 · 이노비즈 · 기업부설연구소</b>
+          <span>혁신성장유형 벤처 · 기술혁신형 중소기업 A등급</span>
         </div>
       </div>
     </div>
@@ -98,25 +97,22 @@ const perfCount = (slug: string) => {
           title="주요실적"
           desc="분야별 수행 실적을 확인하실 수 있습니다."
         />
-        <a class="btn btn-outline-light" href="/performance/safety-diagnosis">
+        <a class="btn btn-outline-light" href={`/performance/${perfAreas[0]?.slug ?? 'court-appraisal'}`}>
           사업실적 전체 보기 <Icon name="arrow" size={18} />
         </a>
       </div>
-      <div class="grid grid-4">
+      <div class:list={['grid', perfAreas.length > 2 ? 'grid-4' : 'grid-2']}>
         {
-          business.map((b) => {
-            const n = perfCount(b.slug);
-            return (
-              <a class="perf-card" href={`/performance/${b.slug}`}>
-                <span class="perf-en">{b.en}</span>
-                <h3>{b.title}</h3>
-                <span class="perf-count">{n > 0 ? `${n}건` : '실적 등록 중'}</span>
-                <span class="link-arrow">
-                  바로가기 <Icon name="arrow" size={16} />
-                </span>
-              </a>
-            );
-          })
+          perfAreas.map((b) => (
+            <a class="perf-card" href={`/performance/${b.slug}`}>
+              <span class="perf-en">{b.en}</span>
+              <h3>{b.title}</h3>
+              <span class="perf-count">{b.short}</span>
+              <span class="link-arrow">
+                바로가기 <Icon name="arrow" size={16} />
+              </span>
+            </a>
+          ))
         }
       </div>
     </div>

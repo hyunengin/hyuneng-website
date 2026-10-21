@@ -4,11 +4,14 @@ import PerformanceTable from '../../components/PerformanceTable.astro';
 import performance from '../../data/performance.json';
 import { businessAreas } from '../../data/nav';
 
+// performancePublic 이 true 인 분야만 페이지를 만듭니다 (nav.ts 에서 설정).
 export function getStaticPaths() {
-  return businessAreas.map((a) => ({
-    params: { slug: a.slug },
-    props: { area: a, data: performance[a.slug] },
-  }));
+  return businessAreas
+    .filter((a) => a.performancePublic)
+    .map((a) => ({
+      params: { slug: a.slug },
+      props: { area: a, data: performance[a.slug] },
+    }));
 }
 type Area = (typeof businessAreas)[number];
 type Data = (typeof performance)[Area['slug']];

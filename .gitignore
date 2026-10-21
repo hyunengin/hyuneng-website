@@ -12,3 +12,6 @@ site/.env.*
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# 원본 자료(등록증 PDF 등 개인정보 포함)는 저장소에 올리지 않음. 사이트용 가공 이미지는 site/public/images/docs 에 있음
+자료/

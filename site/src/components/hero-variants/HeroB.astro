@@ -1,0 +1,71 @@
+---
+/** 시안 B: 화이트 베이스 + 블루 포인트. 흰 바탕, 남색 제목, 밝은 파랑 포인트, 오른쪽에 큰 로고 심볼 */
+import Icon from '../Icon.astro';
+import company from '../../data/company.json';
+---
+
+<section class="hv hv-b">
+  <div class="hv-bg" aria-hidden="true">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hvb-bg" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#ffffff"></stop>
+          <stop offset="0.55" stop-color="#ffffff"></stop>
+          <stop offset="1" stop-color="#E3EEF9"></stop>
+        </linearGradient>
+        <linearGradient id="hvb-mark" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#3676B7"></stop>
+          <stop offset="1" stop-color="#7FB2E8"></stop>
+        </linearGradient>
+        <linearGradient id="hvb-mark2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#9CC3EF"></stop>
+          <stop offset="1" stop-color="#D4E6F8"></stop>
+        </linearGradient>
+      </defs>
+      <rect width="1600" height="900" fill="url(#hvb-bg)"></rect>
+      <circle cx="1220" cy="460" r="400" fill="#EAF1FA"></circle>
+      <circle cx="1220" cy="460" r="500" fill="none" stroke="#3676B7" stroke-opacity="0.14" stroke-width="1.5"></circle>
+      <circle cx="1220" cy="460" r="600" fill="none" stroke="#3676B7" stroke-opacity="0.07"></circle>
+      <g transform="translate(960 190) scale(5.4)">
+        <polygon points="10,10 36,10 10,42" fill="url(#hvb-mark2)"></polygon>
+        <polygon points="10,90 36,90 10,58" fill="url(#hvb-mark2)"></polygon>
+        <polygon points="50,10 24,50 50,90 50,58 72,58 72,90 90,90 90,10 72,10 72,42 50,42" fill="url(#hvb-mark)"></polygon>
+      </g>
+      <g fill="#3676B7" fill-opacity="0.35">
+        <circle cx="760" cy="160" r="5"></circle>
+        <circle cx="1540" cy="230" r="7"></circle>
+        <circle cx="1480" cy="760" r="5"></circle>
+        <circle cx="860" cy="780" r="4"></circle>
+      </g>
+      <path d="M0 900 L 420 900 L 0 700 Z" fill="#EAF1FA"></path>
+    </svg>
+  </div>
+  <div class="container hv-content">
+    <p class="hv-eyebrow">{company.nameEn}</p>
+    <h2 class="hv-title">정확한 판단,<br />안전한 구조,<br />신뢰받는 기술</h2>
+    <p class="hv-desc">
+      안전진단 · 법원감정 · 원가계산 · 건축·토목 구조검토<br />
+      건설 분야 전반의 기술적·법률적 서비스를 수행하는 구조안전 전문기업
+    </p>
+    <div class="hv-ctas">
+      <a class="btn btn-blue" href="/business/safety-diagnosis">사업분야 보기 <Icon name="arrow" size={18} /></a>
+      <a class="btn btn-outline" href="/inquiry">견적문의 <Icon name="arrow" size={18} /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hv-b {
+    background: #fff;
+    color: var(--ink);
+  }
+  .hv-b .hv-eyebrow {
+    color: var(--blue);
+  }
+  .hv-b .hv-title {
+    color: var(--navy);
+  }
+  .hv-b .hv-desc {
+    color: var(--ink-2);
+  }
+</style>

@@ -1,6 +1,6 @@
-# ㈜현구조엔지니어링 홈페이지 프로젝트
+# ㈜현구조안전공사 홈페이지 프로젝트
 
-이 폴더는 ㈜현구조엔지니어링 회사 홈페이지(hyuneng.co.kr 예정)의 작업 폴더입니다.
+이 폴더는 ㈜현구조안전공사 회사 홈페이지(hyuneng.co.kr 예정)의 작업 폴더입니다.
 운영자는 코딩 경험이 없는 비전공자이며, 모든 수정은 Claude Code에 한국어로 지시하는 방식으로 이루어집니다.
 **지시를 받으면 설명보다 실제 수정을 우선하고, 수정 후에는 반드시 `npm run build`로 깨지지 않았는지 확인한 뒤 결과를 짧게 보고합니다.**
 
@@ -10,7 +10,7 @@
 홈페이지/
 ├─ CLAUDE.md                 ← 이 파일 (운영 가이드)
 ├─ 제작계획.md               ← 기획·결정 사항
-├─ (주)현구조엔지니어링 홈페이지 제작 기획.pptx   ← 원본 기획안
+├─ (주)현구조안전공사 홈페이지 제작 기획.pptx   ← 원본 기획안
 ├─ 자료/                      ← 로고, 사진, 등록증 스캔 등 원본 자료 (사용자가 넣음)
 └─ site/                      ← 실제 홈페이지 코드 (Astro 정적 사이트)
    ├─ src/data/               ← ★ 내용 데이터. 대부분의 수정은 여기서 끝남
@@ -21,8 +21,10 @@
    │  ├─ history.json         연혁
    │  ├─ licenses.json        면허보유현황
    │  ├─ certificates.json    인증서
-   │  ├─ equipment.json       장비보유현황
+   │  ├─ equipment.json       장비보유현황 (실제 장비 16종, 2026-10 반영)
+   │  ├─ qualifications.json  보유 기술자격 (면허보유현황 페이지 하단)
    │  └─ organization.json    조직도
+   ├─ public/images/docs/     ← 등록증·인증서 이미지 (PDF → JPG 변환본, 개인정보 가림 처리됨)
    ├─ src/content/notices/    ← 공지사항 (.md 파일 1개 = 공지 1개)
    ├─ src/pages/              ← 페이지 (URL 구조와 동일)
    ├─ src/components/         ← 헤더, 푸터, 히어로 슬라이더, 문의 폼 등
@@ -45,8 +47,19 @@
 | "장비 목록 교체" | `site/src/data/equipment.json` (`sample: true` 항목은 예시이므로 실제 자료로 교체) |
 
 ### 예시 데이터 주의
-`performance.json`, `equipment.json`의 `"sample": true` 항목은 디자인 확인용 예시입니다.
-화면에 "예시" 배지가 표시됩니다. 실제 자료를 받으면 예시 항목을 삭제하고 실제 데이터로 교체합니다.
+`performance.json`의 `"sample": true` 항목은 디자인 확인용 예시입니다(화면에 "예시" 배지).
+법원감정·구조검토 실적 목록을 받으면 예시 항목을 삭제하고 실제 데이터로 교체합니다.
+
+### 사업실적 공개/비공개
+`site/src/data/nav.ts`의 `businessAreas`에서 `performancePublic: true/false`로 분야별 실적 페이지 공개 여부를 정합니다.
+2026-10 기준 안전진단·원가계산은 실적이 없어 비공개(false), 법원감정·구조검토만 공개(true).
+메뉴, 메인 주요실적, 실적 페이지 생성이 모두 이 값을 따릅니다.
+
+### 등록증·인증서 이미지 추가 방법
+1. PDF를 `자료/필요 이미지/`에 넣는다.
+2. pdftoppm(설치됨: `%LOCALAPPDATA%\Microsoft\WinGet\Packages\oschwartz10612.Poppler_*\poppler-*\Library\bin\pdftoppm.exe`)으로 1쪽을 JPG로 변환: `-jpeg -jpegopt quality=85 -r 120 -f 1 -l 1 -singlefile`
+3. 생년월일·개인 전화번호·개인 주소 등 개인정보가 있으면 흰 사각형으로 가린다(PowerShell System.Drawing 사용, 이전 작업 참고).
+4. `site/public/images/docs/영문이름.jpg`로 저장하고 `licenses.json` 또는 `certificates.json`의 `image`에 `/images/docs/영문이름.jpg` 입력.
 
 ### 공지사항 파일 형식
 ```md
@@ -62,7 +75,7 @@ pinned: false
 
 ## 개발 · 빌드 · 배포
 
-- 로컬 확인: `site` 폴더에서 `npm run dev` → http://localhost:4321
+- 로컬 확인: `site` 폴더에서 `npm.cmd run dev -- --host` → http://localhost:4321 (같은 와이파이의 폰은 http://192.168.0.45:4321). 이 PC의 PowerShell은 실행 정책 때문에 `npm`이 아니라 `npm.cmd`로 써야 함
 - 빌드 검증: `site` 폴더에서 `npm run build` (오류 없이 `dist/`가 만들어지면 정상)
 - 배포: GitHub `main` 브랜치에 push하면 Cloudflare Pages가 자동 빌드·배포
   - Cloudflare Pages 설정: Root directory `site`, Build command `npm run build`, Output `dist`
@@ -81,9 +94,14 @@ pinned: false
 - 새 페이지는 `SubLayout`을 사용하고 `nav.ts`에 메뉴를 추가
 
 ## 아직 비어 있는 것 (자료 수령 후 채움)
-- 사업장 주소, 사업자등록번호 (`company.json`)
-- 등록증·인증서 이미지 (`licenses.json`, `certificates.json`의 `image`)
-- 실제 사업실적, 장비 목록 (예시 데이터 교체)
+- ISO 9001 · ISO 14001 인증서 이미지 (`certificates.json`, PDF 미수령)
+- 법원감정·구조검토 실적 목록 (`performance.json`, "별첨"이라고 했으나 파일 미수령 → 예시 데이터 유지 중)
+- 대표이사 서명 이미지 (현재는 손글씨 웹폰트로 이름 표시, `greeting.astro`)
 - 메인 슬라이드 사진, 인사말 페이지 사진
-- 원본 로고 파일
+- 원본 로고 벡터 파일 (`자료/필요 이미지/현구조 로고.png`는 투명 채널이 깨져 있어 사용 불가, SVG 재현본 사용 중)
 - Formspree 폼 ID, 도메인(hyuneng.co.kr) 연결
+
+## 메모
+- 상호는 2026-10-21 수정안에 따라 ㈜현구조안전공사로 통일 (영문 HYUN STRUCTURAL SAFETY CORPORATION, 도메인·메일의 hyuneng 은 유지)
+- 안전진단전문기관 등록번호 표기는 "제 서울-489호"
+- 중소기업확인서(2026-05)의 주소는 513호로 되어 있으나 최신 서류 기준 801호를 사용

@@ -1,32 +1,26 @@
 [
   {
-    "name": "기술사사무소 등록증",
+    "name": "기술사사무소 개설등록증",
     "number": "등록번호 2019-1204",
-    "issuer": "",
-    "image": ""
+    "issuer": "건설부문 · 토목시공 · 건축시공 · 구조 분야",
+    "image": "/images/docs/pe-office-registration.jpg"
   },
   {
     "name": "안전진단전문기관 등록증",
-    "number": "등록번호 서울-489호 (건축 분야)",
-    "issuer": "",
-    "image": ""
-  },
-  {
-    "name": "원가계산용역기관 등록증",
-    "number": "",
-    "issuer": "",
-    "image": ""
+    "number": "등록번호 제 서울-489호",
+    "issuer": "건축 분야 · 서울특별시 · 2026.04",
+    "image": "/images/docs/safety-diagnosis-registration.jpg"
   },
   {
     "name": "엔지니어링사업자 신고증",
-    "number": "",
-    "issuer": "",
-    "image": ""
+    "number": "신고번호 제 E-09-006910 호",
+    "issuer": "건설부문 · 구조 분야 · 2026.06",
+    "image": "/images/docs/engineering-business-report.jpg"
   },
   {
     "name": "특허증",
-    "number": "제10-2966022호",
+    "number": "제 10-2966022 호",
     "issuer": "고강도 합성 단면 버팀보 적용 흙막이 벽 시공용 지보공 구조물",
-    "image": ""
+    "image": "/images/docs/patent.jpg"
   }
 ]

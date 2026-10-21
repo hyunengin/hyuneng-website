@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "site",
-      "runtimeExecutable": "C:\\Program Files\\nodejs\\npm.cmd",
-      "runtimeArgs": ["--prefix", "site", "run", "dev"],
+      "runtimeExecutable": "C:/Program Files/nodejs/npm.cmd",
+      "runtimeArgs": ["--prefix", "site", "run", "dev", "--", "--host"],
       "port": 4321
     }
   ]

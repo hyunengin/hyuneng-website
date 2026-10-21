@@ -1,0 +1,66 @@
+---
+/** 시안 A: 밝은 블루 그라데이션. 로고의 밝은 파랑(#3676B7)을 전면에, 하늘빛으로 풀어낸 배경 */
+import Icon from '../Icon.astro';
+import company from '../../data/company.json';
+---
+
+<section class="hv hv-a">
+  <div class="hv-bg" aria-hidden="true">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="hva-g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#2E6AAE"></stop>
+          <stop offset="0.45" stop-color="#3676B7"></stop>
+          <stop offset="1" stop-color="#A3CDF4"></stop>
+        </linearGradient>
+        <radialGradient id="hva-glow" cx="0.8" cy="0.15" r="0.6">
+          <stop offset="0" stop-color="#ffffff" stop-opacity="0.5"></stop>
+          <stop offset="1" stop-color="#ffffff" stop-opacity="0"></stop>
+        </radialGradient>
+        <pattern id="hva-grid" width="80" height="80" patternUnits="userSpaceOnUse">
+          <path d="M80 0H0V80" fill="none" stroke="#fff" stroke-opacity="0.12"></path>
+        </pattern>
+      </defs>
+      <rect width="1600" height="900" fill="url(#hva-g)"></rect>
+      <rect width="1600" height="900" fill="url(#hva-glow)"></rect>
+      <rect width="1600" height="900" fill="url(#hva-grid)"></rect>
+      <g transform="translate(1010 130) scale(6.4)" opacity="0.18">
+        <polygon points="10,10 36,10 10,42" fill="#fff"></polygon>
+        <polygon points="10,90 36,90 10,58" fill="#fff"></polygon>
+        <polygon points="50,10 24,50 50,90 50,58 72,58 72,90 90,90 90,10 72,10 72,42 50,42" fill="#fff"></polygon>
+      </g>
+      <circle cx="1400" cy="800" r="380" fill="none" stroke="#fff" stroke-opacity="0.22" stroke-width="1.5"></circle>
+      <circle cx="1400" cy="800" r="260" fill="none" stroke="#fff" stroke-opacity="0.14"></circle>
+      <path d="M0 900 C 350 740, 700 760, 1000 900 Z" fill="#fff" fill-opacity="0.10"></path>
+    </svg>
+  </div>
+  <div class="container hv-content">
+    <p class="hv-eyebrow">{company.nameEn}</p>
+    <h2 class="hv-title">정확한 판단,<br />안전한 구조,<br />신뢰받는 기술</h2>
+    <p class="hv-desc">
+      안전진단 · 법원감정 · 원가계산 · 건축·토목 구조검토<br />
+      건설 분야 전반의 기술적·법률적 서비스를 수행하는 구조안전 전문기업
+    </p>
+    <div class="hv-ctas">
+      <a class="btn btn-light" href="/business/safety-diagnosis">사업분야 보기 <Icon name="arrow" size={18} /></a>
+      <a class="btn btn-outline-light" href="/inquiry">견적문의 <Icon name="arrow" size={18} /></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hv-a {
+    background: #3676b7;
+    color: #fff;
+  }
+  .hv-a .hv-eyebrow {
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .hv-a .hv-title {
+    color: #fff;
+    text-shadow: 0 2px 24px rgba(12, 53, 110, 0.18);
+  }
+  .hv-a .hv-desc {
+    color: rgba(255, 255, 255, 0.9);
+  }
+</style>
