@@ -93,7 +93,7 @@ pinned: false
 
 ### 견적문의 폼
 - `company.json`의 `formspreeId`가 비어 있으면 방문자의 메일 프로그램이 열리는 방식(mailto)으로 동작
-- Formspree 가입 후 폼 ID(예: `xpznabcd`)를 `formspreeId`에 넣으면 사이트에서 바로 전송되고 hyuneng002@naver.com 으로 수신
+- 2026-10-26 Formspree 폼 ID `xvkkkgez` 입력 완료(가입 메일 hyuneng002@naver.com, 무료 요금제 월 50건). 사이트에서 바로 전송되고 hyuneng002@naver.com 으로 수신. ID를 바꾸려면 `formspreeId`만 수정
 - 폼 ID를 넣으면 개인정보처리방침의 "처리 위탁 및 국외 이전" 조항이 자동으로 바뀜
 
 ## 디자인 규칙
@@ -112,7 +112,7 @@ pinned: false
 - 다른 서명으로 바꾸려면: pdfimages로 원본 JPG 추출 → 영역 잘라내기 → 흰 배경을 투명으로(밝기 기준 알파) → 남색(#0C356E) 틴트. 세션 임시 폴더의 `sig_crops.mjs`, `sig_final.mjs`(sharp 사용) 방식 참고.
 - 메인 슬라이드 사진, 인사말 페이지 사진
 - 원본 로고 벡터 파일 (`자료/필요 이미지/현구조 로고.png`는 투명 채널이 깨져 있어 사용 불가, SVG 재현본 사용 중)
-- Formspree 폼 ID, 도메인(hyuneng.co.kr) 연결
+- 도메인(hyuneng.co.kr) 연결
 
 ## 메모
 - 상호는 2026-10-21 수정안에 따라 ㈜현구조안전공사로 통일 (영문 HYUN STRUCTURAL SAFETY CORPORATION, 도메인·메일의 hyuneng 은 유지)
