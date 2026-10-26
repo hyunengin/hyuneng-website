@@ -19,5 +19,12 @@
     "name": "김현",
     "position": "대표이사"
   },
-  "privacyEffectiveDate": "2026-10-19"
+  "privacyEffectiveDate": "2026-10-19",
+  "inquiryCategories": [
+    "법원감정/사감정/송무지원",
+    "건축·토목 구조검토 및 가시설 설계",
+    "안전점검 및 안전진단",
+    "원가계산용역",
+    "기타"
+  ]
 }

@@ -44,6 +44,7 @@
 | "등록증 이미지 넣어줘" | 이미지를 `site/public/images/docs/`에 복사 → `licenses.json`의 `image`에 `/images/docs/파일명` 입력 |
 | "메인 사진 바꿔줘" | 이미지를 `site/public/images/hero/`에 복사 → `HeroSlider.astro`의 배경 SVG를 `<img>`로 교체 |
 | "사업분야 문구 수정" | `site/src/data/business.json` |
+| "견적문의 분야 선택 항목 수정" | `site/src/data/company.json` → `inquiryCategories` |
 | "장비 목록 교체" | `site/src/data/equipment.json` (`sample: true` 항목은 예시이므로 실제 자료로 교체) |
 
 ### 예시 데이터 주의
@@ -95,6 +96,7 @@ pinned: false
 - `company.json`의 `formspreeId`가 비어 있으면 방문자의 메일 프로그램이 열리는 방식(mailto)으로 동작
 - 2026-10-26 Formspree 폼 ID `xvkkkgez` 입력 완료(가입 메일 hyuneng002@naver.com, 무료 요금제 월 50건). 사이트에서 바로 전송되고 hyuneng002@naver.com 으로 수신. ID를 바꾸려면 `formspreeId`만 수정
 - 폼 ID를 넣으면 개인정보처리방침의 "처리 위탁 및 국외 이전" 조항이 자동으로 바뀜
+- 견적분야 선택 항목은 `company.json`의 `inquiryCategories` 배열(순서대로 표시, 마지막 "기타" 유지). 메뉴 명칭과 별개로 관리
 
 ## 디자인 규칙
 - 기준 색: 남색 `#0C356E`, 파랑 `#3676B7` (기획안 로고색). `global.css`의 CSS 변수로 관리
