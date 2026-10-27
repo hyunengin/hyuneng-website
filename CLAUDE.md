@@ -100,6 +100,7 @@ pinned: false
 ### 견적문의 폼
 - `company.json`의 `formspreeId`가 비어 있으면 방문자의 메일 프로그램이 열리는 방식(mailto)으로 동작
 - 2026-10-26 Formspree 폼 ID `xvkkkgez` 입력 완료(가입 메일 hyuneng002@naver.com, 무료 요금제 월 50건). 사이트에서 바로 전송되고 hyuneng002@naver.com 으로 수신. ID를 바꾸려면 `formspreeId`만 수정
+- 2026-10-27 Formspree 프로젝트(MY FIRST PROJECT) Settings → Restrict to Domain에 `hyuneng.co.kr` 저장(www 없이). 정식 주소에서 테스트 전송 → 네이버 메일 수신 확인. 다른 도메인에서 온 전송은 Formspree 스팸함으로 감
 - 폼 ID를 넣으면 개인정보처리방침의 "처리 위탁 및 국외 이전" 조항이 자동으로 바뀜
 - 견적분야 선택 항목은 `company.json`의 `inquiryCategories` 배열(순서대로 표시, 마지막 "기타" 유지). 메뉴 명칭과 별개로 관리
 
@@ -119,7 +120,7 @@ pinned: false
 - 다른 서명으로 바꾸려면: pdfimages로 원본 JPG 추출 → 영역 잘라내기 → 흰 배경을 투명으로(밝기 기준 알파) → 남색(#0C356E) 틴트. 세션 임시 폴더의 `sig_crops.mjs`, `sig_final.mjs`(sharp 사용) 방식 참고.
 - 메인 슬라이드 사진, 인사말 페이지 사진
 - 원본 로고 벡터 파일 (`자료/필요 이미지/현구조 로고.png`는 투명 채널이 깨져 있어 사용 불가, SVG 재현본 사용 중)
-- 배포 마무리: Formspree 도메인 제한·문의 폼 실제 테스트·검색 등록(`배포가이드.md` 8단계). (Always Use HTTPS는 2026-10-27 켬: http:// 로 들어와도 https로 자동 전환됨)
+- (선택) 검색 등록: 네이버 서치어드바이저·구글 서치콘솔 (`배포가이드.md` 8-3). 배포·도메인·Formspree 도메인 제한·폼 테스트는 2026-10-27 모두 완료
 
 ## 메모
 - 상호는 2026-10-21 수정안에 따라 ㈜현구조안전공사로 통일 (영문 HYUN STRUCTURAL SAFETY CORPORATION, 도메인·메일의 hyuneng 은 유지)
