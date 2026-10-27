@@ -89,7 +89,8 @@ pinned: false
 - 로컬 확인: `site` 폴더에서 `npm.cmd run dev -- --host` → http://localhost:4321 (같은 와이파이의 폰은 http://192.168.0.45:4321). 이 PC의 PowerShell은 실행 정책 때문에 `npm`이 아니라 `npm.cmd`로 써야 함
 - 빌드 검증: `site` 폴더에서 `npm run build` (오류 없이 `dist/`가 만들어지면 정상)
 - GitHub 저장소: https://github.com/hyunengin/hyuneng-website (비공개, 2026-10-27 첫 push 완료). 로컬 `main` → `origin/main`
-- 배포: GitHub `main` 브랜치에 push하면 Cloudflare Workers(Workers Builds)가 자동 빌드·배포 (연결은 `배포가이드.md` 5단계부터 진행 중)
+- 배포: GitHub `main` 브랜치에 push하면 Cloudflare Workers(Workers Builds)가 자동 빌드·배포 (2026-10-27 연결 완료, Cloudflare 계정 hyuneng002@naver.com, 프로젝트 `hyuneng-website`)
+  - 임시 주소: https://hyuneng-website.hyuneng002.workers.dev (도메인 연결 전까지 확인용)
   - 배포 설정 파일: `site/wrangler.jsonc` (정적 자산 `dist`, 404 페이지 사용, name은 대시보드 Project name과 동일하게 `hyuneng-website`)
   - 대시보드 Build command `cd site && npm ci && npm run build`, Deploy command `cd site && npx wrangler deploy` (저장소 루트에서 실행되므로 `cd site` 필요)
   - 로컬에서 설정 검증: `site`에서 `npx wrangler deploy --dry-run`
