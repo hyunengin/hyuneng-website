@@ -1,0 +1,288 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+# ㈜현구조안전공사 홈페이지 관리자 화면(Sveltia CMS) 설정
+# - 주소: https://hyuneng.co.kr/admin/  (GitHub 계정 hyunengin 으로 로그인)
+# - 저장하면 GitHub 에 커밋되고 Cloudflare 가 1~2분 안에 자동 배포합니다.
+# - base_url 은 로그인 중계용 Cloudflare Worker(sveltia-cms-auth) 주소입니다.
+# - 파일 경로는 저장소 루트(홈페이지 폴더) 기준이라 site/ 가 앞에 붙습니다.
+
+backend:
+  name: github
+  repo: hyunengin/hyuneng-website
+  branch: main
+  base_url: https://sveltia-cms-auth.hyuneng002.workers.dev
+
+site_url: https://hyuneng.co.kr
+display_url: https://hyuneng.co.kr
+logo:
+  src: /favicon.svg
+
+# 공지 본문에 넣는 이미지 저장 위치
+media_folder: site/public/images/uploads
+public_folder: /images/uploads
+
+slug:
+  encoding: unicode
+  clean_accents: false
+
+output:
+  omit_empty_optional_fields: false
+  json:
+    indent_style: space
+    indent_size: 2
+
+collections:
+  # ── 공지사항: site/src/content/notices/ 의 .md 파일 1개 = 공지 1개 ──
+  - name: notices
+    label: 공지사항
+    label_singular: 공지
+    icon: campaign
+    folder: site/src/content/notices
+    create: true
+    delete: true
+    extension: md
+    format: yaml-frontmatter
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    sortable_fields: [date, title]
+    summary: "{{date}} · {{title}}"
+    fields:
+      - name: title
+        label: 제목
+        widget: string
+      - name: date
+        label: 날짜
+        widget: datetime
+        format: YYYY-MM-DD
+        time_format: false
+        default: "{{now}}"
+      - name: summary
+        label: 한 줄 요약
+        widget: string
+        required: false
+        hint: 공지 목록에 보이는 한 줄 설명입니다. 비워도 됩니다.
+      - name: pinned
+        label: 상단 고정
+        widget: boolean
+        default: false
+      - name: body
+        label: 본문
+        widget: markdown
+
+  # ── 연혁: site/src/data/history.json (최신이 위) ──
+  - name: history
+    label: 연혁
+    icon: history
+    editor:
+      preview: false
+    files:
+      - name: history
+        label: 연혁
+        file: site/src/data/history.json
+        fields:
+          - name: items
+            label: 연혁 목록
+            label_singular: 연혁
+            widget: list
+            root: true
+            add_to_top: true
+            collapsed: auto
+            summary: "{{year}}.{{month}} {{title}}"
+            fields:
+              - name: year
+                label: 연도
+                widget: string
+                hint: "예: 2026"
+              - name: month
+                label: 월
+                widget: string
+                hint: "두 자리로 적습니다. 예: 03"
+              - name: title
+                label: 내용
+                widget: string
+              - name: desc
+                label: 부가 설명
+                widget: string
+                required: false
+                hint: 등록번호 등. 비워도 됩니다.
+
+  # ── 사업실적 ──
+  - name: performance
+    label: 사업실적
+    icon: gavel
+    editor:
+      preview: false
+    files:
+      # 법원감정: site/src/data/performance.json 의 court-appraisal
+      - name: court-appraisal
+        label: 법원감정 실적
+        file: site/src/data/performance.json
+        fields:
+          - name: court-appraisal
+            label: 법원감정
+            widget: object
+            fields:
+              - name: columns
+                widget: hidden
+                default: ["법원명","사건번호","사건개요","분야"]
+              - name: keys
+                widget: hidden
+                default: ["court","caseNo","summary","tags"]
+              - name: filters
+                label: 분야 필터 버튼
+                label_singular: 분야
+                widget: list
+                hint: 실적 페이지 위쪽의 분야 버튼 목록입니다. 버튼을 새로 만들면 아래 실적의 "분야" 선택 항목에도 추가해 달라고 Claude Code 에 요청하세요.
+                field:
+                  name: filter
+                  label: 분야
+                  widget: string
+              - name: rows
+                label: 실적 목록
+                label_singular: 실적
+                widget: list
+                add_to_top: true
+                collapsed: auto
+                summary: "{{court}} {{caseNo}} · {{summary}}"
+                fields:
+                  - name: court
+                    label: 법원명
+                    widget: string
+                  - name: caseNo
+                    label: 사건번호
+                    widget: string
+                    hint: "숫자 부분은 ○로 가립니다. 예: 2024가합○○○○○"
+                  - name: summary
+                    label: 사건개요
+                    widget: string
+                  - name: tags
+                    label: 분야
+                    widget: select
+                    multiple: true
+                    required: false
+                    options: ["토목","구조","원가·기성고","하자","누수","아파트","골프장"]
+          # 아래 세 항목은 비공개·예시 데이터라 화면에 보이지 않습니다 (저장해도 그대로 유지)
+          - name: safety-diagnosis
+            widget: hidden
+            default: {"columns":["발주처","용역명","수행연도"],"keys":["client","title","year"],"rows":[{"client":"○○시 ○○구청","title":"○○동 공공청사 정밀안전점검 용역","year":"2026","sample":true},{"client":"○○아파트 입주자대표회의","title":"○○아파트 정밀안전진단","year":"2026","sample":true},{"client":"㈜○○건설","title":"○○ 신축공사 인접건축물 사전 안전점검","year":"2025","sample":true}]}
+          - name: cost-calculation
+            widget: hidden
+            default: {"columns":["발주처","용역명","수행연도"],"keys":["client","title","year"],"rows":[{"client":"○○군","title":"○○ 시설물 유지관리 용역 원가계산","year":"2026","sample":true},{"client":"○○공단","title":"○○ 정밀안전진단 용역 예정가격 산정","year":"2025","sample":true}]}
+          - name: structural-review
+            widget: hidden
+            default: {"columns":["발주처","용역명","수행연도"],"keys":["client","title","year"],"rows":[{"client":"㈜○○종합건설","title":"○○ 근린생활시설 해체공사 해체계획서 작성","year":"2026","sample":true},{"client":"○○건축사사무소","title":"○○ 증축공사 구조안전성 검토","year":"2025","sample":true},{"client":"㈜○○건설","title":"○○ 현장 흙막이 가시설 구조검토","year":"2025","sample":true}]}
+
+      # 송무지원: site/src/data/litigation-support.json
+      - name: litigation-support
+        label: 법원감정 송무지원 실적
+        file: site/src/data/litigation-support.json
+        fields:
+          - name: items
+            label: 송무지원 목록
+            label_singular: 실적
+            widget: list
+            root: true
+            add_to_top: true
+            collapsed: auto
+            summary: "{{year}} {{type}} · {{client}} · {{title}}"
+            fields:
+              - name: year
+                label: 수행연도
+                widget: string
+              - name: type
+                label: 구분
+                widget: select
+                options: [감정대응, 사감정]
+              - name: client
+                label: 발주처
+                widget: string
+                hint: "회사명·개인명은 ○로 가립니다. 예: ○○건설㈜"
+              - name: title
+                label: 용역명
+                widget: string
+                hint: 사건번호 숫자는 ○로 가립니다.
+
+      # 구조검토·가시설 설계: site/src/data/structural-performance.json
+      - name: structural
+        label: 구조검토·가시설 설계 실적
+        file: site/src/data/structural-performance.json
+        fields:
+          - name: structural-review
+            label: 구조검토
+            widget: object
+            fields:
+              - name: columns
+                widget: hidden
+                default: ["현장명", "수행연도", "분야"]
+              - name: keys
+                widget: hidden
+                default: ["title", "year", "tags"]
+              - name: filters
+                label: 분야 필터 버튼
+                label_singular: 분야
+                widget: list
+                field:
+                  name: filter
+                  label: 분야
+                  widget: string
+              - name: rows
+                label: 구조검토 실적 목록
+                label_singular: 실적
+                widget: list
+                add_to_top: true
+                collapsed: auto
+                summary: "{{year}} · {{title}}"
+                fields:
+                  - name: title
+                    label: 현장명
+                    widget: string
+                    hint: "현장명은 ○로 가립니다. 예: 드○ 태양광발전설비 설치공사 구조검토"
+                  - name: year
+                    label: 수행연도
+                    widget: string
+                  - name: tags
+                    label: 분야
+                    widget: select
+                    multiple: true
+                    required: false
+                    options: [태양광]
+          - name: temporary-works
+            label: 가시설 설계
+            widget: object
+            fields:
+              - name: columns
+                widget: hidden
+                default: ["현장명", "수행연도", "분야"]
+              - name: keys
+                widget: hidden
+                default: ["title", "year", "tags"]
+              - name: filters
+                label: 분야 필터 버튼
+                label_singular: 분야
+                widget: list
+                field:
+                  name: filter
+                  label: 분야
+                  widget: string
+              - name: rows
+                label: 가시설 설계 실적 목록
+                label_singular: 실적
+                widget: list
+                add_to_top: true
+                collapsed: auto
+                summary: "{{year}} · {{title}}"
+                fields:
+                  - name: title
+                    label: 현장명
+                    widget: string
+                    hint: 현장명은 ○로 가립니다.
+                  - name: year
+                    label: 수행연도
+                    widget: string
+                  - name: tags
+                    label: 분야
+                    widget: list
+                    required: false
+                    hint: 분야 필터 버튼이 있을 때만 적습니다. 보통 비워 둡니다.
+                    field:
+                      name: tag
+                      label: 분야
+                      widget: string
