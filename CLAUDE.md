@@ -37,6 +37,8 @@
 
 ## 자주 하는 작업
 
+공지사항·연혁·사업실적은 운영자가 관리자 화면(https://hyuneng.co.kr/admin/)에서 직접 고칠 수도 있다(아래 "관리자 화면" 항목). 그 외는 Claude Code에 지시.
+
 | 지시 예시 | 수정할 파일 |
 |---|---|
 | "연혁에 2026.09 ○○ 추가해줘" | `site/src/data/history.json` (최신이 위로 오도록) |
@@ -111,6 +113,16 @@ pinned: false
 - 폼 ID를 넣으면 개인정보처리방침의 "처리 위탁 및 국외 이전" 조항이 자동으로 바뀜
 - 검색엔진 소유확인 코드는 `company.json`의 `siteVerification.naver` / `siteVerification.google`에 content 값만 넣으면 `BaseLayout`이 `<meta>` 태그를 자동 출력 (비어 있으면 출력 안 함)
 - 견적분야 선택 항목은 `company.json`의 `inquiryCategories` 배열(순서대로 표시, 마지막 "기타" 유지). 메뉴 명칭과 별개로 관리
+
+## 관리자 화면 (Sveltia CMS, 2026-10-27 설치)
+- 주소 https://hyuneng.co.kr/admin/ → **GitHub(으)로 로그인**(hyunengin 계정). 왼쪽 메뉴: 공지사항 · 연혁 · 사업실적(법원감정 실적 / 법원감정 송무지원 실적 / 구조검토·가시설 설계 실적)
+- 공지 올리기: 공지사항 → 새 공지 → 제목·날짜·요약·본문 입력 → 오른쪽 위 **저장**. 지우기: 공지를 열고 ⋮ 메뉴 → 삭제. 파일명은 `YYYY-MM-DD-제목.md` 로 자동 생성(한글 제목이면 한글 파일명)
+- 연혁·실적: 새 항목이 목록 맨 위에 추가됨(최신이 위). 사건번호·현장명·발주처는 ○로 가린 뒤 입력
+- 저장하면 GitHub `main` 에 바로 커밋되고 Cloudflare 가 1~2분 안에 배포. **그래서 Claude Code 로 작업을 시작하기 전에 `git pull origin main` 을 먼저 할 것**(안 하면 push 가 거부됨)
+- 설정 파일: `site/public/admin/config.yml`(메뉴·입력 항목·분야 선택지). 법원감정·구조검토의 "분야" 선택지는 `options` 에 고정되어 있으므로 분야 필터 버튼을 새로 만들면 options 도 같이 고친다. `performance.json` 의 비공개 예시 항목(안전진단·원가계산·구조검토 예시)은 hidden 필드로 두어 저장해도 그대로 유지됨
+- 로그인 구성(OAuth 앱·Worker·변수)과 Worker 재배포 방법은 `배포가이드.md` 8-4
+- 로컬 확인: `npm.cmd run dev` 후 http://localhost:4321/admin/index.html (dev 서버는 `/admin/` 만으로는 404). "로컬 저장소로 작업" 을 누르면 로그인 없이 로컬 파일을 편집할 수 있음(크롬 계열 브라우저)
+- robots.txt 에 `Disallow: /admin/`, index.html 에 noindex 가 들어 있어 검색에는 잡히지 않음
 
 ## 디자인 규칙
 - 기준 색: 남색 `#0C356E`, 파랑 `#3676B7` (기획안 로고색). `global.css`의 CSS 변수로 관리
