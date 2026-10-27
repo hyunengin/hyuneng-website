@@ -102,6 +102,7 @@ pinned: false
 - 2026-10-26 Formspree 폼 ID `xvkkkgez` 입력 완료(가입 메일 hyuneng002@naver.com, 무료 요금제 월 50건). 사이트에서 바로 전송되고 hyuneng002@naver.com 으로 수신. ID를 바꾸려면 `formspreeId`만 수정
 - 2026-10-27 Formspree 프로젝트(MY FIRST PROJECT) Settings → Restrict to Domain에 `hyuneng.co.kr` 저장(www 없이). 정식 주소에서 테스트 전송 → 네이버 메일 수신 확인. 다른 도메인에서 온 전송은 Formspree 스팸함으로 감
 - 폼 ID를 넣으면 개인정보처리방침의 "처리 위탁 및 국외 이전" 조항이 자동으로 바뀜
+- 검색엔진 소유확인 코드는 `company.json`의 `siteVerification.naver` / `siteVerification.google`에 content 값만 넣으면 `BaseLayout`이 `<meta>` 태그를 자동 출력 (비어 있으면 출력 안 함)
 - 견적분야 선택 항목은 `company.json`의 `inquiryCategories` 배열(순서대로 표시, 마지막 "기타" 유지). 메뉴 명칭과 별개로 관리
 
 ## 디자인 규칙

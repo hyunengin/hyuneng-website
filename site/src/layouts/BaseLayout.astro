@@ -23,6 +23,8 @@ const canonical = new URL(Astro.url.pathname, base).href;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {company.siteVerification?.naver && <meta name="naver-site-verification" content={company.siteVerification.naver} />}
+    {company.siteVerification?.google && <meta name="google-site-verification" content={company.siteVerification.google} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#0C356E" />
     <meta property="og:type" content="website" />
