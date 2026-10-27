@@ -118,7 +118,7 @@ pinned: false
 - 다른 서명으로 바꾸려면: pdfimages로 원본 JPG 추출 → 영역 잘라내기 → 흰 배경을 투명으로(밝기 기준 알파) → 남색(#0C356E) 틴트. 세션 임시 폴더의 `sig_crops.mjs`, `sig_final.mjs`(sharp 사용) 방식 참고.
 - 메인 슬라이드 사진, 인사말 페이지 사진
 - 원본 로고 벡터 파일 (`자료/필요 이미지/현구조 로고.png`는 투명 채널이 깨져 있어 사용 불가, SVG 재현본 사용 중)
-- 도메인(hyuneng.co.kr) 구입·연결: 2026-10-27 KISA WHOIS 조회 결과 미등록 상태. 국내 등록업체(가비아 등)에서 구입 → 네임서버를 Cloudflare로 변경 → Worker Settings → Domains & Routes에 hyuneng.co.kr, www 추가 (`배포가이드.md` 7단계)
+- 도메인(hyuneng.co.kr) 연결: 2026-10-27 가비아에서 구입 완료(가비아 계정은 사장님 관리, 매년 연장 필요). 다음 할 일: 네임서버를 Cloudflare로 변경 → Worker Settings → Domains & Routes에 hyuneng.co.kr, www 추가 (`배포가이드.md` 7단계)
 
 ## 메모
 - 상호는 2026-10-21 수정안에 따라 ㈜현구조안전공사로 통일 (영문 HYUN STRUCTURAL SAFETY CORPORATION, 도메인·메일의 hyuneng 은 유지)
