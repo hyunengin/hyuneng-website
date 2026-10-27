@@ -17,7 +17,9 @@
    │  ├─ company.json         회사 기본정보 (전화, 메일, 주소, 사업자번호, Formspree ID)
    │  ├─ nav.ts               메뉴 구조
    │  ├─ business.json        사업분야 4개 페이지 본문
-   │  ├─ performance.json     사업실적 4분야 표
+   │  ├─ performance.json     사업실적 표 (법원감정 186건 실제 데이터. 구조검토 행은 더 이상 화면에 쓰이지 않음)
+   │  ├─ structural-performance.json  구조검토 실적 (구조검토 394건 · 가시설 설계 170건, 2026-10 실제 데이터)
+   │  ├─ litigation-support.json      법원감정 송무지원 실적 (6건)
    │  ├─ history.json         연혁
    │  ├─ licenses.json        면허보유현황
    │  ├─ certificates.json    인증서
@@ -38,7 +40,9 @@
 | 지시 예시 | 수정할 파일 |
 |---|---|
 | "연혁에 2026.09 ○○ 추가해줘" | `site/src/data/history.json` (최신이 위로 오도록) |
-| "안전진단 실적에 ○○ 추가" | `site/src/data/performance.json` → 해당 분야 `rows` 맨 앞에 추가 |
+| "법원감정 실적에 ○○ 추가" | `site/src/data/performance.json` → `court-appraisal`의 `rows` 맨 앞에 추가 |
+| "구조검토 / 가시설 설계 실적에 ○○ 추가" | `site/src/data/structural-performance.json` → `structural-review` 또는 `temporary-works`의 `rows` 맨 앞에 `{ title, year, tags[] }` 추가 (현장명은 ○로 가림) |
+| "송무지원 실적 추가" | `site/src/data/litigation-support.json`에 `{ year, type(감정대응/사감정), client, title }` 추가 |
 | "공지사항 올려줘" | `site/src/content/notices/YYYY-MM-DD-제목.md` 새로 생성 |
 | "전화번호 / 주소 / 사업자번호 바꿔줘" | `site/src/data/company.json` |
 | "등록증 이미지 넣어줘" | 이미지를 `site/public/images/docs/`에 복사 → `licenses.json`의 `image`에 `/images/docs/파일명` 입력 |
@@ -49,7 +53,8 @@
 
 ### 예시 데이터 주의
 `performance.json`의 `"sample": true` 항목은 디자인 확인용 예시입니다(화면에 "예시" 배지).
-구조검토 실적 목록을 받으면 예시 항목을 삭제하고 실제 데이터로 교체합니다. (법원감정은 2026-10-21 실제 186건 반영 완료)
+법원감정은 2026-10-21 실제 186건, 구조검토·가시설 설계는 2026-10 `structural-performance.json`에 실제 데이터 반영 완료.
+`performance.json`의 구조검토 예시 행은 화면에 쓰이지 않으므로 신경 쓰지 않아도 됩니다.
 
 ### 법원감정 실적 갱신 방법
 - 원본: `자료/수행_사건_리스트_항목구분.xlsx` (열: 사건명, 개요, 토목/구조/원가·기성고/하자/누수/아파트/골프장 = Y 표시)
@@ -65,6 +70,8 @@
 `site/src/data/nav.ts`의 `businessAreas`에서 `performancePublic: true/false`로 분야별 실적 페이지 공개 여부를 정합니다.
 2026-10 기준 안전진단·원가계산은 실적이 없어 비공개(false), 법원감정·구조검토만 공개(true).
 메뉴, 메인 주요실적, 실적 페이지 생성이 모두 이 값을 따릅니다.
+사업분야 표시 순서도 `businessAreas` 배열 순서(2026-10: 법원감정 → 구조검토 → 안전진단 → 원가계산)를 따릅니다.
+- 실적 페이지 구조(2026-10-27 코덱스 작업분 반영): 법원감정은 탭 2개(법원감정 `/performance/court-appraisal`, 송무지원 `/performance/court-appraisal/litigation-support`), 구조검토는 `StructuralPerformance` 컴포넌트가 탭 2개(구조검토 `/performance/structural-review`, 가시설 설계 `/performance/structural-review/temporary-works`)를 그립니다. 왼쪽 하위메뉴는 `SubLayout`에서 접히는 메뉴로 표시
 
 ### 등록증·인증서 이미지 추가 방법
 1. PDF를 `자료/필요 이미지/`에 넣는다.
@@ -113,7 +120,6 @@ pinned: false
 - 새 페이지는 `SubLayout`을 사용하고 `nav.ts`에 메뉴를 추가
 
 ## 아직 비어 있는 것 (자료 수령 후 채움)
-- 구조검토 실적 목록 (`performance.json`, 정리 중 → 예시 데이터 유지)
 - 인사말 페이지 오른쪽 그래픽은 로고 심볼 (대표 사진·사무실 사진을 받으면 교체 가능)
 
 ## 대표 서명 이미지
@@ -129,3 +135,4 @@ pinned: false
 - 2차 수정안(2026-10-21): 사업분야 명칭은 "원가계산용역"(등록 전이라 '기관' 표기 금지), "건축·토목 구조검토 및 가시설 설계". 안전진단·원가계산 실적은 비공개 유지.
 - 서브페이지 블록 간격은 `global.css`의 `.sub-content > * + .content-block` 규칙(72px)으로 통일. 간격이 좁아 보이면 이 값을 조정.
 - 중소기업확인서(2026-05)의 주소는 513호로 되어 있으나 최신 서류 기준 801호를 사용
+- 코덱스 등 다른 도구로 파일을 고친 경우 작업 폴더에만 남고 홈페이지에는 반영되지 않는다. 반영하려면 `git add` → `git commit` → `git push origin main`까지 해야 Cloudflare가 배포한다 (2026-10-27 코덱스 작업분 19개 파일을 이 방식으로 반영)
