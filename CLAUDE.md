@@ -119,7 +119,7 @@ pinned: false
 - 다른 서명으로 바꾸려면: pdfimages로 원본 JPG 추출 → 영역 잘라내기 → 흰 배경을 투명으로(밝기 기준 알파) → 남색(#0C356E) 틴트. 세션 임시 폴더의 `sig_crops.mjs`, `sig_final.mjs`(sharp 사용) 방식 참고.
 - 메인 슬라이드 사진, 인사말 페이지 사진
 - 원본 로고 벡터 파일 (`자료/필요 이미지/현구조 로고.png`는 투명 채널이 깨져 있어 사용 불가, SVG 재현본 사용 중)
-- 배포 마무리: Cloudflare에서 Always Use HTTPS 켜기(http:// 로 들어와도 https로 자동 전환, `배포가이드.md` 7-3), Formspree 도메인 제한·문의 폼 실제 테스트·검색 등록(`배포가이드.md` 8단계)
+- 배포 마무리: Formspree 도메인 제한·문의 폼 실제 테스트·검색 등록(`배포가이드.md` 8단계). (Always Use HTTPS는 2026-10-27 켬: http:// 로 들어와도 https로 자동 전환됨)
 
 ## 메모
 - 상호는 2026-10-21 수정안에 따라 ㈜현구조안전공사로 통일 (영문 HYUN STRUCTURAL SAFETY CORPORATION, 도메인·메일의 hyuneng 은 유지)
