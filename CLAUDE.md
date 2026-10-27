@@ -90,7 +90,8 @@ pinned: false
 - 빌드 검증: `site` 폴더에서 `npm run build` (오류 없이 `dist/`가 만들어지면 정상)
 - GitHub 저장소: https://github.com/hyunengin/hyuneng-website (비공개, 2026-10-27 첫 push 완료). 로컬 `main` → `origin/main`
 - 배포: GitHub `main` 브랜치에 push하면 Cloudflare Workers(Workers Builds)가 자동 빌드·배포 (2026-10-27 연결 완료, Cloudflare 계정 hyuneng002@naver.com, 프로젝트 `hyuneng-website`)
-  - 임시 주소: https://hyuneng-website.hyuneng002.workers.dev (도메인 연결 전까지 확인용)
+  - 정식 주소: https://hyuneng.co.kr (www.hyuneng.co.kr 도 같은 사이트, 2026-10-27 연결 완료). 예비 주소 https://hyuneng-website.hyuneng002.workers.dev 도 계속 동작
+  - 도메인 hyuneng.co.kr: 2026-10-27 가비아에서 3년 구입(만기 2029-10-27, 가비아 계정은 사장님 관리, 만기 전 연장 필요). 네임서버는 Cloudflare(`marissa.ns.cloudflare.com`, `matias.ns.cloudflare.com`). Worker `hyuneng-website`의 **Domains** 탭에 hyuneng.co.kr·www.hyuneng.co.kr을 Custom domain으로 연결(DNS 기록·인증서 자동). 가비아에서는 네임서버 외에 건드릴 것 없음
   - 배포 설정 파일: `site/wrangler.jsonc` (정적 자산 `dist`, 404 페이지 사용, name은 대시보드 Project name과 동일하게 `hyuneng-website`)
   - 대시보드 Build command `cd site && npm ci && npm run build`, Deploy command `cd site && npx wrangler deploy` (저장소 루트에서 실행되므로 `cd site` 필요)
   - 로컬에서 설정 검증: `site`에서 `npx wrangler deploy --dry-run`
@@ -118,7 +119,7 @@ pinned: false
 - 다른 서명으로 바꾸려면: pdfimages로 원본 JPG 추출 → 영역 잘라내기 → 흰 배경을 투명으로(밝기 기준 알파) → 남색(#0C356E) 틴트. 세션 임시 폴더의 `sig_crops.mjs`, `sig_final.mjs`(sharp 사용) 방식 참고.
 - 메인 슬라이드 사진, 인사말 페이지 사진
 - 원본 로고 벡터 파일 (`자료/필요 이미지/현구조 로고.png`는 투명 채널이 깨져 있어 사용 불가, SVG 재현본 사용 중)
-- 도메인(hyuneng.co.kr) 연결: 2026-10-27 가비아에서 구입(만기 2029-10-27, 가비아 계정은 사장님 관리, 만기 전 연장 필요). 같은 날 가비아 네임서버를 Cloudflare 것(`marissa.ns.cloudflare.com`, `matias.ns.cloudflare.com`)으로 변경. 다음 할 일: Cloudflare에서 도메인이 Active가 되면 Worker Settings → Domains & Routes에 hyuneng.co.kr, www 추가 (`배포가이드.md` 7단계)
+- 배포 마무리: Cloudflare에서 Always Use HTTPS 켜기(http:// 로 들어와도 https로 자동 전환, `배포가이드.md` 7-3), Formspree 도메인 제한·문의 폼 실제 테스트·검색 등록(`배포가이드.md` 8단계)
 
 ## 메모
 - 상호는 2026-10-21 수정안에 따라 ㈜현구조안전공사로 통일 (영문 HYUN STRUCTURAL SAFETY CORPORATION, 도메인·메일의 hyuneng 은 유지)
