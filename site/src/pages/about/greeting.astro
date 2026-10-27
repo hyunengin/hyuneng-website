@@ -6,7 +6,7 @@ import company from '../../data/company.json';
 <SubLayout title="인사말" section="about" description={`${company.name}를 찾아주셔서 감사합니다.`}>
   <div class="greeting">
     <div class="greeting-text">
-      <p class="greeting-quote">{company.slogan}</p>
+      <p class="greeting-quote">{company.slogan.split(',').map((part, index, parts) => <span>{part.trim()}{index < parts.length - 1 ? ',' : ''}</span>)}</p>
       <div class="prose">
         <p>
           {company.name}는 안전진단 및 점검, 법원감정, 원가계산, 건축·토목 구조검토 등 건설 분야 전반의
@@ -49,6 +49,11 @@ import company from '../../data/company.json';
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
     gap: 56px;
     align-items: start;
+  }
+  .greeting-text { container-type: inline-size; }
+  .greeting-quote > span { display: block; white-space: nowrap; }
+  @container (min-width: 720px) {
+    .greeting-quote { display: flex; gap: 0.25em; }
   }
   .greeting-quote {
     font-size: clamp(24px, 2.6vw, 32px);

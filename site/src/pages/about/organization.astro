@@ -6,7 +6,12 @@ import org from '../../data/organization.json';
 <SubLayout title="조직도" section="about" description="분야별 전담 조직이 업무를 수행합니다.">
   <div class="org">
     <div class="org-top">{org.top}</div>
-    <div class="org-stem" aria-hidden="true"></div>
+    <div class="org-branch">
+      <div class="org-affiliate">
+        <b>{org.affiliate.name}</b>
+        <span>{org.affiliate.desc}</span>
+      </div>
+    </div>
     <ul class="org-units">
       {
         org.units.map((u) => (
@@ -17,15 +22,48 @@ import org from '../../data/organization.json';
         ))
       }
     </ul>
-    <div class="org-stem org-stem-dashed" aria-hidden="true"></div>
-    <div class="org-affiliate">
-      <b>{org.affiliate.name}</b>
-      <span>{org.affiliate.desc}</span>
-    </div>
+
   </div>
 </SubLayout>
 
 <style>
+  .org-branch {
+    position: relative;
+    width: 100%;
+    height: 120px;
+  }
+  .org-branch::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 1px);
+    width: 2px;
+    background: var(--blue-line);
+  }
+  .org-branch .org-affiliate {
+    position: absolute;
+    left: 72%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28%;
+    padding: 14px 8px;
+    border-style: solid;
+  }
+  .org-affiliate::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: calc(50% - 1px);
+    width: calc(22 / 28 * 100% + 2px);
+    height: 2px;
+    background: var(--blue-line);
+  }
+  @media (max-width: 600px) {
+    .org-branch .org-affiliate { left: 57%; width: 43%; }
+    .org-affiliate::before { width: calc(7 / 43 * 100% + 2px); }
+    .org-affiliate b { font-size: 14px; }
+  }
   .org {
     display: flex;
     flex-direction: column;
@@ -42,7 +80,7 @@ import org from '../../data/organization.json';
   }
   .org-stem {
     width: 2px;
-    height: 36px;
+    height: 37px;
     background: var(--blue-line);
   }
   .org-stem-dashed {
@@ -62,8 +100,8 @@ import org from '../../data/organization.json';
     content: '';
     position: absolute;
     top: 0;
-    left: 10%;
-    right: 10%;
+    left: calc((100% - 64px) / 10);
+    right: calc((100% - 64px) / 10);
     height: 2px;
     background: var(--blue-line);
   }
@@ -81,10 +119,10 @@ import org from '../../data/organization.json';
   .org-unit::before {
     content: '';
     position: absolute;
-    left: 50%;
-    top: -36px;
+    left: calc(50% - 1px);
+    top: -37px;
     width: 2px;
-    height: 36px;
+    height: 37px;
     background: var(--blue-line);
     transform: translateX(-50%);
   }
@@ -92,6 +130,7 @@ import org from '../../data/organization.json';
     font-size: 18px;
     color: var(--navy);
   }
+  .org-unit span { white-space: pre-line; }
   .org-unit span,
   .org-affiliate span {
     font-size: 13.5px;

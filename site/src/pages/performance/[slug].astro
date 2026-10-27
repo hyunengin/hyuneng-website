@@ -1,5 +1,7 @@
 ---
+import StructuralPerformance from '../../components/StructuralPerformance.astro';
 import SubLayout from '../../layouts/SubLayout.astro';
+import CourtPerformanceTabs from '../../components/CourtPerformanceTabs.astro';
 import PerformanceTable from '../../components/PerformanceTable.astro';
 import Icon from '../../components/Icon.astro';
 import performance from '../../data/performance.json';
@@ -31,8 +33,10 @@ const count = (tag: string) =>
 <SubLayout
   title={area.label}
   section="performance"
-  description={`${area.short} 분야의 수행 실적입니다. 총 ${data.rows.length}건이며 최근 실적이 위에 표시됩니다.`}
+
 >
+  {area.slug === 'structural-review' ? <StructuralPerformance /> : <>
+  {area.slug === 'court-appraisal' && <CourtPerformanceTabs />}
   {
     filters.length > 0 && (
       <div class="perf-filters" data-perf-filters>
@@ -58,13 +62,8 @@ const count = (tag: string) =>
   }
 
   <PerformanceTable columns={data.columns} keys={data.keys} rows={data.rows as any} />
-  <p class="note">
-    {
-      filters.length > 0
-        ? '사건번호는 개인정보 보호를 위해 일부를 가렸습니다. 분야 버튼을 누르면 해당 사건만 볼 수 있고, 여러 분야에 걸친 사건은 각 분야에 모두 표시됩니다.'
-        : '실적 목록은 수시로 갱신됩니다. 유사 업무의 세부 수행 내용은 견적문의를 통해 요청해 주세요.'
-    }
-  </p>
+  {area.slug !== 'court-appraisal' && <p class="note">실적 목록은 수시로 갱신됩니다. 유사 업무의 세부 수행 내용은 견적문의를 통해 요청해 주세요.</p>}
+  </>}
 </SubLayout>
 
 <style>
@@ -168,13 +167,13 @@ const count = (tag: string) =>
         r.hidden = !ok;
         if (ok) shown += 1;
       });
-      // 보이는 행만 다시 번호 매기기 (위가 큰 번호)
-      let n = shown;
+      // 보이는 행만 위에서부터 1번으로 다시 번호 매기기
+      let n = 1;
       rows.forEach((r) => {
         if (!r.hidden) {
           const cell = r.querySelector<HTMLElement>('[data-num]');
           if (cell) cell.textContent = String(n);
-          n -= 1;
+          n += 1;
         }
       });
       if (none) none.hidden = shown !== 0;

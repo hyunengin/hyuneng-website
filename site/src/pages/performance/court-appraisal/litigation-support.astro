@@ -1,0 +1,40 @@
+---
+import SubLayout from '../../../layouts/SubLayout.astro';
+import CourtPerformanceTabs from '../../../components/CourtPerformanceTabs.astro';
+import PerformanceTable from '../../../components/PerformanceTable.astro';
+import SupportFilters from '../../../components/SupportFilters.astro';
+import records from '../../../data/litigation-support.json';
+
+const rows = [...records].sort((a, b) => b.year.localeCompare(a.year)).map((row) => ({ ...row, tags: [row.type] }));
+---
+<SubLayout title="법원감정전문기관" section="performance">
+  <CourtPerformanceTabs />
+  <SupportFilters data={{ filters: ['감정대응', '사감정'], rows }} />
+  <div class="support-table">
+    <PerformanceTable
+      columns={['발주처', '용역명', '분야', '수행연도']}
+      keys={['client', 'title', 'tags', 'year']}
+      rows={rows}
+    />
+  </div>
+</SubLayout>
+<style>
+  .support-table :global(.table) { width: 100%; min-width: 0; table-layout: fixed; }
+  .support-table :global(th),
+  .support-table :global(td) { padding: 14px 12px; overflow-wrap: anywhere; }
+  .support-table :global(th:first-child) { width: 44px; }
+  .support-table :global(th:nth-child(2)) { width: 18%; }
+  .support-table :global(th:nth-child(4)) { width: 94px; }
+  .support-table :global(th:last-child) { width: 90px; }
+  .support-table :global(.tag-cell) { min-width: 0; }
+  .support-table :global(td:last-child) { white-space: nowrap; }
+  @media (max-width: 600px) {
+    .support-table :global(th),
+    .support-table :global(td) { padding: 12px 5px; font-size: 12px; }
+    .support-table :global(th:first-child) { width: 30px; }
+    .support-table :global(th:nth-child(2)) { width: 19%; }
+    .support-table :global(th:nth-child(4)) { width: 65px; }
+    .support-table :global(th:last-child) { width: 59px; }
+    .support-table :global(.tag) { padding: 2px 5px; font-size: 11px; }
+  }
+</style>

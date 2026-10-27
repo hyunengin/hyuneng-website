@@ -15,10 +15,10 @@ export interface NavItem {
 
 // performancePublic: 사업실적 페이지를 공개할지 여부. 실적이 쌓이면 true 로 바꿉니다.
 export const businessAreas = [
-  { slug: 'safety-diagnosis', label: '안전진단전문기관', short: '안전진단', performancePublic: false },
   { slug: 'court-appraisal', label: '법원감정전문기관', short: '법원감정', performancePublic: true },
-  { slug: 'cost-calculation', label: '원가계산용역', short: '원가계산', performancePublic: false },
   { slug: 'structural-review', label: '건축·토목 구조검토 및 가시설 설계', short: '구조검토', performancePublic: true },
+  { slug: 'safety-diagnosis', label: '안전진단전문기관', short: '안전진단', performancePublic: false },
+  { slug: 'cost-calculation', label: '원가계산용역', short: '원가계산', performancePublic: false },
 ] as const;
 
 export const nav: NavItem[] = [
@@ -41,7 +41,7 @@ export const nav: NavItem[] = [
     key: 'business',
     label: '사업분야',
     en: 'BUSINESS',
-    href: '/business/safety-diagnosis',
+    href: '/business/court-appraisal',
     children: businessAreas.map((b) => ({ label: b.label, href: `/business/${b.slug}` })),
   },
   {

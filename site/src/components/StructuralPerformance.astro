@@ -1,0 +1,30 @@
+---
+import StructuralPerformanceTabs from './StructuralPerformanceTabs.astro';
+import SupportFilters from './SupportFilters.astro';
+import PerformanceTable from './PerformanceTable.astro';
+import performance from '../data/structural-performance.json';
+interface Props { category?: 'structural-review' | 'temporary-works' }
+const { category = 'structural-review' } = Astro.props;
+const data = performance[category];
+---
+<StructuralPerformanceTabs />
+<SupportFilters data={data} placeholder="현장명 검색" />
+<div class="structural-table">
+  <PerformanceTable columns={data.columns} keys={data.keys} rows={data.rows} />
+</div>
+<style>
+  .structural-table :global(.table) { width: 100%; min-width: 0; table-layout: fixed; }
+  .structural-table :global(th), .structural-table :global(td) { padding: 14px 12px; overflow-wrap: anywhere; }
+  .structural-table :global(th:first-child) { width: 52px; }
+  .structural-table :global(th:nth-child(3)) { width: 130px; }
+  .structural-table :global(th:last-child) { width: 170px; }
+  .structural-table :global(.tag-cell) { min-width: 0; }
+  .structural-table :global(.year) { white-space: normal; }
+  @media (max-width: 600px) {
+    .structural-table :global(th), .structural-table :global(td) { padding: 12px 6px; font-size: 12px; }
+    .structural-table :global(th:first-child) { width: 34px; }
+    .structural-table :global(th:nth-child(3)) { width: 66px; }
+    .structural-table :global(th:last-child) { width: 78px; }
+    .structural-table :global(.tag) { padding: 2px 5px; font-size: 11px; }
+  }
+</style>

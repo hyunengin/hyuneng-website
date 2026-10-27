@@ -38,10 +38,10 @@ const textOf = (row: Row) =>
           rows.map((row, i) => (
             <tr data-tags={(row.tags ?? []).join('|')} data-text={textOf(row)}>
               <td class="num" data-num>
-                {rows.length - i}
+                {i + 1}
               </td>
               {keys.map((k, ki) => (
-                <td class:list={{ year: k === 'year', 'tag-cell': Array.isArray(row[k]) }}>
+                <td class:list={{ year: k === 'year', 'court-cell': k === 'court', 'case-cell': k === 'caseNo', 'tag-cell': Array.isArray(row[k]) }}>
                   {Array.isArray(row[k]) ? (
                     <span class="tags">
                       {(row[k] as string[]).map((t) => (
@@ -68,6 +68,9 @@ const textOf = (row: Row) =>
 </div>
 
 <style>
+  .court-cell {
+    white-space: nowrap;
+  }
   .tags {
     display: flex;
     flex-wrap: wrap;

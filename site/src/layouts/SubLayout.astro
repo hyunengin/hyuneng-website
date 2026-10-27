@@ -1,4 +1,5 @@
 ---
+import BusinessLabel from '../components/BusinessLabel.astro';
 /**
  * 서브페이지 공통 레이아웃: 상단 띠(섹션명 + 경로) + 왼쪽 하위메뉴 + 본문
  */
@@ -67,9 +68,21 @@ const crumbs = [
             <ul>
               {item.children.map((c) => (
                 <li>
-                  <a href={c.href} class:list={{ 'is-active': c.href === path }}>
-                    {c.label}
-                  </a>
+                  {section === 'performance' && ['/performance/court-appraisal', '/performance/structural-review'].includes(c.href) ? (
+                    <details class="court-submenu" open={path === c.href || path.startsWith(c.href + '/')}>
+                      <summary class:list={{ 'is-active': path === c.href || path.startsWith(c.href + '/') }}>
+                        <span><BusinessLabel text={c.label} /></span><span class="submenu-arrow" aria-hidden="true">⌄</span>
+                      </summary>
+                      <ul>
+                        <li><a href={c.href} class:list={{ 'is-active': path === c.href }} aria-current={path === c.href ? 'page' : undefined}>{c.href === '/performance/court-appraisal' ? '법원감정' : '구조검토'}</a></li>
+                        <li><a href={`${c.href}/${c.href === '/performance/court-appraisal' ? 'litigation-support' : 'temporary-works'}`} class:list={{ 'is-active': path === `${c.href}/${c.href === '/performance/court-appraisal' ? 'litigation-support' : 'temporary-works'}` }} aria-current={path === `${c.href}/${c.href === '/performance/court-appraisal' ? 'litigation-support' : 'temporary-works'}` ? 'page' : undefined}>{c.href === '/performance/court-appraisal' ? '송무지원' : '가시설 설계'}</a></li>
+                      </ul>
+                    </details>
+                  ) : (
+                    <a href={c.href} class:list={{ 'is-active': c.href === path || path.startsWith(c.href + '/') }}>
+                      <BusinessLabel text={c.label} />
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -79,10 +92,39 @@ const crumbs = [
     }
     <article class="sub-content">
       <header class="content-head">
-        <h2 class="content-title">{title}</h2>
+        <h2 class:list={['content-title', { 'structural-title': title === '건축·토목 구조검토 및 가시설 설계' }]}>{title === '건축·토목 구조검토 및 가시설 설계' ? title : <BusinessLabel text={title} />}</h2>
         {description && <p class="content-desc">{description}</p>}
       </header>
       <slot />
     </article>
   </div>
 </BaseLayout>
+
+<style>
+  .court-submenu summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+  .court-submenu summary::-webkit-details-marker { display: none; }
+  .court-submenu summary:hover { background: var(--blue-tint); color: var(--navy); }
+  .court-submenu summary.is-active { background: var(--navy); color: #fff; }
+  .submenu-arrow { transition: transform 0.2s; }
+  .court-submenu[open] .submenu-arrow { transform: rotate(180deg); }
+  .sub-side .court-submenu ul { display: flex; flex-direction: column; gap: 4px; margin: 6px 0 10px; padding-left: 14px; overflow: visible; }
+  .sub-side .court-submenu a { display: block; padding: 10px 16px; font-size: 14px; }
+  .sub-side .court-submenu a.is-active { background: var(--blue-tint); color: var(--navy); }
+  @media (max-width: 1024px) {
+    .sub-side:has(.court-submenu) > nav > ul { align-items: flex-start; }
+  }
+</style>
+<style>
+  .crumbs a { white-space: nowrap; }
+  .structural-title { white-space: nowrap; font-size: clamp(16px, 2.5vw, 32px); letter-spacing: -0.04em; }
+</style>

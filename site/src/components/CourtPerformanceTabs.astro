@@ -1,0 +1,16 @@
+---
+const tabs = [
+  { label: '법원감정', href: '/performance/court-appraisal' },
+  { label: '송무지원', href: '/performance/court-appraisal/litigation-support' },
+];
+const path = Astro.url.pathname.replace(/\/$/, '');
+---
+<nav class="performance-tabs" aria-label="법원감정전문기관 실적 구분">
+  {tabs.map((tab) => <a href={tab.href} aria-current={path === tab.href ? 'page' : undefined}>{tab.label}</a>)}
+</nav>
+<style>
+  .performance-tabs { display: flex; gap: 8px; margin-bottom: 28px; border-bottom: 1px solid var(--line); }
+  .performance-tabs a { padding: 13px 24px; color: var(--muted); font-weight: 700; border-bottom: 3px solid transparent; }
+  .performance-tabs a[aria-current='page'] { color: var(--navy); border-bottom-color: var(--navy); }
+  .performance-tabs a:hover { color: var(--navy); background: var(--blue-tint); }
+</style>

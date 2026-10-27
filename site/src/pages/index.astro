@@ -1,4 +1,5 @@
 ---
+import BusinessLabel from '../components/BusinessLabel.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HeroSlider from '../components/HeroSlider.astro';
 import SectionHead from '../components/SectionHead.astro';
@@ -20,7 +21,8 @@ const fmt = (d: Date) =>
 const publicSlugs = new Set<string>(
   businessAreas.filter((a) => a.performancePublic).map((a) => a.slug),
 );
-const perfAreas = business.filter((b) => publicSlugs.has(b.slug));
+const orderedBusiness = businessAreas.map((area) => business.find((b) => b.slug === area.slug)!);
+const perfAreas = orderedBusiness.filter((b) => publicSlugs.has(b.slug));
 ---
 
 <BaseLayout>
@@ -36,13 +38,13 @@ const perfAreas = business.filter((b) => publicSlugs.has(b.slug));
       />
       <div class="grid grid-4 biz-grid">
         {
-          business.map((b) => (
+          orderedBusiness.map((b) => (
             <a class="card biz-card" href={`/business/${b.slug}`}>
               <span class="icon-circle">
                 <Icon name={b.icon} size={26} />
               </span>
               <span class="biz-en">{b.en}</span>
-              <h3>{b.title}</h3>
+              <h3><BusinessLabel text={b.title} /></h3>
               <p>{b.short}</p>
               <span class="link-arrow">
                 자세히 보기 <Icon name="arrow" size={16} />
@@ -106,7 +108,7 @@ const perfAreas = business.filter((b) => publicSlugs.has(b.slug));
           perfAreas.map((b) => (
             <a class="perf-card" href={`/performance/${b.slug}`}>
               <span class="perf-en">{b.en}</span>
-              <h3>{b.title}</h3>
+              <h3><BusinessLabel text={b.title} /></h3>
               <span class="perf-count">{b.short}</span>
               <span class="link-arrow">
                 바로가기 <Icon name="arrow" size={16} />
@@ -194,12 +196,16 @@ const perfAreas = business.filter((b) => publicSlugs.has(b.slug));
     margin-bottom: 8px;
   }
   .biz-en {
+    line-height: 1.6;
+    min-height: 3.2em;
     font-size: 11px;
     letter-spacing: 0.16em;
     color: var(--blue);
     font-weight: 700;
   }
   .biz-card h3 {
+    line-height: 1.35;
+    min-height: 2.7em;
     font-size: 21px;
     color: var(--navy);
     margin-top: -6px;

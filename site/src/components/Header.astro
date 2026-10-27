@@ -1,4 +1,5 @@
 ---
+import BusinessLabel from './BusinessLabel.astro';
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { nav } from '../data/nav';
@@ -17,7 +18,7 @@ const isActive = (key: string, href: string) => path === href || path.startsWith
     <nav class="site-nav" aria-label="주 메뉴" data-nav>
       <ul class="nav-list">
         {
-          nav.map((item, i) => (
+          nav.filter((item) => item.key !== 'inquiry').map((item, i) => (
             <li class="nav-item" data-index={i}>
               <a
                 href={item.href}
@@ -53,7 +54,7 @@ const isActive = (key: string, href: string) => path === href || path.startsWith
   <div class="mega" data-mega>
     <div class="container mega-inner">
       {
-        nav.map((item, i) => (
+        nav.filter((item) => item.key !== 'inquiry').map((item, i) => (
           <div class="mega-col" data-index={i}>
             <a class="mega-title" href={item.href}>
               <span>{item.label}</span>
@@ -63,7 +64,7 @@ const isActive = (key: string, href: string) => path === href || path.startsWith
               <ul>
                 {item.children.map((c) => (
                   <li>
-                    <a href={c.href}>{c.label}</a>
+                    <a href={c.href}><BusinessLabel text={c.label} /></a>
                   </li>
                 ))}
               </ul>
@@ -88,7 +89,7 @@ const isActive = (key: string, href: string) => path === href || path.startsWith
               <ul class="m-sub">
                 {item.children.map((c) => (
                   <li>
-                    <a href={c.href}>{c.label}</a>
+                    <a href={c.href}><BusinessLabel text={c.label} /></a>
                   </li>
                 ))}
               </ul>

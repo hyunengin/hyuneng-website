@@ -877,3 +877,11 @@ table {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* 법원명은 전체 이름을 한 줄로 표시합니다. */
+.table td.court-cell {
+  white-space: nowrap;
+  word-break: keep-all;
+}
+
+.table td.case-cell { white-space: nowrap; word-break: keep-all; }

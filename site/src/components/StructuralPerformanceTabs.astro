@@ -1,0 +1,16 @@
+---
+const tabs = [
+  { label: '구조검토', href: '/performance/structural-review' },
+  { label: '가시설 설계', href: '/performance/structural-review/temporary-works' },
+];
+const path = Astro.url.pathname.replace(/\/$/, '');
+---
+<nav class="performance-tabs" aria-label="구조검토 및 가시설 설계 실적 구분">
+  {tabs.map((tab) => <a href={tab.href} aria-current={path === tab.href ? 'page' : undefined}>{tab.label}</a>)}
+</nav>
+<style>
+  .performance-tabs { display: flex; gap: 8px; margin-bottom: 28px; border-bottom: 1px solid var(--line); }
+  .performance-tabs a { padding: 13px 24px; color: var(--muted); font-weight: 700; border-bottom: 3px solid transparent; }
+  .performance-tabs a[aria-current='page'] { color: var(--navy); border-bottom-color: var(--navy); }
+  .performance-tabs a:hover { color: var(--navy); background: var(--blue-tint); }
+</style>
