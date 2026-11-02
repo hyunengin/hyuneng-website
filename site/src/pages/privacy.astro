@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import company from '../data/company.json';
 
 const usesFormService = Boolean(company.formspreeId);
+// 방문 통계(Cloudflare Web Analytics)를 켜면 제2조의 자동 수집 항목 문구가 바뀜
+const usesAnalytics = Boolean(company.analytics?.cloudflareToken);
 ---
 
 <BaseLayout title="개인정보처리방침" description={`${company.name} 개인정보처리방침`}>
@@ -33,7 +35,13 @@ const usesFormService = Boolean(company.formspreeId);
     <ul>
       <li>필수 항목: 성명, 연락처, 문의내용</li>
       <li>선택 항목: 이메일</li>
-      <li>자동 수집 항목: 없음 (회사 홈페이지는 회원가입, 쿠키를 이용한 방문자 추적을 하지 않습니다)</li>
+      {
+        usesAnalytics ? (
+          <li>자동 수집 항목: 없음 (회사 홈페이지는 회원가입 절차가 없고 쿠키를 이용한 방문자 추적을 하지 않습니다. 홈페이지 이용 현황 파악을 위해 쿠키나 개인 식별 정보를 저장하지 않는 집계 방식의 방문 통계(Cloudflare Web Analytics: 페이지뷰·유입 경로·접속 국가·기기 종류)만 확인합니다)</li>
+        ) : (
+          <li>자동 수집 항목: 없음 (회사 홈페이지는 회원가입, 쿠키를 이용한 방문자 추적을 하지 않습니다)</li>
+        )
+      }
     </ul>
 
     <h2>제3조 (개인정보의 처리 및 보유 기간)</h2>

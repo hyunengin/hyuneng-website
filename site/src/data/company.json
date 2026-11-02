@@ -19,6 +19,9 @@
     "naver": "19534f94e4fed7bdb3057ad60f898dbd3f70f542",
     "google": "_YO5wdkZvoB693i7JLE1eQ9UeVuk6_2MJrb5nXqqMhg"
   },
+  "analytics": {
+    "cloudflareToken": ""
+  },
   "privacyOfficer": {
     "name": "김현",
     "position": "대표이사"

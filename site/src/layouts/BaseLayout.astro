@@ -13,6 +13,8 @@ const { title, description = company.description, bodyClass = '' } = Astro.props
 const fullTitle = title ? `${title} | ${company.name}` : `${company.name} | ${company.slogan}`;
 const base = Astro.site ?? new URL(company.domain);
 const canonical = new URL(Astro.url.pathname, base).href;
+// 방문 통계: company.json 의 analytics.cloudflareToken 이 비어 있지 않으면 Cloudflare Web Analytics 비콘을 넣음 (배포가이드 8-5)
+const cfToken = company.analytics?.cloudflareToken;
 ---
 
 <!doctype html>
@@ -48,5 +50,15 @@ const canonical = new URL(Astro.url.pathname, base).href;
       <slot />
     </main>
     <Footer />
+    {
+      cfToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: cfToken })}
+        ></script>
+      )
+    }
   </body>
 </html>

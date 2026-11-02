@@ -8,6 +8,40 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <!-- Sveltia CMS: 설정은 같은 폴더의 config.yml. 문제가 생기면 src 에 @0.253.1 처럼 버전을 고정할 수 있음 -->
     <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+    <style>
+      /* 오른쪽 아래 "방문 통계" 버튼: Cloudflare Web Analytics 화면으로 이동 (Cloudflare 로그인 필요, 배포가이드 8-5) */
+      .stats-link {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        z-index: 1000;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 999px;
+        background: #0c356e;
+        color: #fff;
+        font: 600 14px/1 Pretendard, -apple-system, 'Segoe UI', 'Malgun Gothic', sans-serif;
+        text-decoration: none;
+        box-shadow: 0 4px 14px rgba(12, 53, 110, 0.35);
+      }
+      .stats-link:hover { background: #3676b7; }
+      .stats-link svg { width: 16px; height: 16px; }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <a
+      class="stats-link"
+      href="https://dash.cloudflare.com/?to=/:account/web-analytics"
+      target="_blank"
+      rel="noopener"
+      title="Cloudflare 방문 통계 열기 (Cloudflare 로그인 필요)"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
+      </svg>
+      방문 통계
+    </a>
+  </body>
 </html>
