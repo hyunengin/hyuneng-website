@@ -124,7 +124,7 @@ pinned: false
 - 로그인 구성(OAuth 앱·Worker·변수)과 Worker 재배포 방법은 `배포가이드.md` 8-4
 - 로컬 확인: `npm.cmd run dev` 후 http://localhost:4321/admin/index.html (dev 서버는 `/admin/` 만으로는 404). "로컬 저장소로 작업" 을 누르면 로그인 없이 로컬 파일을 편집할 수 있음(크롬 계열 브라우저)
 - robots.txt 에 `Disallow: /admin/`, index.html 에 noindex 가 들어 있어 검색에는 잡히지 않음
-- 방문 통계: 관리자 화면 오른쪽 아래 **방문 통계** 버튼 → Cloudflare Web Analytics(Cloudflare 계정 hyuneng002@naver.com 로그인 필요). 통계 코드는 `company.json` 의 `analytics.cloudflareToken` 이 비어 있지 않을 때만 `BaseLayout.astro` 가 출력하고, 그때 개인정보처리방침 제2조 "자동 수집 항목" 문구도 자동으로 바뀜. 켜는 절차는 `배포가이드.md` 8-5 (2026-11-02 코드 준비, 토큰 입력 대기)
+- 방문 통계: 관리자 화면 오른쪽 아래 **방문 통계** 버튼 → Cloudflare Web Analytics(Cloudflare 계정 hyuneng002@naver.com 로그인 필요). 통계 코드는 `company.json` 의 `analytics.cloudflareToken` 이 비어 있지 않을 때만 `BaseLayout.astro` 가 출력하고, 그때 개인정보처리방침 제2조 "자동 수집 항목" 문구도 자동으로 바뀜. 켜는 절차는 `배포가이드.md` 8-5 (2026-11-04 켬. 끄려면 토큰을 `""` 로)
 
 ## 디자인 규칙
 - 기준 색: 남색 `#0C356E`, 파랑 `#3676B7` (기획안 로고색). `global.css`의 CSS 변수로 관리
